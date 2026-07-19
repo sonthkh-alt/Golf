@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giáo án 300 Yard 3.0 — Lộ trình 12 tháng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#0F3D2E; --green-mid:#17553F; --green-line:#2A6B52;
+    --paper:#F5F2E8; --paper-dim:#E9E4D4; --ink:#17241E;
+    --yellow:#F2C230; --yellow-soft:#F8DE8D; --white:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Be Vietnam Pro',sans-serif;background:var(--green-deep);color:var(--paper);line-height:1.55}
+  .wrap{max-width:900px;margin:0 auto;padding:0 18px}
+
+  /* ===== HERO ===== */
+  header{padding:38px 0 0}
+  .eyebrow{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 110;font-weight:700;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow)}
+  h1{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 118;font-weight:900;font-size:clamp(2.2rem,8.5vw,4.3rem);line-height:1.02;margin:.4rem 0 .7rem;color:var(--white)}
+  h1 .to{color:var(--yellow)}
+  .lede{max-width:620px;font-size:.94rem;color:#CFE3D8}
+
+  .range{margin:24px 0 8px;background:var(--green-mid);border:1px solid var(--green-line);border-radius:14px;padding:22px 20px 16px;position:relative;overflow:hidden}
+  .range-track{position:relative;height:56px}
+  .range-line{position:absolute;left:0;right:0;top:34px;height:3px;background:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 24px);opacity:.5}
+  .marker{position:absolute;top:0;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-weight:800;font-size:.8rem;color:var(--paper);text-align:center}
+  .marker::after{content:"";display:block;width:2px;height:14px;background:var(--paper);margin:5px auto 0;opacity:.6}
+  .marker.goal{color:var(--yellow)}
+  .marker.goal::after{background:var(--yellow);opacity:1}
+  .ball{position:absolute;top:27px;left:14%;width:17px;height:17px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#d8d2b8);box-shadow:0 0 0 3px rgba(242,194,48,.35);transform:translateX(-50%);animation:roll 1.6s cubic-bezier(.2,.8,.3,1) .3s both}
+  @keyframes roll{from{left:0%;opacity:0}to{left:14%;opacity:1}}
+  @media (prefers-reduced-motion:reduce){.ball{animation:none}}
+  .range-caption{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:14px;font-size:.8rem;color:#BCD6C9}
+  .range-caption b{color:var(--yellow);font-weight:700}
+
+  .athlete{margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .athlete .cell{background:var(--green-mid);border:1px solid var(--green-line);border-radius:12px;padding:12px 10px;text-align:center}
+  .athlete .num{font-family:'Archivo',sans-serif;font-weight:900;font-size:1.15rem;color:var(--white)}
+  .athlete .lbl{font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:#A9C8BA;margin-top:2px}
+  @media(max-width:560px){.athlete{grid-template-columns:repeat(2,1fr)}}
+
+  .honest{margin:18px 0 0;padding:13px 16px;border-left:3px solid var(--yellow);background:rgba(242,194,48,.08);border-radius:0 10px 10px 0;font-size:.86rem;color:#E8EFE9}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(15,61,46,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--green-line);margin-top:28px}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px}
+  nav a{flex:0 0 auto;font-family:'Archivo',sans-serif;font-weight:800;font-size:.76rem;color:var(--paper);text-decoration:none;border:1px solid var(--green-line);border-radius:99px;padding:7px 12px;white-space:nowrap}
+  nav a:hover{background:var(--green-mid)}
+
+  section{padding:40px 0 0}
+  h2{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112;font-weight:800;font-size:1.4rem;color:var(--white);margin-bottom:4px}
+  .sub{font-size:.87rem;color:#A9C8BA;margin-bottom:16px}
+  h4.gd{font-family:'Archivo',sans-serif;font-weight:900;font-size:.95rem;color:var(--yellow);margin:22px 0 8px;letter-spacing:.03em}
+
+  /* Hôm nay */
+  .today{background:var(--yellow);color:var(--green-deep);border-radius:16px;padding:18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .today .big{font-family:'Archivo',sans-serif;font-weight:900;font-size:1.25rem}
+  .today .small{font-size:.8rem;font-weight:600}
+  .today .btns{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-family:'Archivo',sans-serif;font-weight:800;font-size:.8rem;border:none;border-radius:99px;padding:10px 16px;cursor:pointer;background:var(--green-deep);color:var(--paper)}
+  .btn.ghost{background:transparent;border:2px solid var(--green-deep);color:var(--green-deep)}
+  .btn:focus-visible{outline:2px solid var(--white);outline-offset:2px}
+  .streak{font-size:.78rem;font-weight:700;margin-top:6px}
+
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:16px}
+  .day{background:var(--green-mid);border:1px solid var(--green-line);border-radius:10px;padding:10px 6px;text-align:center;min-height:100px;display:flex;flex-direction:column;gap:4px}
+  .day.rest{opacity:.55}
+  .day.now{border-color:var(--yellow);box-shadow:0 0 0 1px var(--yellow)}
+  .day .d{font-family:'Archivo',sans-serif;font-weight:800;font-size:.76rem;color:var(--yellow)}
+  .day .t{font-size:.64rem;line-height:1.3;color:var(--paper)}
+  .day .tag{margin-top:auto;font-size:.58rem;font-weight:700;color:var(--green-deep);background:var(--yellow-soft);border-radius:99px;padding:2px 6px;align-self:center}
+  @media(max-width:560px){.week{grid-template-columns:repeat(2,1fr)}.day{min-height:0;padding:12px 10px}.day .t{font-size:.76rem}}
+
+  /* Bảng chung */
+  .tbl{width:100%;border-collapse:collapse;background:var(--paper);color:var(--ink);border-radius:14px;overflow:hidden;font-size:.83rem}
+  .tbl th{font-family:'Archivo',sans-serif;font-weight:800;text-align:left;background:var(--green-mid);color:var(--paper);padding:10px 11px;font-size:.74rem}
+  .tbl td{padding:10px 11px;border-top:1px solid #DDD6C2;vertical-align:top}
+  .tbl .m{font-family:'Archivo',sans-serif;font-weight:900;color:var(--green-deep);white-space:nowrap}
+  .tbl .hl{background:rgba(242,194,48,.18);font-weight:700}
+  .tbl-scroll{overflow-x:auto;border-radius:14px}
+  .tbl-note{font-size:.75rem;color:#8FB3A3;margin-top:8px}
+
+  /* Tabs */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{font-family:'Archivo',sans-serif;font-weight:800;font-size:.8rem;border:1px solid var(--green-line);background:var(--green-mid);color:var(--paper);border-radius:99px;padding:9px 14px;cursor:pointer}
+  .tab:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+  .tab.on{background:var(--yellow);color:var(--green-deep);border-color:var(--yellow)}
+  .panel{display:none}
+  .panel.on{display:block}
+
+  .card{background:var(--paper);color:var(--ink);border-radius:16px;padding:20px 18px;margin-bottom:14px}
+  .card h3{font-family:'Archivo',sans-serif;font-weight:900;font-size:1.1rem;color:var(--green-deep)}
+  .card .meta{font-size:.78rem;color:#5C6B62;margin:2px 0 10px}
+  .timeline{font-size:.76rem;background:var(--green-deep);color:var(--yellow-soft);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-weight:600}
+  .warm{font-size:.79rem;background:var(--paper-dim);border-radius:10px;padding:9px 12px;margin-bottom:12px;color:#3C4A42}
+
+  .ex{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px dashed #C9C2AC}
+  .ex:first-of-type{border-top:none}
+  .ex .n{font-family:'Archivo',sans-serif;font-weight:900;font-size:.8rem;color:var(--green-mid);min-width:22px;padding-top:2px}
+  .ex .body{flex:1}
+  .ex .name{font-weight:700;font-size:.95rem}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0}
+  .rx{display:inline-block;font-size:.72rem;font-weight:700;background:var(--green-deep);color:var(--paper);border-radius:6px;padding:3px 8px}
+  .kg{display:inline-block;font-size:.72rem;font-weight:700;background:var(--yellow-soft);color:var(--green-deep);border-radius:6px;padding:3px 8px}
+  .rest-chip{display:inline-block;font-size:.72rem;font-weight:700;background:#DCE7DF;color:#31473C;border-radius:6px;padding:3px 8px}
+  .ex .note{font-size:.81rem;color:#4A574F}
+  .vbtn{display:inline-flex;align-items:center;gap:6px;font-size:.77rem;font-weight:700;text-decoration:none;color:var(--green-deep);border:1.5px solid var(--green-mid);border-radius:99px;padding:5px 12px;margin-top:7px;margin-right:6px;transition:background .15s}
+  .vbtn:hover{background:var(--yellow-soft)}
+  .vbtn::before{content:"▶";font-size:.6rem;color:#C0392B}
+  .vbtn.doc::before{content:"📄"}
+  .sets{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap}
+  .sets .lbl{font-size:.66rem;color:#7A8780;font-weight:600}
+  .setbox{width:26px;height:26px;border-radius:50%;border:2px solid var(--green-mid);background:transparent;cursor:pointer;font-size:.7rem;font-weight:800;color:transparent}
+  .setbox.done{background:var(--green-mid);color:var(--yellow)}
+  .setbox:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+
+  .rules{display:grid;gap:10px}
+  .rule{background:var(--green-mid);border:1px solid var(--green-line);border-radius:12px;padding:14px 16px;font-size:.87rem}
+  .rule b{color:var(--yellow)}
+
+  /* Nhật ký mph */
+  .log{background:var(--paper);color:var(--ink);border-radius:16px;padding:20px 18px}
+  .log-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .log input{font-family:'Archivo',sans-serif;font-weight:800;font-size:1.05rem;width:120px;padding:10px 12px;border:2px solid var(--green-mid);border-radius:10px;background:#fff;color:var(--ink)}
+  .log .btn{background:var(--green-mid)}
+  .log .btn.warnb{background:#8C4A3C}
+  .lognote{font-size:.74rem;color:#7A8780;margin-top:8px}
+  canvas{width:100%;height:230px;background:#fff;border:1px solid #DDD6C2;border-radius:12px}
+  .loglist{font-size:.8rem;margin-top:10px;color:#31473C}
+  .loglist span{display:inline-block;background:var(--paper-dim);border-radius:6px;padding:3px 8px;margin:2px 4px 2px 0;font-weight:600}
+
+  /* Timer nổi */
+  #timerbox{position:fixed;right:14px;bottom:14px;z-index:80;display:flex;gap:6px}
+  #timerbox .btn{box-shadow:0 4px 14px rgba(0,0,0,.35);background:var(--yellow);color:var(--green-deep)}
+  #timerbox .btn.running{background:#C0392B;color:#fff}
+
+  footer{margin-top:52px;padding:24px 0 100px;border-top:1px solid var(--green-line);font-size:.73rem;color:#8FB3A3}
+  footer .wrap{display:flex;flex-direction:column;gap:6px}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <p class="eyebrow">Giáo án 3.0 · Lộ trình 12 tháng · Thể lực + Swing · TPI-based</p>
+  <h1>220 <span class="to">→ 300</span> YARD</h1>
+  <p class="lede">Chương trình chu kỳ hóa (periodization) trọn 1 năm: Nền tảng → Sức mạnh → Công suất → Tốc độ, lặp 2 vòng. Chi tiết đến từng phút mỗi buổi, tích hợp launch monitor và lịch pickleball.</p>
+
+  <div class="range" role="img" aria-label="Thang cự ly: hiện tại 220 yard, mục tiêu 300 yard">
+    <div class="range-track">
+      <span class="marker" style="left:0%">200</span>
+      <span class="marker" style="left:25%">225</span>
+      <span class="marker" style="left:50%">250</span>
+      <span class="marker" style="left:75%">275</span>
+      <span class="marker goal" style="left:100%">300</span>
+      <div class="range-line"></div>
+      <div class="ball"></div>
+    </div>
+    <div class="range-caption">
+      <span>Xuất phát: <b>~220 yd · 87–90 mph</b></span>
+      <span>Mốc 6 tháng: <b>~99 mph</b></span>
+      <span>Đích 12 tháng: <b>105+ mph</b></span>
+    </div>
+  </div>
+
+  <div class="athlete">
+    <div class="cell"><div class="num">1m70 · 72kg</div><div class="lbl">Thể trạng</div></div>
+    <div class="cell"><div class="num">~115 g</div><div class="lbl">Protein / ngày</div></div>
+    <div class="cell"><div class="num">2–2,5 L</div><div class="lbl">Nước / ngày</div></div>
+    <div class="cell"><div class="num">7 giờ</div><div class="lbl">Ngủ tối thiểu</div></div>
+  </div>
+
+  <p class="honest"><strong>Cam kết trung thực:</strong> 105 mph với smash 1.48 và launch tối ưu cho carry ~255–265 yd, tổng lăn 280–300 yd tùy fairway. Lộ trình dưới đây là kịch bản tiến bộ tốt (+1–1,5 mph/tháng); nếu chậm hơn 2 tháng so với mốc, đừng nản — chỉ cần đường cong vẫn đi lên.</p>
+</header>
+
+<nav><div class="wrap">
+  <a href="#homnay">Hôm nay</a>
+  <a href="#lotrinh">Lộ trình 12 tháng</a>
+  <a href="#theluc">Thể lực</a>
+  <a href="#swing">Giáo án Swing</a>
+  <a href="#monitor">Số liệu monitor</a>
+  <a href="#nhatky">Nhật ký mph</a>
+  <a href="#nguyentac">Nguyên tắc</a>
+</div></nav>
+
+<!-- ===== HÔM NAY ===== -->
+<section class="wrap" id="homnay">
+  <h2>Hôm nay tập gì?</h2>
+  <div class="today">
+    <div>
+      <div class="small" id="today-date">—</div>
+      <div class="big" id="today-name">—</div>
+      <div class="streak" id="streak">Đã hoàn thành: — buổi</div>
+    </div>
+    <div class="btns">
+      <a class="btn" id="today-link" href="#theluc">Mở buổi tập</a>
+      <button class="btn ghost" id="btn-done" type="button">✓ Xong buổi hôm nay</button>
+    </div>
+  </div>
+
+  <div class="week" id="weekgrid">
+    <div class="day" data-dow="1"><span class="d">T2</span><span class="t">Buổi A · Thân dưới &amp; hông</span><span class="tag">40'</span></div>
+    <div class="day" data-dow="2"><span class="d">T3</span><span class="t">🎯 Swing · Kỹ thuật</span><span class="tag">45'</span></div>
+    <div class="day" data-dow="3"><span class="d">T4</span><span class="t">Buổi B · Core xoay</span><span class="tag">35'</span></div>
+    <div class="day" data-dow="4"><span class="d">T5</span><span class="t">🏓 Pickleball</span><span class="tag">tự do</span></div>
+    <div class="day" data-dow="5"><span class="d">T6</span><span class="t">Buổi C · Toàn thân</span><span class="tag">40'</span></div>
+    <div class="day" data-dow="6"><span class="d">T7</span><span class="t">⚡ Buổi D · Speed</span><span class="tag">30'</span></div>
+    <div class="day rest" data-dow="0"><span class="d">CN</span><span class="t">Nghỉ / mobility 15'</span><span class="tag">phục hồi</span></div>
+  </div>
+  <p class="tbl-note">Tuần thứ 4 của MỖI tháng = tuần deload: giảm 30% khối lượng tạ, giữ nguyên lịch. Đây là lúc cơ thể "thu hoạch" tiến bộ.</p>
+</section>
+
+<!-- ===== LỘ TRÌNH 12 THÁNG ===== -->
+<section class="wrap" id="lotrinh">
+  <h2>Lộ trình 12 tháng — 2 chu kỳ lớn</h2>
+  <p class="sub">Mỗi chu kỳ 6 tháng: Nền tảng/Sức mạnh → Công suất → Tốc độ → Test. Mốc mph là tốc độ cao nhất đo cuối tháng ở Buổi D.</p>
+  <div class="tbl-scroll"><table class="tbl">
+    <tr><th>Tháng</th><th>Giai đoạn</th><th>Thể lực trọng tâm</th><th>Swing trọng tâm</th><th>Mốc mph</th></tr>
+    <tr><td class="m">1</td><td>GĐ1 · Nền tảng</td><td>Học form, tạ vừa, 3×8–10</td><td>Setup · Sequence · Tempo · Strike</td><td>92</td></tr>
+    <tr><td class="m">2</td><td rowspan="2">GĐ2 · Sức mạnh I</td><td rowspan="2">Tạ nặng 4×5–6, nghỉ dài 2–3'. Thêm Trap bar DL, Hip thrust, Push press</td><td rowspan="2">Biên độ xoay + kiểm soát mặt gậy</td><td>93,5</td></tr>
+    <tr><td class="m">3</td><td>95</td></tr>
+    <tr><td class="m">4</td><td rowspan="2">GĐ3 · Công suất I</td><td rowspan="2">Contrast training: nặng 3×3 + bật nhảy ngay sau. Med ball nặng ném hết lực</td><td rowspan="2">Lực đạp đất + setup long-drive</td><td>96,5</td></tr>
+    <tr><td class="m">5</td><td>98</td></tr>
+    <tr><td class="m">6</td><td>GĐ4 · Tốc độ I</td><td>Giảm tạ 50%, mọi rep tốc độ tối đa. Overspeed 3 buổi/tuần</td><td>Max intent + chuyển ra sân thật</td><td class="hl">99–100 · TEST giữa năm (~250 yd)</td></tr>
+    <tr><td class="m">7</td><td rowspan="2">GĐ5 · Sức mạnh II</td><td rowspan="2">Như GĐ2 nhưng tạ nặng hơn 15–20%, 5×5</td><td rowspan="2">Ổn định face-to-path, giảm độ lệch trái–phải</td><td>100,5</td></tr>
+    <tr><td class="m">8</td><td>101,5</td></tr>
+    <tr><td class="m">9</td><td rowspan="2">GĐ6 · Công suất II</td><td rowspan="2">Contrast nâng cao: trap bar 3×2 nặng + broad jump; ném bóng 1 tay</td><td rowspan="2">Attack angle +4°→+5°, tee cao, stance rộng</td><td>102,5</td></tr>
+    <tr><td class="m">10</td><td>103,5</td></tr>
+    <tr><td class="m">11</td><td>GĐ7 · Tốc độ II (peak)</td><td>Thể lực chỉ 2 buổi duy trì. Overspeed Level 2, 3 buổi/tuần</td><td>Tempo thi đấu, routine trước mỗi cú</td><td class="hl">105 (peak)</td></tr>
+    <tr><td class="m">12</td><td>GĐ8 · Test &amp; Duy trì</td><td>Deload 2 tuần đầu, test tuần 3</td><td>10 drive test trên sân thật + monitor</td><td class="hl">105+ · TEST cuối năm (280–300 yd)</td></tr>
+  </table></div>
+  <p class="tbl-note">Cấu trúc trong mỗi tháng: Tuần 1 làm quen mức mới → Tuần 2 tăng khối lượng → Tuần 3 cường độ đỉnh → Tuần 4 deload 30% + đo mph.</p>
+</section>
+
+<!-- ===== THỂ LỰC ===== -->
+<section class="wrap" id="theluc">
+  <h2>Thể lực theo giai đoạn</h2>
+  <p class="sub">GĐ1 có giáo án đầy đủ từng bài. Các giai đoạn sau chỉ THAY ĐỔI những bài được liệt kê — cấu trúc tuần giữ nguyên.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-group="phase" data-p="ph1" role="tab" aria-selected="true">GĐ1 · Nền tảng</button>
+    <button class="tab" data-group="phase" data-p="ph2" role="tab" aria-selected="false">GĐ2/5 · Sức mạnh</button>
+    <button class="tab" data-group="phase" data-p="ph3" role="tab" aria-selected="false">GĐ3/6 · Công suất</button>
+    <button class="tab" data-group="phase" data-p="ph4" role="tab" aria-selected="false">GĐ4/7 · Tốc độ</button>
+  </div>
+
+  <!-- ============ GĐ1 ============ -->
+  <div class="panel on" data-group="phase" id="ph1">
+    <div class="tabs" role="tablist">
+      <button class="tab on" data-group="ss" data-p="pa" role="tab" aria-selected="true">A · Thân dưới</button>
+      <button class="tab" data-group="ss" data-p="pb" role="tab" aria-selected="false">B · Core xoay</button>
+      <button class="tab" data-group="ss" data-p="pc" role="tab" aria-selected="false">C · Toàn thân</button>
+      <button class="tab" data-group="ss" data-p="pd" role="tab" aria-selected="false">D · Speed ⚡</button>
+    </div>
+
+    <!-- BUỔI A -->
+    <div class="panel on card" data-group="ss" id="pa" role="tabpanel">
+      <h3>Buổi A — Sức mạnh thân dưới &amp; hông</h3>
+      <p class="meta">Thứ 2 · ~40 phút · Nền tảng lực đạp đất</p>
+      <div class="timeline">⏱ 0–5' khởi động → 5–13' Goblet Squat → 13–23' KB Swing → 23–31' Split Squat → 31–37' Box Jump → 37–40' Glute Bridge + giãn cơ</div>
+      <div class="warm">🔥 Khởi động: xoay hông ×10 mỗi chiều · world's greatest stretch ×5/bên · 10 squat không tạ.</div>
+
+      <div class="ex"><span class="n">1</span><div class="body">
+        <div class="name">Goblet Squat</div>
+        <div class="chips"><span class="rx">3 × 8</span><span class="kg">14–20 kg</span><span class="rest-chip">Nghỉ 90s</span></div>
+        <p class="note">Ôm tạ trước ngực, ngồi sâu, gót bám sàn.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=k_EhLGvM8TQ" target="_blank" rel="noopener">Video (Buff Dudes)</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">2</span><div class="body">
+        <div class="name">Kettlebell Swing</div>
+        <div class="chips"><span class="rx">4 × 10</span><span class="kg">16 → 24 kg</span><span class="rest-chip">Nghỉ 90s</span></div>
+        <p class="note">Bùng nổ hông — không nâng bằng tay, không squat.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=1Qi0NQW89Oc" target="_blank" rel="noopener">Video từng bước</a>
+        <div class="sets" data-sets="4"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">3</span><div class="body">
+        <div class="name">Bulgarian Split Squat</div>
+        <div class="chips"><span class="rx">3 × 8 / chân</span><span class="kg">2 × 8–12 kg</span><span class="rest-chip">Nghỉ 75s</span></div>
+        <p class="note">Chân sau gác ghế ~45 cm — nền của weight shift.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=DeCnHqrN22U" target="_blank" rel="noopener">Video (Buff Dudes)</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">4</span><div class="body">
+        <div class="name">Box Jump</div>
+        <div class="chips"><span class="rx">3 × 5</span><span class="kg">Bục 40–50 cm</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <p class="note">Tiếp đất êm, gối gập ~45°. Bước xuống, không nhảy xuống.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=G-bxQY57mKc" target="_blank" rel="noopener">Video kỹ thuật tiếp đất</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">5</span><div class="body">
+        <div class="name">Single-leg Glute Bridge</div>
+        <div class="chips"><span class="rx">2 × 10 / chân</span><span class="kg">Bodyweight</span><span class="rest-chip">Nghỉ 45s</span></div>
+        <p class="note">Kích hoạt mông — nhóm cơ "ngủ quên" của dân văn phòng.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=VUl8R0kn6v4" target="_blank" rel="noopener">Video (Runna)</a>
+        <div class="sets" data-sets="2"><span class="lbl">Set:</span></div>
+      </div></div>
+    </div>
+
+    <!-- BUỔI B -->
+    <div class="panel card" data-group="ss" id="pb" role="tabpanel">
+      <h3>Buổi B — Core xoay &amp; cơ liên sườn</h3>
+      <p class="meta">Thứ 4 · ~35 phút · Không tập chân nặng — mai chơi pickleball</p>
+      <div class="timeline">⏱ 0–5' khởi động → 5–14' Rotational Throw → 14–21' Scoop Toss → 21–27' Pallof → 27–31' Dead Bug → 31–35' Side Plank + Open Book</div>
+      <div class="warm">🔥 Khởi động: xoay thân trên ×10 · cat-cow ×8 · 10 swing tay chéo thân.</div>
+
+      <div class="ex"><span class="n">1</span><div class="body">
+        <div class="name">Med Ball Rotational Throw (ném ngang vào tường)</div>
+        <div class="chips"><span class="rx">4 × 6 / bên</span><span class="kg">Bóng 2–3 kg</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <p class="note">Xoay hông trước, thân trên theo sau — đúng trình tự kinetic chain. Ưu tiên tốc độ, không phải bóng nặng.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=O3ME1cTuO7Y" target="_blank" rel="noopener">Video hip shift + ném xoay</a>
+        <div class="sets" data-sets="4"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">2</span><div class="body">
+        <div class="name">Med Ball Scoop Toss</div>
+        <div class="chips"><span class="rx">3 × 6 / bên</span><span class="kg">Bóng 2–3 kg</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <p class="note">Múc bóng từ thấp lên chéo — quỹ đạo lực driver (Level 4 hệ thống TPI).</p>
+        <a class="vbtn doc" href="https://www.mytpi.com/articles/fitness/4-steps-to-more-rotational-power" target="_blank" rel="noopener">Bài + video từ TPI</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">3</span><div class="body">
+        <div class="name">Pallof Press</div>
+        <div class="chips"><span class="rx">3 × 10 / bên</span><span class="kg">Dây kháng lực TB</span><span class="rest-chip">Nghỉ 45s</span></div>
+        <p class="note">Chống xoay — dạy core "khóa" để truyền lực.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=QVhBsy6P0xk" target="_blank" rel="noopener">Video Pallof Press</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">4</span><div class="body">
+        <div class="name">Dead Bug</div>
+        <div class="chips"><span class="rx">3 × 8 / bên</span><span class="kg">Bodyweight</span><span class="rest-chip">Nghỉ 30s</span></div>
+        <p class="note">Lưng dưới ép sát sàn — bảo vệ cột sống khi tăng tốc.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=bxn9FBrt4-A" target="_blank" rel="noopener">Video (NASM)</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">5</span><div class="body">
+        <div class="name">Side Plank + xoay tay &nbsp;·&nbsp; Open Book</div>
+        <div class="chips"><span class="rx">2 × 30s / bên</span><span class="rx">2 × 8 / bên</span><span class="kg">Bodyweight</span></div>
+        <p class="note">Liên sườn + vai ổn định, rồi mở khớp ngực — golfer giỏi xoay ở hông và ngực, không ở thắt lưng.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=DXQ9YKHtcsk" target="_blank" rel="noopener">Side Plank Rotation</a>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=rDviWORCWEw" target="_blank" rel="noopener">Open Books</a>
+        <div class="sets" data-sets="2"><span class="lbl">Set:</span></div>
+      </div></div>
+    </div>
+
+    <!-- BUỔI C -->
+    <div class="panel card" data-group="ss" id="pc" role="tabpanel">
+      <h3>Buổi C — Sức mạnh toàn thân</h3>
+      <p class="meta">Thứ 6 · ~40 phút · Xây "động cơ" tổng thể</p>
+      <div class="timeline">⏱ 0–5' khởi động → 5–14' RDL → 14–21' Push-up → 21–28' Row → 28–33' Med Ball Slam → 33–38' Lateral Lunge → 38–40' Farmer Carry</div>
+      <div class="warm">🔥 Khởi động: jumping jack nhẹ 1' · xoay vai ×10 · hip hinge không tạ ×10.</div>
+
+      <div class="ex"><span class="n">1</span><div class="body">
+        <div class="name">Romanian Deadlift</div>
+        <div class="chips"><span class="rx">3 × 8</span><span class="kg">2 × 14–18 kg</span><span class="rest-chip">Nghỉ 90s</span></div>
+        <p class="note">Chuỗi cơ sau = nguồn lực lớn nhất của cú drive.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=aa57T45iFSE" target="_blank" rel="noopener">Video (NASM)</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">2</span><div class="body">
+        <div class="name">Push-up (hoặc DB Bench)</div>
+        <div class="chips"><span class="rx">3 × 10–12</span><span class="kg">BW / 2×14 kg</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <p class="note">Thân trên khỏe để "đón" lực từ hông truyền lên.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=i9sTjhN4Z3M" target="_blank" rel="noopener">Video Push-up</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">3</span><div class="body">
+        <div class="name">Single-arm Dumbbell Row</div>
+        <div class="chips"><span class="rx">3 × 10 / bên</span><span class="kg">14–18 kg</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <p class="note">Cơ xô + lưng giữa — giữ gậy ổn định qua impact.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=tLnlWj7LQ34" target="_blank" rel="noopener">Video (Buff Dudes)</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">4</span><div class="body">
+        <div class="name">Med Ball Slam</div>
+        <div class="chips"><span class="rx">3 × 8</span><span class="kg">Bóng 4–5 kg</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <p class="note">Đập hết lực xuống sàn — tốc độ phát lực toàn thân.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=lsMGmkvzFsE" target="_blank" rel="noopener">Video Slam</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">5</span><div class="body">
+        <div class="name">Lateral Lunge &nbsp;·&nbsp; Farmer Carry</div>
+        <div class="chips"><span class="rx">2 × 8 / bên</span><span class="rx">2 × 30 m</span><span class="kg">BW→8 kg · 2×20–24 kg</span></div>
+        <p class="note">Lực ngang + grip khỏe — kết buổi bằng bài "gánh nước" cổ điển.</p>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=R8jArZG2J6Q" target="_blank" rel="noopener">Lateral Lunge</a>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=8OtwXwrJizk" target="_blank" rel="noopener">Farmer's Walk</a>
+        <div class="sets" data-sets="2"><span class="lbl">Set:</span></div>
+      </div></div>
+    </div>
+
+    <!-- BUỔI D -->
+    <div class="panel card" data-group="ss" id="pd" role="tabpanel">
+      <h3>Buổi D — Speed Training trên Launch Monitor ⚡</h3>
+      <p class="meta">Thứ 7 · ~30 phút · Chỉ quan tâm TỐC ĐỘ, mặc kệ hướng bóng</p>
+      <div class="timeline">⏱ 0–10' khởi động + 10 swing nhẹ → 10–14' Tay nghịch → 14–21' Overspeed → 21–25' Step Drill → 25–30' Driver max + ghi mph</div>
+      <div class="warm">🔥 Nghỉ 60–90s giữa các cụm — tốc độ cần cơ thể tươi từng rep. Dùng nút ⏱ góc màn hình.</div>
+
+      <div class="ex"><span class="n">1</span><div class="body">
+        <div class="name">Swing tay nghịch (không bóng)</div>
+        <div class="chips"><span class="rx">2 × 5 hết lực</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=8gJN05iMla4" target="_blank" rel="noopener">Overspeed là gì? (SuperSpeed)</a>
+        <div class="sets" data-sets="2"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">2</span><div class="body">
+        <div class="name">Overspeed — gậy nhẹ swing hết lực</div>
+        <div class="chips"><span class="rx">3 × 5</span><span class="kg">Gậy SuperSpeed / gậy 7 lật ngược</span><span class="rest-chip">Nghỉ 90s</span></div>
+        <a class="vbtn" href="https://www.youtube.com/watch?v=9DGv0KK7_Xw" target="_blank" rel="noopener">Protocol Level 1</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">3</span><div class="body">
+        <div class="name">Step Drill</div>
+        <div class="chips"><span class="rx">2 × 5</span><span class="rest-chip">Nghỉ 60s</span></div>
+        <p class="note">Bước chân trái về đích khi xuống gậy — ép thân dưới khởi động downswing.</p>
+        <a class="vbtn doc" href="https://superspeedgolf.com/blogs/news/swing-speed-training-basics-the-step-drill" target="_blank" rel="noopener">Hướng dẫn Step Drill</a>
+        <div class="sets" data-sets="2"><span class="lbl">Set:</span></div>
+      </div></div>
+      <div class="ex"><span class="n">4</span><div class="body">
+        <div class="name">Driver — swing tối đa, đo mph</div>
+        <div class="chips"><span class="rx">3 × 5</span><span class="kg">Ghi số cao nhất vào Nhật ký ↓</span><span class="rest-chip">Nghỉ 90s</span></div>
+        <a class="vbtn" href="https://www.youtube.com/playlist?list=PLDf7l5SEbgoNHf2DOAP6JkDqb6-NGtzCx" target="_blank" rel="noopener">Playlist SuperSpeed</a>
+        <div class="sets" data-sets="3"><span class="lbl">Set:</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ============ GĐ2/5 SỨC MẠNH ============ -->
+  <div class="panel" data-group="phase" id="ph2">
+    <div class="card">
+      <h3>GĐ2 (tháng 2–3) &amp; GĐ5 (tháng 7–8) — Sức mạnh</h3>
+      <p class="meta">Cấu trúc tuần giữ nguyên. Chuyển sang tạ nặng, ít rep, nghỉ dài (2–3 phút). GĐ5 lặp lại với tạ nặng hơn 15–20% và 5×5.</p>
+      <div class="tbl-scroll"><table class="tbl">
+        <tr><th>Buổi</th><th>Thay đổi</th><th>Set × Rep · Mức tạ (72 kg)</th><th>Video</th></tr>
+        <tr><td class="m">A</td><td>Goblet Squat → <b>Trap Bar Deadlift</b> (nếu có gym; không có thì RDL nặng)</td><td>4 × 5 · bắt đầu ~70 kg, tiến tới 90–100 kg</td><td><a class="vbtn" href="https://www.youtube.com/watch?v=Vu4oXIRzx7w" target="_blank" rel="noopener">Trap Bar DL</a></td></tr>
+        <tr><td class="m">A</td><td>Thêm <b>Hip Thrust</b> (thay Glute Bridge)</td><td>3 × 8 · tạ đòn/tạ đơn 40–60 kg</td><td><a class="vbtn" href="https://www.youtube.com/watch?v=pF17m_CXfL0" target="_blank" rel="noopener">Hip Thrust</a></td></tr>
+        <tr><td class="m">A</td><td>KB Swing nặng hơn</td><td>4 × 8 · 24–28 kg</td><td>—</td></tr>
+        <tr><td class="m">B</td><td>Thêm <b>Cable/Band Chop</b> (chặt chéo)</td><td>3 × 10 / bên · nặng vừa, kiểm soát</td><td><a class="vbtn" href="https://www.youtube.com/watch?v=KOh8cxe2ziE" target="_blank" rel="noopener">Cable Chop</a></td></tr>
+        <tr><td class="m">C</td><td>Push-up → <b>DB Push Press</b> (đẩy vai bùng nổ có trợ lực chân)</td><td>4 × 6 · 2 × 16–20 kg</td><td><a class="vbtn" href="https://www.youtube.com/watch?v=MqvN10OF5fo" target="_blank" rel="noopener">Push Press</a></td></tr>
+        <tr><td class="m">C</td><td>RDL &amp; Row tăng tạ</td><td>4 × 6 · RDL 2×20–24 kg · Row 20–24 kg</td><td>—</td></tr>
+        <tr><td class="m">D</td><td>Giữ nguyên protocol Level 1</td><td>Ghi mph tuần 4 mỗi tháng</td><td>—</td></tr>
+      </table></div>
+      <p class="tbl-note">Quy tắc chọn tạ: rep cuối của set cuối còn dư ~2 rep trong bồn (RIR 2). Tăng 2,5–5 kg khi hoàn thành đủ mọi set 2 tuần liên tiếp.</p>
+    </div>
+  </div>
+
+  <!-- ============ GĐ3/6 CÔNG SUẤT ============ -->
+  <div class="panel" data-group="phase" id="ph3">
+    <div class="card">
+      <h3>GĐ3 (tháng 4–5) &amp; GĐ6 (tháng 9–10) — Công suất</h3>
+      <p class="meta">Vũ khí chính: <b>contrast training</b> — 1 set nặng đánh thức hệ thần kinh, ngay sau đó 1 bài bật nhảy/ném bùng nổ. GĐ6 nâng lên 3×2 nặng + ném 1 tay.</p>
+      <div class="tbl-scroll"><table class="tbl">
+        <tr><th>Buổi</th><th>Cặp contrast / thay đổi</th><th>Liều lượng</th><th>Video</th></tr>
+        <tr><td class="m">A</td><td><b>Trap Bar DL nặng</b> → nghỉ 20s → <b>Broad Jump</b></td><td>3 vòng: (3 rep nặng + 3 bật xa) · nghỉ 2–3'</td><td><a class="vbtn" href="https://www.youtube.com/watch?v=CpmTk9kmdm8" target="_blank" rel="noopener">Broad Jump</a></td></tr>
+        <tr><td class="m">A</td><td>Box Jump lên bục cao hơn (55–60 cm)</td><td>3 × 4 · chất lượng tuyệt đối</td><td>—</td></tr>
+        <tr><td class="m">B</td><td>Ném bóng NẶNG hết lực (4–5 kg) + ném bóng NHẸ (1–2 kg) ngay sau</td><td>3 vòng: (4 nặng + 4 nhẹ) / bên</td><td>—</td></tr>
+        <tr><td class="m">C</td><td><b>Push Press nhanh</b> + Med Ball Slam liền sau</td><td>3 vòng: (3 đẩy + 5 slam) · nghỉ 2'</td><td>—</td></tr>
+        <tr><td class="m">D</td><td>Thêm 1 vòng overspeed; bắt đầu dùng cả swing có bước chân đà</td><td>4 × 5 gậy nhẹ + 3 × 5 driver max</td><td><a class="vbtn doc" href="https://fitforgolf.blog/med-ball-exercises-golf-swing-speed/" target="_blank" rel="noopener">Fit For Golf guide</a></td></tr>
+      </table></div>
+      <p class="tbl-note">Cảnh báo an toàn: contrast training đòi hỏi form GĐ2 vững. Nếu tháng 2–3 chưa hoàn thành đều, kéo dài GĐ2 thêm 1 tháng — lộ trình lùi lại nhưng đầu gối và lưng của anh cảm ơn anh.</p>
+    </div>
+  </div>
+
+  <!-- ============ GĐ4/7 TỐC ĐỘ ============ -->
+  <div class="panel" data-group="phase" id="ph4">
+    <div class="card">
+      <h3>GĐ4 (tháng 6) &amp; GĐ7 (tháng 11) — Tốc độ đỉnh</h3>
+      <p class="meta">Nguyên lý: cơ bắp đã xây xong — giờ dạy hệ thần kinh dùng nó NHANH. Giảm khối lượng phòng gym để dồn năng lượng cho swing.</p>
+      <div class="tbl-scroll"><table class="tbl">
+        <tr><th>Ngày</th><th>Nội dung giai đoạn tốc độ</th><th>Chi tiết</th></tr>
+        <tr><td class="m">T2</td><td>Thể lực duy trì #1</td><td>Trap bar 3×3 @70% · KB swing 3×8 · Box jump 3×3 — 25 phút, ra về khi còn sung</td></tr>
+        <tr><td class="m">T3</td><td>⚡ Overspeed #1 + kỹ thuật nhẹ</td><td>Protocol SuperSpeed Level 2 (GĐ7: thêm bước đà) + 15' routine trước cú đánh</td></tr>
+        <tr><td class="m">T4</td><td>Core nhẹ + mobility</td><td>Pallof 3×10 · Dead Bug 3×8 · Open Book 2×8 — 20 phút</td></tr>
+        <tr><td class="m">T5</td><td>🏓 Pickleball</td><td>Giữ nguyên — chính là bài agility của giai đoạn này</td></tr>
+        <tr><td class="m">T6</td><td>Thể lực duy trì #2</td><td>Push press 3×3 nhanh · Row 3×8 · Ném bóng nhẹ 3×5/bên — 25 phút</td></tr>
+        <tr><td class="m">T7</td><td>⚡ Overspeed #2 + TEST</td><td>Full protocol + 5 driver max ghi mph. Tuần cuối tháng = test chính thức</td></tr>
+        <tr><td class="m">CN</td><td>Nghỉ tuyệt đối</td><td>Ngủ bù, đi bộ nhẹ</td></tr>
+      </table></div>
+      <a class="vbtn" href="https://www.youtube.com/watch?v=kDRyQioVWI4" target="_blank" rel="noopener">SuperSpeed Level 2 Protocol</a>
+      <p class="tbl-note">Overspeed hiệu quả nhất ở tần suất 3 buổi/tuần — giai đoạn này T3 + T7 là bắt buộc, có thể thêm 10' sáng CN nếu cơ thể tốt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GIÁO ÁN SWING ===== -->
+<section class="wrap" id="swing">
+  <h2>🎯 Giáo án Swing — buổi Thứ 3 · 45 phút</h2>
+  <p class="sub">Mỗi giai đoạn có chủ đề riêng. Cấu trúc buổi bất biến: 5' khởi động → 3 khối × ~12' → 5' quay video &amp; ghi số liệu. Mỗi swing MỘT ý định, mỗi khối theo dõi MỘT chỉ số.</p>
+
+  <h4 class="gd">GĐ1 · Tháng 1 — Bốn nền móng</h4>
+  <div class="card">
+    <div class="tbl-scroll"><table class="tbl">
+      <tr><th>Tuần</th><th>Khối 1 (12')</th><th>Khối 2 (12')</th><th>Khối 3 (12')</th><th>Chỉ số theo dõi</th></tr>
+      <tr><td class="m">1</td><td>Setup checklist ×10 bóng</td><td>Step Drill 10 khan + 5 bóng</td><td>Quay video mốc (chính diện + ngang)</td><td>Attack angle</td></tr>
+      <tr><td class="m">2</td><td>Step Drill 5 khan + 5 bóng</td><td>Tempo 3:1 — 3 driver / 3 wedge</td><td>Setup ôn ×5 bóng</td><td>Club speed ổn định</td></tr>
+      <tr><td class="m">3</td><td>Tempo 3:1 ×10 bóng</td><td>Foot spray strike ×10 bóng</td><td>Step Drill ôn</td><td>Smash factor ≥ 1.46</td></tr>
+      <tr><td class="m">4</td><td colspan="3">Tổng hợp rút gọn cả 4 khối + quay video so tuần 1 + ghi bộ số liệu đầy đủ</td><td>Cả bộ</td></tr>
+    </table></div>
+    <p class="note" style="font-size:.83rem;margin-top:10px"><strong>Setup checklist (đọc trước MỖI bóng):</strong> ① Bóng ngang gót trái · ② Tee cao — nửa bóng trên mặt gậy · ③ Vai phải thấp hơn, cột sống nghiêng nhẹ về sau · ④ Chân rộng hơn vai.</p>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=42jvkIr396I" target="_blank" rel="noopener">Hệ thống driver (Danny Maude)</a>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=Y_7rz3MYCYo" target="_blank" rel="noopener">Step Drill</a>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=ECcFoD4C8j0" target="_blank" rel="noopener">Tempo drill</a>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=6y8lwV01XgQ" target="_blank" rel="noopener">Center strike</a>
+    <a class="vbtn doc" href="https://www.titleist.com/videos/instruction/power-and-kinematic-sequence" target="_blank" rel="noopener">Kinematic sequence (Titleist)</a>
+  </div>
+
+  <h4 class="gd">GĐ2/5 · Tháng 2–3 &amp; 7–8 — Biên độ xoay &amp; mặt gậy</h4>
+  <div class="card">
+    <p class="note" style="font-size:.85rem">Chủ đề: xoay vai đủ 90°+ nhờ mobility từ phòng tập, và kiểm soát face-to-path để bóng ít cong. Khối 1: swing chậm 50% cảm nhận độ xoay tối đa ×10. Khối 2: foot spray + theo dõi <b>độ lệch trái-phải trên monitor — mục tiêu 70% số bóng lệch dưới 20 yd</b>. Khối 3: tempo 3:1 với driver. GĐ5 thêm yêu cầu: giữ chỉ số khi swing 90% lực.</p>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=DuzE-83KldA" target="_blank" rel="noopener">Swing chậm mà xa hơn (Danny Maude)</a>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=rDviWORCWEw" target="_blank" rel="noopener">Open Book mobility</a>
+  </div>
+
+  <h4 class="gd">GĐ3/6 · Tháng 4–5 &amp; 9–10 — Lực đạp đất &amp; setup long-drive</h4>
+  <div class="card">
+    <p class="note" style="font-size:.85rem">Chủ đề: dùng chân "đạp đất" tạo lực dọc. Khối 1: cảm giác "ngồi rồi bật" trong transition — swing khan ×10 nghe tiếng whoosh to nhất ở SAU vị trí bóng. Khối 2: setup long-drive — stance rộng thêm 1 bàn chân, tee cao hơn, bóng nhích lên — mục tiêu <b>attack angle +4° đến +5°</b>. Khối 3: 10 driver hết lực có bước đà nhẹ, chấm mph. GĐ6: khóa attack angle +4–5° ổn định 8/10 bóng.</p>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=8gJN05iMla4" target="_blank" rel="noopener">Nguyên lý overspeed &amp; ground force</a>
+    <a class="vbtn doc" href="https://superspeedgolf.com/blogs/news/swing-speed-training-basics-the-step-drill" target="_blank" rel="noopener">Step Drill nâng cao</a>
+  </div>
+
+  <h4 class="gd">GĐ4/7 · Tháng 6 &amp; 11 — Max intent &amp; chuyển ra sân</h4>
+  <div class="card">
+    <p class="note" style="font-size:.85rem">Chủ đề: đem tốc độ phòng tập ra sân thật. Khối 1: routine thi đấu — đứng sau bóng, chọn mục tiêu, 1 swing thử, đánh (lặp ×10). Khối 2: "trò chơi 9 fairway" trên simulator — 9 drive, đếm số quả trúng fairway ảo với 95% lực. Khối 3: 5 driver max ghi mph. <b>Cuối tháng: ra sân thật, đánh 10 drive, ghi khoảng cách trung bình + xa nhất — đây là con số thật sự có ý nghĩa.</b></p>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=kDRyQioVWI4" target="_blank" rel="noopener">SuperSpeed Level 2</a>
+    <a class="vbtn doc" href="https://practical-golf.com/strike-is-king" target="_blank" rel="noopener">Strike is King</a>
+  </div>
+</section>
+
+<!-- ===== SỐ LIỆU MONITOR ===== -->
+<section class="wrap" id="monitor">
+  <h2>Bảng thông số launch monitor theo mốc</h2>
+  <div class="tbl-scroll"><table class="tbl">
+    <tr><th>Chỉ số</th><th>Xuất phát</th><th>Mốc 6 tháng</th><th class="hl">Đích 12 tháng</th></tr>
+    <tr><td class="m">Club speed</td><td>87–90 mph</td><td>99–100 mph</td><td class="hl">105+ mph</td></tr>
+    <tr><td class="m">Ball speed</td><td>125–132</td><td>145–148</td><td class="hl">155+</td></tr>
+    <tr><td class="m">Smash factor</td><td>1.42–1.46</td><td>≥ 1.47</td><td class="hl">1.48–1.50</td></tr>
+    <tr><td class="m">Launch angle</td><td>đo thực tế</td><td>13–16°</td><td class="hl">13–16°</td></tr>
+    <tr><td class="m">Spin rate</td><td>đo thực tế</td><td>2.000–2.600 rpm</td><td class="hl">2.000–2.400 rpm</td></tr>
+    <tr><td class="m">Attack angle</td><td>đo thực tế</td><td>+2° → +4°</td><td class="hl">+4° → +5°</td></tr>
+    <tr><td class="m">Carry / Tổng</td><td>~200 / 220 yd</td><td>~240 / 255 yd</td><td class="hl">~260 / 285–300 yd</td></tr>
+  </table></div>
+  <p class="tbl-note">Ở ~90 mph, chuyển attack angle từ −5° sang +5° có thể cộng gần 30 yard carry mà không cần swing nhanh hơn — luôn săn "yard miễn phí" này trước.</p>
+</section>
+
+<!-- ===== NHẬT KÝ MPH ===== -->
+<section class="wrap" id="nhatky">
+  <h2>Nhật ký tốc độ swing</h2>
+  <p class="sub">Sau mỗi Buổi D (hoặc buổi test cuối tháng), nhập số mph cao nhất. Biểu đồ tự vẽ đường tiến bộ so với đích 105.</p>
+  <div class="log">
+    <div class="log-row">
+      <input type="number" id="mph-in" min="60" max="140" step="0.5" placeholder="mph" aria-label="Nhập tốc độ mph">
+      <button class="btn" id="mph-save" type="button">＋ Lưu hôm nay</button>
+      <button class="btn warnb" id="mph-undo" type="button">Xóa lần cuối</button>
+    </div>
+    <canvas id="chart" width="800" height="230" role="img" aria-label="Biểu đồ tiến bộ mph"></canvas>
+    <div class="loglist" id="loglist"></div>
+    <p class="lognote" id="lognote">Dữ liệu lưu tự động trên thiết bị này.</p>
+  </div>
+</section>
+
+<!-- ===== NGUYÊN TẮC ===== -->
+<section class="wrap" id="nguyentac">
+  <h2>5 nguyên tắc vàng cả năm</h2>
+  <div class="rules">
+    <div class="rule"><b>01 · Tách vai trò.</b> T3 = kỹ thuật (chậm, có ý định). T7 = tốc độ (nhanh, mặc kệ hướng bóng). Trộn lẫn = chậm cả hai.</div>
+    <div class="rule"><b>02 · Yard rẻ nhất nằm ở hiệu suất.</b> Attack angle dương + strike giữa mặt = 20–30 yard trước khi cần thêm 1 mph nào.</div>
+    <div class="rule"><b>03 · Tuần 4 mỗi tháng là deload.</b> Giảm 30% tạ, đo mph. Tiến bộ xảy ra khi phục hồi, không phải khi tập.</div>
+    <div class="rule"><b>04 · Pickleball là tài sản.</b> Nhưng tuần nào 2+ buổi pickleball: bỏ Box Jump / Broad Jump tuần đó để bảo vệ gối.</div>
+    <div class="rule"><b>05 · Phục hồi = 50% kết quả.</b> Ngủ 7h · protein ~115 g/ngày · nước 2–2,5 L. Đau nhói (khác mỏi) → dừng bài đó, quay lại biến thể GĐ trước.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
+    <span>Toàn bộ link video &amp; tài liệu đã kiểm tra hoạt động ngày 19/07/2026. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+  </div>
+</footer>
+
+<!-- Timer nổi -->
+<div id="timerbox">
+  <button class="btn" id="t60" type="button">⏱ 60s</button>
+  <button class="btn" id="t90" type="button">⏱ 90s</button>
+</div>
+
+<script>
+/* ===== Tabs (2 nhóm độc lập) ===== */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    var g=t.dataset.group;
+    document.querySelectorAll('.tab[data-group="'+g+'"]').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-selected','false')});
+    document.querySelectorAll('.panel[data-group="'+g+'"]').forEach(function(p){p.classList.remove('on')});
+    t.classList.add('on');t.setAttribute('aria-selected','true');
+    document.getElementById(t.dataset.p).classList.add('on');
+  });
+});
+
+/* ===== Set checkboxes ===== */
+document.querySelectorAll('.sets').forEach(function(box){
+  var n=parseInt(box.dataset.sets||'3',10);
+  for(var i=0;i<n;i++){
+    var b=document.createElement('button');
+    b.className='setbox';b.type='button';b.textContent='✓';
+    b.setAttribute('aria-label','Đánh dấu set '+(i+1));
+    b.addEventListener('click',function(e){e.currentTarget.classList.toggle('done')});
+    box.appendChild(b);
+  }
+});
+
+/* ===== Hôm nay ===== */
+var DOW=[
+  {name:'Nghỉ / Mobility nhẹ 15 phút',link:'#nguyentac'},
+  {name:'Buổi A · Thân dưới & hông (40\')',link:'#theluc'},
+  {name:'🎯 Swing · Kỹ thuật trên monitor (45\')',link:'#swing'},
+  {name:'Buổi B · Core xoay & liên sườn (35\')',link:'#theluc'},
+  {name:'🏓 Pickleball — giữ nhịp di chuyển',link:'#nguyentac'},
+  {name:'Buổi C · Toàn thân (40\')',link:'#theluc'},
+  {name:'⚡ Buổi D · Speed + ghi mph (30\')',link:'#nhatky'}
+];
+var now=new Date(), dw=now.getDay();
+var days=['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
+document.getElementById('today-date').textContent=days[dw]+', '+now.toLocaleDateString('vi-VN');
+document.getElementById('today-name').textContent=DOW[dw].name;
+document.getElementById('today-link').setAttribute('href',DOW[dw].link);
+var cell=document.querySelector('.day[data-dow="'+dw+'"]');
+if(cell){cell.classList.add('now')}
+
+/* ===== Lưu trữ bền (window.storage nếu có, fallback bộ nhớ) ===== */
+var memStore={};
+async function stGet(k){
+  try{ if(window.storage){var r=await window.storage.get(k);return r?r.value:null;} }catch(e){}
+  try{ if(window.localStorage){return localStorage.getItem(k);} }catch(e){}
+  return memStore[k]||null;
+}
+async function stSet(k,v){
+  try{ if(window.storage){await window.storage.set(k,v);return;} }catch(e){}
+  try{ if(window.localStorage){localStorage.setItem(k,v);return;} }catch(e){}
+  memStore[k]=v;
+  document.getElementById('lognote').textContent='⚠ Không có bộ nhớ lâu dài trên môi trường này — dữ liệu chỉ giữ trong phiên hiện tại.';
+}
+
+/* ===== Đếm buổi hoàn thành ===== */
+async function refreshStreak(){
+  var raw=await stGet('golf-done-days');var arr=[];
+  try{arr=raw?JSON.parse(raw):[]}catch(e){arr=[]}
+  document.getElementById('streak').textContent='Đã hoàn thành: '+arr.length+' buổi';
+  return arr;
+}
+document.getElementById('btn-done').addEventListener('click',async function(){
+  var arr=await refreshStreak();
+  var key=now.toISOString().slice(0,10);
+  if(arr.indexOf(key)===-1){arr.push(key);await stSet('golf-done-days',JSON.stringify(arr));}
+  refreshStreak();
+});
+refreshStreak();
+
+/* ===== Nhật ký mph + biểu đồ ===== */
+async function getLog(){
+  var raw=await stGet('golf-mph-log');
+  try{return raw?JSON.parse(raw):[]}catch(e){return[]}
+}
+function drawChart(data){
+  var c=document.getElementById('chart'),ctx=c.getContext('2d');
+  var W=c.width,H=c.height;ctx.clearRect(0,0,W,H);
+  var padL=38,padR=12,padT=14,padB=24;
+  var ymin=82,ymax=110;
+  function Y(v){return padT+(H-padT-padB)*(1-(v-ymin)/(ymax-ymin));}
+  // lưới ngang
+  ctx.font='11px sans-serif';ctx.fillStyle='#8a8a7a';ctx.strokeStyle='#e6e1d0';
+  for(var g=85;g<=110;g+=5){
+    ctx.beginPath();ctx.moveTo(padL,Y(g));ctx.lineTo(W-padR,Y(g));ctx.stroke();
+    ctx.fillText(g,6,Y(g)+4);
+  }
+  // đường đích 105
+  ctx.strokeStyle='#C0392B';ctx.setLineDash([6,5]);ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(padL,Y(105));ctx.lineTo(W-padR,Y(105));ctx.stroke();
+  ctx.setLineDash([]);ctx.fillStyle='#C0392B';ctx.fillText('Đích 105',W-padR-52,Y(105)-5);
+  if(!data.length){ctx.fillStyle='#8a8a7a';ctx.fillText('Chưa có dữ liệu — nhập mph đầu tiên ở trên.',padL+10,H/2);return;}
+  var n=data.length;
+  function X(i){return n===1?(padL+(W-padL-padR)/2):padL+(W-padL-padR)*i/(n-1);}
+  // đường dữ liệu
+  ctx.strokeStyle='#17553F';ctx.lineWidth=2.5;ctx.beginPath();
+  data.forEach(function(d,i){var x=X(i),y=Y(d.v);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.stroke();
+  // điểm
+  data.forEach(function(d,i){
+    var x=X(i),y=Y(d.v);
+    ctx.fillStyle='#F2C230';ctx.beginPath();ctx.arc(x,y,4.5,0,7);ctx.fill();
+    ctx.strokeStyle='#17553F';ctx.lineWidth=1.5;ctx.stroke();
+  });
+}
+async function renderLog(){
+  var data=await getLog();
+  drawChart(data);
+  var list=document.getElementById('loglist');
+  list.innerHTML=data.length?'':'';
+  list.innerHTML=data.map(function(d){return '<span>'+d.d+': <b>'+d.v+' mph</b></span>'}).join('');
+}
+document.getElementById('mph-save').addEventListener('click',async function(){
+  var v=parseFloat(document.getElementById('mph-in').value);
+  if(!v||v<60||v>140){alert('Nhập số mph hợp lệ (60–140).');return;}
+  var data=await getLog();
+  data.push({d:new Date().toLocaleDateString('vi-VN'),v:v});
+  await stSet('golf-mph-log',JSON.stringify(data));
+  document.getElementById('mph-in').value='';
+  renderLog();
+});
+document.getElementById('mph-undo').addEventListener('click',async function(){
+  var data=await getLog();
+  if(!data.length)return;
+  data.pop();
+  await stSet('golf-mph-log',JSON.stringify(data));
+  renderLog();
+});
+renderLog();
+
+/* ===== Timer nghỉ ===== */
+function makeTimer(btn,sec){
+  var iv=null,left=sec,label='⏱ '+sec+'s';
+  btn.addEventListener('click',function(){
+    if(iv){clearInterval(iv);iv=null;left=sec;btn.textContent=label;btn.classList.remove('running');return;}
+    left=sec;btn.classList.add('running');btn.textContent=left+'s';
+    iv=setInterval(function(){
+      left--;
+      if(left<=0){clearInterval(iv);iv=null;btn.textContent='✅ HẾT GIỜ';btn.classList.remove('running');
+        if(navigator.vibrate){navigator.vibrate([200,100,200]);}
+        setTimeout(function(){btn.textContent=label;},2500);
+      } else {btn.textContent=left+'s';}
+    },1000);
+  });
+}
+makeTimer(document.getElementById('t60'),60);
+makeTimer(document.getElementById('t90'),90);
+</script>
+</body>
+</html>
