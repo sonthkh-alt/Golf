@@ -740,7 +740,9 @@ function tick(now){
   for(var i=0;i<PLAYERS.length;i++){
     var p=PLAYERS[i], el=p.el;
     if(!el.isConnected){PLAYERS.splice(i--,1);continue;}
-    var span=p.dur/p.seq.length, tt=(now-p.t0)%p.dur, seg=Math.floor(tt/span), lx=(tt-seg*span)/span;
+    var span=p.dur/p.seq.length, tt=(now-p.t0)%p.dur;
+    if(tt<0) tt+=p.dur;              /* rAF co the tra mocsom hon t0 -> phep du am -> seg=-1 */
+    var seg=Math.floor(tt/span)%p.seq.length, lx=(tt-Math.floor(tt/span)*span)/span;
     var e=lx<.5?2*lx*lx:1-Math.pow(-2*lx+2,2)/2;
     el.innerHTML=body3(blend3(p.q[p.seq[seg]], p.q[p.seq[(seg+1)%p.seq.length]], e));
   }
