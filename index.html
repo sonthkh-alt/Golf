@@ -803,8 +803,9 @@ function body(s){
   return ground()+(s.behind||'')+b;
 }
 /* một vòng lặp rAF duy nhất chạy mọi hình đang hiển thị */
-var PLAYERS=[], RAF=null, REDUCED=false;
-try{REDUCED=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;}catch(e){}
+var PLAYERS=[], RAF=null;
+/* Khong khoa theo prefers-reduced-motion: hinh o day la NOI DUNG huong dan
+   dong tac, khong phai hieu ung trang tri. Nguoi dung tat bang nut ⏸. */
 function tick(now){
   for(var i=0;i<PLAYERS.length;i++){
     var p=PLAYERS[i], el=p.el;
