@@ -220,6 +220,23 @@
   #timerbox .btn{box-shadow:0 4px 14px rgba(0,0,0,.35);background:var(--yellow);color:var(--green-deep)}
   #timerbox .btn.running{background:#C0392B;color:#fff}
 
+  /* ===== Trình phát video trong khung ===== */
+  .vm{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(7,26,19,.9)}
+  .vm.on{display:flex}
+  .vm-box{width:100%;max-width:740px;max-height:calc(100vh - 32px);overflow-y:auto;background:var(--paper);color:var(--ink);border-radius:16px}
+  .vm-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--green-deep);border-radius:16px 16px 0 0;position:sticky;top:0;z-index:2}
+  .vm-title{flex:1;font-family:'Archivo',sans-serif;font-weight:900;font-size:1rem;color:var(--white);line-height:1.25}
+  .vm-close{background:none;border:none;color:var(--paper);font-size:1.4rem;line-height:1;cursor:pointer;padding:2px 6px}
+  .vm-close:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+  .vm-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+  .vm-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vm-cap{padding:14px 16px 16px;display:grid;gap:9px;justify-items:start}
+  .vm-row{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;line-height:1.5}
+  .vm-row .ic{flex:0 0 auto}
+  .vm-row b{color:var(--green-deep)}
+  .vm-ext{font-size:.76rem;font-weight:700;color:#5C6B62;text-decoration:none;border:1.5px solid #C9C2AC;border-radius:99px;padding:5px 12px;margin-top:2px}
+  .vm-ext:hover{background:var(--paper-dim)}
+
   footer{margin-top:52px;padding:24px 0 100px;border-top:1px solid var(--green-line);font-size:.73rem;color:#8FB3A3}
   footer .wrap{display:flex;flex-direction:column;gap:6px}
 </style>
@@ -468,7 +485,7 @@
 <footer>
   <div class="wrap">
     <span>Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
-    <span>Bản dựng: 20/07/2026 · hình người 3 chiều v10 · rà soát video. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v10 · video phát ngay trong khung ứng dụng, kèm chú thích động tác · thời lượng · hiệu quả (giữ Ctrl khi bấm để mở tab YouTube). 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
   </div>
 </footer>
 
@@ -490,6 +507,18 @@
   <div class="f-nav">
     <button type="button" id="f-prev">← Trước</button>
     <button type="button" id="f-next" class="primary">Tiếp →</button>
+  </div>
+</div>
+
+<!-- ===== TRÌNH PHÁT VIDEO TRONG KHUNG ===== -->
+<div class="vm" id="vm" role="dialog" aria-modal="true" aria-label="Trình phát video hướng dẫn">
+  <div class="vm-box">
+    <div class="vm-head">
+      <div class="vm-title" id="vm-title">Video hướng dẫn</div>
+      <button class="vm-close" id="vm-close" type="button" aria-label="Đóng video">✕</button>
+    </div>
+    <div class="vm-frame" id="vm-frame"></div>
+    <div class="vm-cap" id="vm-cap"></div>
   </div>
 </div>
 
@@ -1088,6 +1117,7 @@ FX.prev.addEventListener('click',function(){go(-1)});
 document.getElementById('f-close').addEventListener('click',closeFocus);
 document.addEventListener('keydown',function(e){
   if(!FX.el.classList.contains('on'))return;
+  if(document.getElementById('vm').classList.contains('on'))return; /* video đang mở: phím thuộc về trình phát */
   if(e.key==='Escape')closeFocus();
   if(e.key==='ArrowRight')go(1);
   if(e.key==='ArrowLeft')go(-1);
@@ -1254,6 +1284,88 @@ function makeTimer(btn,sec){
 }
 makeTimer(document.getElementById('t60'),60);
 makeTimer(document.getElementById('t90'),90);
+
+/* ===== TRÌNH PHÁT VIDEO TRONG KHUNG =====
+   Bấm nút video ở bất kỳ đâu -> video YouTube phát ngay trong ứng dụng,
+   kèm chú thích: động tác gì, tập trong bao lâu, hiệu quả mang lại.
+   Giữ Ctrl/Cmd khi bấm nếu vẫn muốn mở tab YouTube như cũ. */
+var VIDINFO={
+ /* Buổi A · Thân dưới & hông */
+ 'k_EhLGvM8TQ':{n:'Goblet Squat',du:'3 × 8 · nghỉ 90s · ~7 phút',eff:'Học mẫu squat chuẩn, xây lực đạp đất từ chân–hông — nguồn gốc của mọi mph.'},
+ '1Qi0NQW89Oc':{n:'Kettlebell Swing',du:'4 × 10 · nghỉ 90s · ~8 phút',eff:'Bùng nổ duỗi hông — chuyển động sinh lực giống downswing nhất trong phòng gym.'},
+ 'DeCnHqrN22U':{n:'Bulgarian Split Squat',du:'3 × 8 mỗi chân · nghỉ 75s · ~8 phút',eff:'Sức mạnh từng chân riêng lẻ — nền tảng của weight shift sang chân trước.'},
+ 'G-bxQY57mKc':{n:'Box Jump',du:'3 × 5 · nghỉ 60s · ~5 phút',eff:'Tốc độ phát lực thân dưới; học tiếp đất êm để bảo vệ gối.'},
+ 'VUl8R0kn6v4':{n:'Single-leg Glute Bridge',du:'2 × 10 mỗi chân · nghỉ 45s · ~4 phút',eff:'Đánh thức cơ mông "ngủ quên" — ổn định khung chậu qua impact.'},
+ /* Buổi B · Core xoay */
+ 'O3ME1cTuO7Y':{n:'Med Ball Rotational Throw',du:'4 × 6 mỗi bên · nghỉ 60s · ~7 phút',eff:'Công suất xoay theo đúng trình tự kinetic chain: hông trước, thân trên theo sau.'},
+ 'axgv7H_VQOo':{n:'Pallof Press',du:'3 × 10 mỗi bên · nghỉ 45s · ~5 phút',eff:'Core chống xoay — dạy thân "khóa" lại để truyền lực không thất thoát.'},
+ 'bxn9FBrt4-A':{n:'Dead Bug',du:'3 × 8 mỗi bên · nghỉ 30s · ~4 phút',eff:'Bảo vệ cột sống thắt lưng khi tốc độ swing tăng dần theo lộ trình.'},
+ 'DXQ9YKHtcsk':{n:'Side Plank + Open Book',du:'2 × 30s + 2 × 8 · nghỉ 45s · ~5 phút',eff:'Liên sườn khỏe, khớp ngực mở — xoay ở hông và ngực, không ở thắt lưng.'},
+ 'rDviWORCWEw':{n:'Open Book',du:'2 × 8 mỗi bên · ~3 phút',eff:'Mở biên độ xoay khớp ngực — điều kiện để vai xoay 90°+ mà không đau lưng.'},
+ /* Buổi C · Toàn thân */
+ 'aa57T45iFSE':{n:'Romanian Deadlift',du:'3 × 8 · nghỉ 90s · ~7 phút',eff:'Chuỗi cơ sau (mông–đùi sau–lưng) = nguồn lực lớn nhất của cú drive.'},
+ 'i9sTjhN4Z3M':{n:'Push-up',du:'3 × 10–12 · nghỉ 60s · ~5 phút',eff:'Thân trên đủ khỏe để "đón" lực hông truyền lên mà không sập vai.'},
+ 'tLnlWj7LQ34':{n:'Single-arm DB Row',du:'3 × 10 mỗi bên · nghỉ 60s · ~7 phút',eff:'Cơ xô và lưng giữa giữ gậy ổn định qua impact, cân bằng với nhóm cơ đẩy.'},
+ 'lsMGmkvzFsE':{n:'Med Ball Slam',du:'3 × 8 · nghỉ 60s · ~5 phút',eff:'Tốc độ phát lực toàn thân — cầu nối sang giai đoạn công suất.'},
+ 'R8jArZG2J6Q':{n:'Lateral Lunge',du:'2 × 8 · ~3 phút',eff:'Lực và biên độ ngang hông — kiểm soát trọng tâm khi weight shift.'},
+ '8OtwXwrJizk':{n:"Farmer's Walk",du:'2 × 30 m · ~3 phút',eff:'Grip và thân đỡ khỏe — cầm chắc gậy ở tốc độ cao, kết buổi an toàn.'},
+ /* Nâng cấp GĐ2/5 & GĐ3/6 */
+ 'Vu4oXIRzx7w':{n:'Trap Bar Deadlift',du:'4 × 5 · nghỉ 2–3 phút · ~12 phút',eff:'Bài sức mạnh tuyệt đối số 1 cho lực đạp đất — nền của công suất GĐ3.'},
+ 'pF17m_CXfL0':{n:'Hip Thrust',du:'3 × 8 · nghỉ 90s · ~7 phút',eff:'Cô lập lực duỗi hông — "động cơ" trực tiếp của tốc độ đầu gậy.'},
+ 'KOh8cxe2ziE':{n:'Cable / Band Chop',du:'3 × 10 mỗi bên · ~6 phút',eff:'Lực chặt chéo thân — đúng mặt phẳng nghiêng của swing.'},
+ 'MqvN10OF5fo':{n:'DB Push Press',du:'4 × 6 · nghỉ 90s · ~8 phút',eff:'Đẩy bùng nổ: chân sinh lực, thân truyền, tay kết thúc — chuỗi lực như cú drive.'},
+ 'dVgtvAXeBQw':{n:'Broad Jump',du:'3 × 3 ngay sau set nặng · nghỉ 2–3 phút',eff:'Contrast training: hệ thần kinh vừa được tạ nặng "đánh thức" sẽ bật xa hết công suất.'},
+ /* Giáo án Swing & Overspeed */
+ '42jvkIr396I':{n:'Setup driver chuẩn (Danny Maude)',du:'Xem ~10 phút trước buổi · áp dụng 10 bóng',eff:'Setup đúng (bóng gót trái, tee cao, cột sống nghiêng) tạo attack angle dương — 20–30 yard "miễn phí".'},
+ 'Y_7rz3MYCYo':{n:'Step Drill',du:'10 lần khan + 5 bóng · ~12 phút',eff:'Ép thân dưới khởi động downswing đúng trình tự: chân → hông → thân → tay.'},
+ 'ECcFoD4C8j0':{n:'Tempo 3:1 (Me and My Golf)',du:'3 driver / 3 wedge xen kẽ · ~12 phút',eff:'Nhịp 3:1 giúp strike ổn định — nền tảng để tăng tốc mà không mất kiểm soát.'},
+ '6y8lwV01XgQ':{n:'Center strike driver',du:'10 bóng với xịt phấn · ~12 phút',eff:'Strike giữa mặt nâng smash ≥ 1.46 — thêm yard mà không cần thêm mph nào.'},
+ 'DuzE-83KldA':{n:'Swing chậm mà xa (Danny Maude)',du:'Xem ~10 phút · 10 bóng 70% lực',eff:'Cảm nhận xoay vai 90°+ và hiệu suất truyền lực thay vì gồng sức.'},
+ '8gJN05iMla4':{n:'Nguyên lý Overspeed (SuperSpeed)',du:'Xem ~10 phút · áp dụng ở Buổi D Thứ 7',eff:'Swing gậy nhẹ hết lực dạy hệ thần kinh vượt trần tốc độ (+3–5% sau 6 tuần).'},
+ '9DGv0KK7_Xw':{n:'Overspeed Protocol Level 1',du:'3 × 5 mỗi bài · nghỉ 90s · ~15 phút',eff:'Giáo án overspeed nền tảng — nâng trần tốc độ đầu gậy của hệ thần kinh.'},
+ 'kDRyQioVWI4':{n:'Overspeed Protocol Level 2',du:'3 buổi/tuần · ~15 phút/buổi (GĐ4/7)',eff:'Overspeed nâng cao có bước đà — vắt kiệt tốc độ ở giai đoạn peak.'},
+ 'PLDf7l5SEbgoNHf2DOAP6JkDqb6-NGtzCx':{n:'SuperSpeed — playlist đầy đủ',du:'Theo protocol của tuần hiện tại',eff:'Tổng hợp mọi level của hệ thống overspeed để tra cứu khi cần.'}
+};
+var VM={el:document.getElementById('vm'),frame:document.getElementById('vm-frame'),
+  title:document.getElementById('vm-title'),cap:document.getElementById('vm-cap')};
+function ytKey(href){
+  var m=/[?&]v=([\w-]{6,})/.exec(href);
+  if(!m) m=/youtu\.be\/([\w-]{6,})/.exec(href);
+  if(m) return {id:m[1],src:'https://www.youtube-nocookie.com/embed/'+m[1]+'?autoplay=1&rel=0'};
+  m=/[?&]list=([\w-]+)/.exec(href);
+  if(m) return {id:m[1],src:'https://www.youtube-nocookie.com/embed/videoseries?list='+m[1]};
+  return null;
+}
+function openVideo(href,label){
+  var k=ytKey(href); if(!k) return false;
+  var v=VIDINFO[k.id]||{};
+  var name=v.n||label||'Video hướng dẫn';
+  VM.title.textContent=name;
+  VM.frame.innerHTML='<iframe src="'+k.src+'" title="'+esc(name)+
+    '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+  VM.cap.innerHTML=
+    '<div class="vm-row"><span class="ic">🏌️</span><div><b>Động tác:</b> '+esc(name)+'</div></div>'+
+    (v.du?'<div class="vm-row"><span class="ic">⏱</span><div><b>Tập trong:</b> '+esc(v.du)+'</div></div>':'')+
+    (v.eff?'<div class="vm-row"><span class="ic">🎯</span><div><b>Hiệu quả:</b> '+esc(v.eff)+'</div></div>':'')+
+    '<a class="vm-ext" href="'+href+'" target="_blank" rel="noopener">Mở trên YouTube ↗</a>';
+  VM.el.classList.add('on');document.body.classList.add('locked');
+  return true;
+}
+function closeVideo(){
+  VM.frame.innerHTML='';                /* gỡ iframe = dừng phát ngay */
+  VM.el.classList.remove('on');
+  if(!FX.el.classList.contains('on')) document.body.classList.remove('locked');
+}
+document.getElementById('vm-close').addEventListener('click',closeVideo);
+VM.el.addEventListener('click',function(e){ if(e.target===VM.el) closeVideo(); });
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&VM.el.classList.contains('on')) closeVideo();
+});
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href*="youtube.com/"],a[href*="youtu.be/"]');
+  if(!a||e.ctrlKey||e.metaKey||e.shiftKey) return;
+  if(openVideo(a.getAttribute('href'), a.textContent.replace(/^▶\s*/,'').trim())) e.preventDefault();
+});
 
 /* ===== Bật/tắt chuyển động (mặc định BẬT) ===== */
 (function(){
