@@ -220,22 +220,22 @@
   #timerbox .btn{box-shadow:0 4px 14px rgba(0,0,0,.35);background:var(--yellow);color:var(--green-deep)}
   #timerbox .btn.running{background:#C0392B;color:#fff}
 
-  /* ===== Trình phát video trong khung ===== */
-  .vm{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(7,26,19,.9)}
-  .vm.on{display:flex}
-  .vm-box{width:100%;max-width:740px;max-height:calc(100vh - 32px);overflow-y:auto;background:var(--paper);color:var(--ink);border-radius:16px}
-  .vm-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--green-deep);border-radius:16px 16px 0 0;position:sticky;top:0;z-index:2}
-  .vm-title{flex:1;font-family:'Archivo',sans-serif;font-weight:900;font-size:1rem;color:var(--white);line-height:1.25}
-  .vm-close{background:none;border:none;color:var(--paper);font-size:1.4rem;line-height:1;cursor:pointer;padding:2px 6px}
-  .vm-close:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
-  .vm-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000}
-  .vm-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .vm-cap{padding:14px 16px 16px;display:grid;gap:9px;justify-items:start}
-  .vm-row{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;line-height:1.5}
-  .vm-row .ic{flex:0 0 auto}
-  .vm-row b{color:var(--green-deep)}
-  .vm-ext{font-size:.76rem;font-weight:700;color:#5C6B62;text-decoration:none;border:1.5px solid #C9C2AC;border-radius:99px;padding:5px 12px;margin-top:2px}
-  .vm-ext:hover{background:var(--paper-dim)}
+  /* ===== Video nhúng sẵn trong trang ===== */
+  .yt{background:#fff;border:1.5px solid #DDD6C2;border-radius:12px;overflow:hidden;margin:8px 6px 2px 0;max-width:320px;text-align:left}
+  .tbl .yt{min-width:220px}
+  .yt-thumb{position:relative;display:block;width:100%;aspect-ratio:16/9;background:#0A2A1F;border:none;padding:0;cursor:pointer}
+  .yt-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .yt-thumb iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .yt-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:32px;background:rgba(192,57,43,.92);border-radius:8px;color:#fff;font-size:.85rem;display:grid;place-items:center;pointer-events:none}
+  .yt-thumb:hover .yt-play{background:#C0392B}
+  .yt-thumb:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+  .yt-cap{padding:8px 10px 9px;font-size:.7rem;line-height:1.5;color:#31473C}
+  .yt-cap .t{font-family:'Archivo',sans-serif;font-weight:800;font-size:.76rem;color:var(--green-deep)}
+  .yt-cap .r{margin-top:3px}
+  .yt-cap b{color:var(--green-deep)}
+  .yt-ext{display:inline-block;margin-top:6px;font-size:.66rem;font-weight:700;color:#5C6B62;text-decoration:none;border:1px solid #C9C2AC;border-radius:99px;padding:3px 9px}
+  .yt-ext:hover{background:var(--paper-dim)}
+  .f-vids .yt{max-width:300px;margin:0}
 
   footer{margin-top:52px;padding:24px 0 100px;border-top:1px solid var(--green-line);font-size:.73rem;color:#8FB3A3}
   footer .wrap{display:flex;flex-direction:column;gap:6px}
@@ -485,7 +485,7 @@
 <footer>
   <div class="wrap">
     <span>Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
-    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v10 · video phát ngay trong khung ứng dụng, kèm chú thích động tác · thời lượng · hiệu quả (giữ Ctrl khi bấm để mở tab YouTube). 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v10 · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
   </div>
 </footer>
 
@@ -507,18 +507,6 @@
   <div class="f-nav">
     <button type="button" id="f-prev">← Trước</button>
     <button type="button" id="f-next" class="primary">Tiếp →</button>
-  </div>
-</div>
-
-<!-- ===== TRÌNH PHÁT VIDEO TRONG KHUNG ===== -->
-<div class="vm" id="vm" role="dialog" aria-modal="true" aria-label="Trình phát video hướng dẫn">
-  <div class="vm-box">
-    <div class="vm-head">
-      <div class="vm-title" id="vm-title">Video hướng dẫn</div>
-      <button class="vm-close" id="vm-close" type="button" aria-label="Đóng video">✕</button>
-    </div>
-    <div class="vm-frame" id="vm-frame"></div>
-    <div class="vm-cap" id="vm-cap"></div>
   </div>
 </div>
 
@@ -1101,6 +1089,7 @@ function renderStep(){
     if(av){var fr=FIGS3[FIGOFF[s.id]+st.n]; if(fr) play(av, fr.map(function(x){return x.q;}), 2800);}
     FX.next.textContent=(st.n===s.ex.length-1)?'Kết thúc →':'Tiếp →';
   }
+  upgradeVideos(FX.main);   /* link video vừa render -> thẻ video nhúng sẵn */
   FX.prev.disabled=(FX.i===0);
 }
 function go(d){
@@ -1117,7 +1106,6 @@ FX.prev.addEventListener('click',function(){go(-1)});
 document.getElementById('f-close').addEventListener('click',closeFocus);
 document.addEventListener('keydown',function(e){
   if(!FX.el.classList.contains('on'))return;
-  if(document.getElementById('vm').classList.contains('on'))return; /* video đang mở: phím thuộc về trình phát */
   if(e.key==='Escape')closeFocus();
   if(e.key==='ArrowRight')go(1);
   if(e.key==='ArrowLeft')go(-1);
@@ -1285,10 +1273,10 @@ function makeTimer(btn,sec){
 makeTimer(document.getElementById('t60'),60);
 makeTimer(document.getElementById('t90'),90);
 
-/* ===== TRÌNH PHÁT VIDEO TRONG KHUNG =====
-   Bấm nút video ở bất kỳ đâu -> video YouTube phát ngay trong ứng dụng,
-   kèm chú thích: động tác gì, tập trong bao lâu, hiệu quả mang lại.
-   Giữ Ctrl/Cmd khi bấm nếu vẫn muốn mở tab YouTube như cũ. */
+/* ===== VIDEO NHÚNG SẴN TRONG TRANG =====
+   Mọi link video được đổi thành thẻ hiển thị sẵn: khung hình + chú thích
+   động tác · tập trong bao lâu · hiệu quả. Bấm vào khung là phát tại chỗ
+   (trình duyệt chặn tự phát hàng loạt nên vẫn cần một chạm để có tiếng). */
 var VIDINFO={
  /* Buổi A · Thân dưới & hông */
  'k_EhLGvM8TQ':{n:'Goblet Squat',du:'3 × 8 · nghỉ 90s · ~7 phút',eff:'Học mẫu squat chuẩn, xây lực đạp đất từ chân–hông — nguồn gốc của mọi mph.'},
@@ -1326,46 +1314,47 @@ var VIDINFO={
  'kDRyQioVWI4':{n:'Overspeed Protocol Level 2',du:'3 buổi/tuần · ~15 phút/buổi (GĐ4/7)',eff:'Overspeed nâng cao có bước đà — vắt kiệt tốc độ ở giai đoạn peak.'},
  'PLDf7l5SEbgoNHf2DOAP6JkDqb6-NGtzCx':{n:'SuperSpeed — playlist đầy đủ',du:'Theo protocol của tuần hiện tại',eff:'Tổng hợp mọi level của hệ thống overspeed để tra cứu khi cần.'}
 };
-var VM={el:document.getElementById('vm'),frame:document.getElementById('vm-frame'),
-  title:document.getElementById('vm-title'),cap:document.getElementById('vm-cap')};
 function ytKey(href){
   var m=/[?&]v=([\w-]{6,})/.exec(href);
   if(!m) m=/youtu\.be\/([\w-]{6,})/.exec(href);
-  if(m) return {id:m[1],src:'https://www.youtube-nocookie.com/embed/'+m[1]+'?autoplay=1&rel=0'};
+  if(m) return {id:m[1],src:'https://www.youtube-nocookie.com/embed/'+m[1]+'?autoplay=1&rel=0',img:'https://i.ytimg.com/vi/'+m[1]+'/hqdefault.jpg'};
   m=/[?&]list=([\w-]+)/.exec(href);
-  if(m) return {id:m[1],src:'https://www.youtube-nocookie.com/embed/videoseries?list='+m[1]};
+  if(m) return {id:m[1],src:'https://www.youtube-nocookie.com/embed/videoseries?list='+m[1],img:''};
   return null;
 }
-function openVideo(href,label){
-  var k=ytKey(href); if(!k) return false;
+function ytCard(href,label){
+  var k=ytKey(href); if(!k) return null;
   var v=VIDINFO[k.id]||{};
   var name=v.n||label||'Video hướng dẫn';
-  VM.title.textContent=name;
-  VM.frame.innerHTML='<iframe src="'+k.src+'" title="'+esc(name)+
-    '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-  VM.cap.innerHTML=
-    '<div class="vm-row"><span class="ic">🏌️</span><div><b>Động tác:</b> '+esc(name)+'</div></div>'+
-    (v.du?'<div class="vm-row"><span class="ic">⏱</span><div><b>Tập trong:</b> '+esc(v.du)+'</div></div>':'')+
-    (v.eff?'<div class="vm-row"><span class="ic">🎯</span><div><b>Hiệu quả:</b> '+esc(v.eff)+'</div></div>':'')+
-    '<a class="vm-ext" href="'+href+'" target="_blank" rel="noopener">Mở trên YouTube ↗</a>';
-  VM.el.classList.add('on');document.body.classList.add('locked');
-  return true;
+  return '<div class="yt">'+
+    '<button class="yt-thumb" type="button" data-src="'+k.src+'" data-img="'+k.img+'" aria-label="Phát video: '+esc(name)+'">'+
+      (k.img?'<img loading="lazy" src="'+k.img+'" alt="">':'')+'<span class="yt-play">▶</span></button>'+
+    '<div class="yt-cap"><div class="t">🏌️ '+esc(name)+'</div>'+
+    (v.du?'<div class="r">⏱ <b>Tập trong:</b> '+esc(v.du)+'</div>':'')+
+    (v.eff?'<div class="r">🎯 <b>Hiệu quả:</b> '+esc(v.eff)+'</div>':'')+
+    '<a class="yt-ext" href="'+href+'" target="_blank" rel="noopener">Mở trên YouTube ↗</a></div></div>';
 }
-function closeVideo(){
-  VM.frame.innerHTML='';                /* gỡ iframe = dừng phát ngay */
-  VM.el.classList.remove('on');
-  if(!FX.el.classList.contains('on')) document.body.classList.remove('locked');
+/* Đổi mọi link YouTube trong vùng cho trước thành thẻ video nhúng sẵn */
+function upgradeVideos(root){
+  [].slice.call((root||document).querySelectorAll('a[href*="youtube.com/"],a[href*="youtu.be/"]')).forEach(function(a){
+    if(a.classList.contains('yt-ext')) return;   /* link "Mở trên YouTube" giữ nguyên */
+    var html=ytCard(a.getAttribute('href'), a.textContent.replace(/^▶\s*/,'').trim());
+    if(!html) return;
+    var w=document.createElement('div'); w.innerHTML=html;
+    a.parentNode.replaceChild(w.firstChild, a);
+  });
 }
-document.getElementById('vm-close').addEventListener('click',closeVideo);
-VM.el.addEventListener('click',function(e){ if(e.target===VM.el) closeVideo(); });
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'&&VM.el.classList.contains('on')) closeVideo();
-});
+/* Bấm khung hình -> phát tại chỗ; video đang phát ở thẻ khác thì trả về khung hình */
 document.addEventListener('click',function(e){
-  var a=e.target.closest('a[href*="youtube.com/"],a[href*="youtu.be/"]');
-  if(!a||e.ctrlKey||e.metaKey||e.shiftKey) return;
-  if(openVideo(a.getAttribute('href'), a.textContent.replace(/^▶\s*/,'').trim())) e.preventDefault();
+  var b=e.target.closest('.yt-thumb'); if(!b||b.dataset.on) return;
+  [].slice.call(document.querySelectorAll('.yt-thumb[data-on]')).forEach(function(o){
+    delete o.dataset.on;
+    o.innerHTML=(o.dataset.img?'<img loading="lazy" src="'+o.dataset.img+'" alt="">':'')+'<span class="yt-play">▶</span>';
+  });
+  b.dataset.on='1';
+  b.innerHTML='<iframe src="'+b.dataset.src+'" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 });
+upgradeVideos(document);
 
 /* ===== Bật/tắt chuyển động (mặc định BẬT) ===== */
 (function(){
