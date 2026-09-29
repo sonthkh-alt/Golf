@@ -304,7 +304,9 @@
   .yt-ext:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
   /* ô bảng chứa video: căn giữa, đủ rộng cho thẻ */
   .tbl td.vcell{width:380px;text-align:center;background:rgba(233,228,212,.45);padding:12px 18px 16px}
-  .tbl td.vcell .yt:first-child{margin-top:2px}
+  .yt-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+  .yt-row .yt{flex:1 1 250px;margin:0}
+  .tbl td.vcell .yt-row{margin-top:2px}
   .tbl td.vcell .vbtn{margin:12px 4px 2px}
   .chg-t .yt{margin-left:auto;margin-right:auto}
   .f-vids .yt{max-width:340px;margin:0 auto}
@@ -320,6 +322,31 @@
     .tbl.tbl-vid td:nth-child(2){grid-column:2;align-self:center}
     .tbl.tbl-vid td.vcell{grid-column:1/-1;width:auto;background:none;padding:2px 0 0}
     .tbl.tbl-vid td.vcell .yt{max-width:420px}
+    .tbl.tbl-vid td:nth-child(n+3):not(.vcell){grid-column:1/-1;margin-top:8px;text-align:center}
+  }
+  /* màn hình rộng: khung nội dung rộng hơn, video của ngày đặt cạnh nhau */
+  @media(min-width:1280px){
+    .wrap{max-width:1120px}
+    .tbl td.vcell{width:56%}
+  }
+  @media(min-width:1700px){.wrap{max-width:1240px}}
+  /* điện thoại: bảng lộ trình 12 tháng thành từng thẻ tháng */
+  @media(max-width:700px){
+    #road-tbl,#road-tbl tbody{display:block;width:100%}
+    #road-tbl tr:first-child{display:none}
+    #road-tbl tr{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px 10px;padding:12px 12px;border-top:1px solid #DDD6C2}
+    #road-tbl tr:nth-child(2){border-top:none}
+    #road-tbl td{display:block;border:none;padding:0}
+    #road-tbl td.c0{grid-column:1;grid-row:1;background:var(--green-mid);color:var(--paper);border-radius:8px;padding:4px 9px;font-size:.74rem;text-align:center}
+    #road-tbl td.c0::before{content:"Tháng ";font-weight:700}
+    #road-tbl td.c1{grid-column:2;grid-row:1;font-family:'Archivo',sans-serif;font-weight:800;color:var(--green-deep)}
+    #road-tbl td.c4{grid-column:3;grid-row:1;text-align:right;font-family:'Archivo',sans-serif;font-weight:800;color:var(--green-deep);border-radius:8px;padding:3px 8px;background:var(--paper-dim);max-width:150px}
+    #road-tbl td.c4::before{content:"mph ";font-size:.62rem;color:#7A8780;letter-spacing:.04em}
+    #road-tbl td.c4.hl{background:rgba(242,194,48,.35)}
+    #road-tbl td.c2,#road-tbl td.c3{grid-column:1/-1;font-size:.8rem;line-height:1.45}
+    #road-tbl td.c2::before,#road-tbl td.c3::before{content:attr(data-l);display:block;font:800 .6rem/1.3 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#7A8780}
+    #road-tbl tr.cont{padding-top:8px;padding-bottom:8px;background:rgba(233,228,212,.35)}
+    #road-tbl tr.cont td.c4{grid-column:3}
   }
 
   /* ===== HỒ SƠ NGƯỜI TẬP ===== */
@@ -3039,9 +3066,28 @@ function upgradeVideos(root){
   });
   /* ô bảng chứa video -> căn giữa; bảng có video -> xếp khối trên điện thoại */
   [].slice.call((root||document).querySelectorAll('.tbl td')).forEach(function(td){
-    if(td.querySelector('.yt')){ td.classList.add('vcell'); td.closest('table').classList.add('tbl-vid'); }
+    if(!td.querySelector('.yt')) return;
+    td.classList.add('vcell'); td.closest('table').classList.add('tbl-vid');
+    if(td.querySelector('.yt-row')) return;
+    var row=document.createElement('div'); row.className='yt-row';
+    var ys=td.querySelectorAll(':scope > .yt'); td.insertBefore(row, ys[0]);
+    [].forEach.call(ys,function(y){ row.appendChild(y); });
   });
 }
+/* gắn lớp c0..cN theo cột thật (có tính rowspan) để bảng dàn lại thành thẻ trên điện thoại */
+function tagCols(tbl){
+  if(!tbl) return; var rows=tbl.querySelectorAll('tr'), hold=[], heads=[].map.call(rows[0].children,function(th){return th.textContent.trim();});
+  [].forEach.call(rows,function(tr,r){ if(r===0) return; var c=0, first=true;
+    [].forEach.call(tr.children,function(td){
+      while(hold[c]>0){ hold[c]--; c++; first=false; }
+      td.classList.add('c'+c); td.setAttribute('data-l',heads[c]||'');
+      var rs=+td.getAttribute('rowspan')||1; if(rs>1) hold[c]=rs-1; c++;
+    });
+    for(var k=c;k<hold.length;k++) if(hold[k]>0){ hold[k]--; }
+    if(tr.children.length<heads.length) tr.classList.add('cont');
+  });
+}
+tagCols(document.getElementById('road-tbl'));
 /* Bấm khung hình -> phát tại chỗ; video đang phát ở thẻ khác thì trả về khung hình */
 document.addEventListener('click',function(e){
   var b=e.target.closest('.yt-thumb'); if(!b||b.dataset.on) return;
