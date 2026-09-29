@@ -460,6 +460,7 @@
   .mc-badge{display:inline-block;font-size:.62rem;font-weight:800;background:rgba(242,194,48,.18);color:var(--yellow-soft);border:1px solid var(--green-line);border-radius:99px;padding:2px 8px;margin-top:3px}
   .mc-badge button,.mc-x{background:none;border:none;color:inherit;cursor:pointer;font-size:inherit;font-weight:800;padding:0 2px}
   .mc-x{color:#8FB3A3;text-transform:none;letter-spacing:0;margin-left:6px}
+  .mc-src{cursor:help;color:#8FB3A3;margin-left:4px}
   .va-act .btn{background:var(--green-mid)} .va-act .btn.y{background:var(--yellow);color:var(--green-deep)}
   .va-card .tbl-note{padding-bottom:16px}
 
@@ -774,7 +775,7 @@
 <footer>
   <div class="wrap">
     <span id="foot-who">Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
-    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · chuyển động thật từ video (retarget khớp 3D MediaPipe lên hình, xoay góc nhìn, lưu theo bài) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · chuyển động thật từ video (retarget khớp 3D MediaPipe lên hình, xoay góc nhìn, lưu theo bài) · 13 bài có sẵn chuyển động thật từ video giấy phép mở (motion.js) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
   </div>
 </footer>
 
@@ -819,7 +820,22 @@
   </div>
 </div>
 
+<script src="motion.js"></script>
 <script>
+if(typeof MOTION==='undefined') var MOTION={};
+if(typeof MOTION_SRC==='undefined') var MOTION_SRC={};
+/* clip đóng gói: khoá tham chiếu tới nguồn dùng chung, lật gương lúc dựng (cache) */
+var MOTION_CACHE={};
+function motionClip(key){
+  var m=MOTION[key]; if(!m) return null;
+  if(MOTION_CACHE[key]) return MOTION_CACHE[key];
+  var s=MOTION_SRC[m.ref]; if(!s) return null;
+  var c={d:'',dur:s.dur,org0:s.org0.slice(),view:m.view,club:m.club,gear:m.gear,gearHand:m.gearHand,hold:m.hold,src:m.src,f:s.f};
+  if(m.mirror) c.f=s.f.map(function(f){return {t:f.t,o:[-f.o[0],f.o[1]],p:f.p.map(function(q){return [-q[0],q[1],q[2]];})};});
+  MOTION_CACHE[key]=c; return c;
+}
+/* clip cho một khoá: clip của người dùng > clip đóng gói sẵn > không có */
+function clipFor(key){return (ME&&ME.clips&&ME.clips[key])||motionClip(key);}
 /* ===== Tabs (uỷ quyền sự kiện — panel có thể render động) ===== */
 document.addEventListener('click',function(e){
   var t=e.target.closest('.tab');if(!t)return;
@@ -2300,6 +2316,7 @@ function partsFromJ(J){
   });
   if(J.club) P.push({k:'club3',a:J.club.a,b:J.club.b});
   P.push({k:'head',p:J.head,r:HEAD_R,up:J.hup,fwd:J.fwd});
+  if(J.gearHand) hands.reverse();
   return {P:P,hands:hands,feet:feet,pel:pel};
 }
 /* chuỗi khung mocap → clip lưu được: {d, dur, view, club, org0, f:[{t,p,o}]} */
@@ -2331,11 +2348,12 @@ function mocapPose(clip,t,view){
   var A=F[i], B=F[Math.min(n-1,i+1)], x=(B.t>A.t)?Math.max(0,Math.min(1,(t-A.t)/(B.t-A.t))):0;
   var pts=A.p.map(function(p,k){var q=B.p[k];return [p[0]+(q[0]-p[0])*x,p[1]+(q[1]-p[1])*x,p[2]+(q[2]-p[2])*x];});
   var o=[A.o[0]+(B.o[0]-A.o[0])*x, A.o[1]+(B.o[1]-A.o[1])*x];
-  return {view:view==null?(clip.view||0):view, org:[clip.org0[0]+o[0], clip.org0[1]+o[1]], J:mocapDecode(pts,clip.club)};
+  var J=mocapDecode(pts,clip.club); J.gearHand=clip.gearHand||0;
+  return {view:view==null?(clip.view||0):view, org:[clip.org0[0]+o[0], clip.org0[1]+o[1]], J:J, gear:clip.gear||null};
 }
 function playClip(el,clip,tag,view){
   el.innerHTML=bodyF(mocapPose(clip,0,view));
-  PLAYERS.push({el:el,clip:clip,view:view,dur:clip.dur+700,t0:nowMs(),tag:tag});
+  PLAYERS.push({el:el,clip:clip,view:view,dur:clip.dur+(clip.hold==null?700:clip.hold),t0:nowMs(),tag:tag});
   if(ANIM_ON&&!RAF) RAF=requestAnimationFrame(tick);
 }
 
@@ -2628,8 +2646,8 @@ if(PLAN&&PLAN.lefty){
       '<div class="dc">'+d.cues.map(function(c){return '· '+c;}).join('<br>')+'</div></div></div>';
   }).join('');
   var cards=[].slice.call(host.querySelectorAll('.drill'));
-  cards.forEach(function(c){ c.querySelector('svg').innerHTML=bodyF(byId(c.dataset.d).p[0]); });
-  function start(c){ if(c._on) return; c._on=1; var d=byId(c.dataset.d), clip=ME&&ME.clips&&ME.clips['D:'+d.id];
+  cards.forEach(function(c){ var cl=clipFor('D:'+c.dataset.d); c.querySelector('svg').innerHTML=cl?bodyF(mocapPose(cl,0,cl.view)):bodyF(byId(c.dataset.d).p[0]); });
+  function start(c){ if(c._on) return; c._on=1; var d=byId(c.dataset.d), clip=clipFor('D:'+d.id);
     if(clip) playClip(c.querySelector('svg'), clip, 'drill', clip.view); else play(c.querySelector('svg'), d.p, d.dur, 'drill', d.s); }
   function stop(c){ c._on=0; var s=c.querySelector('svg');
     for(var i=0;i<PLAYERS.length;i++){ if(PLAYERS[i].el===s){ PLAYERS.splice(i,1); break; } } }
@@ -2684,7 +2702,7 @@ function renderStep(){
         return '<div class="f-warm">'+(wm[n]?animSvg():'')+'<div class="wl">'+esc(w)+'</div></div>';
       }).join('')+'</div>'+
       '<p class="f-note">'+esc(s.goal)+'</p>';
-    FX.main.querySelectorAll('.f-warm svg').forEach(function(el,n){ if(wm[n]) play(el, wm[n].p, 1900); });
+    FX.main.querySelectorAll('.f-warm svg').forEach(function(el,n){ var c=clipFor('W:'+s.id+':'+n); if(c) playClip(el,c,undefined,c.view); else if(wm[n]) play(el, wm[n].p, 1900); });
     FX.next.textContent='Bắt đầu →';
   } else if(st.type==='end'){
     FX.meta.textContent='Buổi '+s.id+' · Hoàn thành';
@@ -2708,8 +2726,9 @@ function renderStep(){
       }).join('')+'</div>'+
       (e.rest?'<button class="f-rest" type="button" data-rest="'+e.rest+'">⏱  Nghỉ '+e.rest+'s</button>':'');
     var av=FX.main.querySelector('.f-anim svg');
-    if(av){var fi=figIdx(s.id,e,st.n), fr=FIGS3[fi], clip=ME&&ME.clips&&ME.clips['F'+fi];
-      if(clip){ playClip(av, clip, undefined, clip.view); FX.main.querySelector('.f-anim-cap').innerHTML='🎬 chuyển động thật · '+esc(clip.d)+' <button type="button" class="mc-x" data-clipdel="F'+fi+'">✕ mẫu vẽ</button>'; }
+    if(av){var fi=figIdx(s.id,e,st.n), fr=FIGS3[fi], clip=clipFor('F'+fi);
+      if(clip){ playClip(av, clip, undefined, clip.view); var mine=ME&&ME.clips&&ME.clips['F'+fi];
+        FX.main.querySelector('.f-anim-cap').innerHTML=mine?'🎬 chuyển động của bạn · '+esc(clip.d)+' <button type="button" class="mc-x" data-clipdel="F'+fi+'">✕ mẫu vẽ</button>':'🎬 chuyển động thật'+(clip.src?' <span class="mc-src" title="'+esc(clip.src)+'">ⓘ</span>':''); }
       else if(fr) play(av, fr.map(function(x){return x.q;}), 2800, undefined, FIGA[fi]);}
     FX.next.textContent=(st.n===s.ex.length-1)?'Kết thúc →':'Tiếp →';
   }
@@ -3270,10 +3289,11 @@ document.addEventListener('click',function(e){
 });
 /* thay hình vẽ tay bằng clip mocap ở thư viện swing (chế độ tập trung xử lý trong renderStep) */
 function applyClips(){
-  if(!ME||!ME.clips) return;
   document.querySelectorAll('.drill').forEach(function(c){
-    var key='D:'+c.dataset.d, clip=ME.clips[key], ds=c.querySelector('.ds'); if(!clip) return;
-    if(!ds.querySelector('.mc-badge')) ds.insertAdjacentHTML('beforeend',' <span class="mc-badge">🎬 chuyển động thật · '+esc(clip.d)+' <button type="button" data-clipdel="'+key+'" aria-label="Trả về mẫu vẽ">✕</button></span>');
+    var key='D:'+c.dataset.d, clip=clipFor(key), ds=c.querySelector('.ds'); if(!clip) return;
+    var mine=ME&&ME.clips&&ME.clips[key], old=ds.querySelector('.mc-badge'); if(old) old.remove();
+    ds.insertAdjacentHTML('beforeend',mine?' <span class="mc-badge">🎬 chuyển động của bạn · '+esc(clip.d)+' <button type="button" data-clipdel="'+key+'" aria-label="Trả về mẫu vẽ">✕</button></span>'
+      :' <span class="mc-badge" title="'+esc(clip.src||'')+'">🎬 chuyển động thật</span>');
     if(c._on){ PLAYERS=PLAYERS.filter(function(p){return p.el!==c.querySelector('svg');}); playClip(c.querySelector('svg'),clip,'drill',clip.view); }
     else c.querySelector('svg').innerHTML=bodyF(mocapPose(clip,0,clip.view));
   });
