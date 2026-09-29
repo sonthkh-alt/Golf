@@ -18,3 +18,18 @@ Tính năng: lộ trình 12 tháng chu kỳ hóa, chi tiết từng buổi theo 
 **Chuyển động thật (mocap):** từ video đã phân tích, 33 khớp 3D của MediaPipe được retarget lên hình người (giữ vóc dáng chuẩn, lấy chuyển động thật), xoay được góc nhìn, lưu làm mẫu cho bất kỳ bài swing/bài tập nào — hình động trong Giáo án và chế độ tập trung phát chuyển động của chính người tập. Gậy chỉ là ước lượng (video không nhận diện gậy).
 
 **Chuyển động thật đóng gói sẵn (`motion.js`):** 8 nguồn video có giấy phép mở (Wikimedia Commons: CC0 / CC BY / CC BY-SA / Public domain) được bắt bằng MediaPipe và retarget lên hình người, cắt đúng một rep, lặp mượt; dùng làm hình động mặc định cho Goblet Squat, KB Swing, RDL, Push-up, DB Row, 3 bài swing Buổi D, 4 bài thư viện Swing và 3 bài khởi động. Bài chưa có nguồn phù hợp (Bulgarian, Box Jump, Bridge, med ball, Pallof, Dead Bug, Side Plank, Lateral Lunge, Step Drill) vẫn dùng hình kịch bản. Clip người dùng tự quay ưu tiên hơn clip đóng gói.
+
+
+## Đồng bộ máy tính ↔ điện thoại (Supabase)
+
+Mặc định dữ liệu (hồ sơ, nhật ký mph, buổi đã tập, clip chuyển động) chỉ nằm trong trình duyệt. Mục **Hồ sơ & cây gậy → ☁ Đồng bộ** đưa dữ liệu lên Supabase để mọi thiết bị dùng chung.
+
+**Thiết lập một lần**
+1. Tạo project miễn phí tại supabase.com.
+2. SQL Editor → dán toàn bộ `supabase.sql` → Run (tạo bảng `golf_sync` khóa kín + 2 hàm `golf_pull` / `golf_push`).
+3. Project Settings → API: chép **Project URL** và **anon / publishable key**, dán vào ô trong trang, bấm *Lưu máy chủ* → *Bật đồng bộ & tạo mã*.
+4. Trên điện thoại: quét mã QR hiện trong trang (QR mang sẵn cấu hình máy chủ + mã).
+
+Muốn thiết bị mới không phải nhập máy chủ: điền `CFG_DEFAULT` ở đầu `sync.js` (anon key là khóa công khai).
+
+**Cách hoạt động** (`sync.js`): mỗi khóa `golf-*` trong localStorage mang dấu thời gian sửa; khi đồng bộ thì kéo → gộp (bản mới hơn thắng, hồ sơ gộp theo từng người, hồ sơ đã xóa không bị khôi phục) → ghi có kiểm tra phiên bản (xung đột thì tự thử lại). Tự đẩy ~1,5 giây sau mỗi thay đổi, tự kéo khi mở trang hoặc quay lại tab. Mã đồng bộ 24 ký tự ngẫu nhiên (120 bit) — ai có mã thì đọc/sửa được dữ liệu của mã đó, nên giữ như mật khẩu.

@@ -575,6 +575,7 @@
   <button class="side-x" id="side-x" type="button" aria-label="Đóng menu">✕</button>
   <div class="side-brand"><span class="logo">⛳</span><div><b>300 Yard</b><small>Giáo án 3.0 · 12 tháng</small></div></div>
   <div class="side-me" id="side-me"></div>
+  <button class="side-sync" id="side-sync" type="button"></button>
   <nav class="side-nav" id="side-nav">
     <div class="sg">Tập luyện</div>
     <a href="#homnay"><span class="ic">📅</span>Hôm nay tập gì</a>
@@ -853,6 +854,7 @@
   <h2>Hồ sơ &amp; cây gậy của bạn</h2>
   <p class="sub">Giáo án tự tính lại theo thể trạng, sức khỏe và thông số driver của từng người: tải tạ, bài thay thế, lịch tuần, mốc mph và khuyến nghị gậy.</p>
   <div id="prof-host"></div>
+  <div id="sync-host"></div>
 </section>
 
 <!-- ===== NGUYÊN TẮC ===== -->
@@ -870,7 +872,7 @@
 <footer>
   <div class="wrap">
     <span id="foot-who">Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
-    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · chuyển động thật từ video (retarget khớp 3D MediaPipe lên hình, xoay góc nhìn, lưu theo bài) · 13 bài có sẵn chuyển động thật từ video giấy phép mở (motion.js) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · chuyển động thật từ video (retarget khớp 3D MediaPipe lên hình, xoay góc nhìn, lưu theo bài) · 13 bài có sẵn chuyển động thật từ video giấy phép mở (motion.js) · đồng bộ đa thiết bị qua Supabase (sync.js) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
   </div>
 </footer>
 
@@ -915,6 +917,7 @@
   </div>
 </div>
 
+<script src="sync.js"></script>
 <script src="motion.js"></script>
 <script>
 if(typeof MOTION==='undefined') var MOTION={};
@@ -2068,6 +2071,7 @@ document.addEventListener('click',function(e){
   var b=e.target.closest('[data-ob]'); if(b){obOpen(b.dataset.ob==='edit'&&ME?'edit':'new');return}
   var d=e.target.closest('[data-prof-del]');
   if(d&&ME&&confirm('Xóa hồ sơ của '+ME.name+'? Nhật ký mph của hồ sơ này vẫn còn trên máy nhưng sẽ không hiển thị nữa.')){
+    try{var dd=JSON.parse(lsGet('golf-del-ids')||'[]');dd.push(ME.id);lsSet('golf-del-ids',JSON.stringify(dd))}catch(x){}   /* để đồng bộ không khôi phục lại */
     PROFILES=PROFILES.filter(function(x){return x.id!==ME.id}); lsSet(PKEY,JSON.stringify(PROFILES));
     lsSet(AKEY,PROFILES.length?PROFILES[0].id:''); location.reload();
   }
