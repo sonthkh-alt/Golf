@@ -382,6 +382,75 @@
   .ob-nav button:disabled{opacity:.35;cursor:default}
   .ob-skip{display:block;margin:0 auto 18px;background:none;border:none;font-size:.76rem;color:#5C6B62;text-decoration:underline;cursor:pointer}
 
+  /* ===== Phân tích chi tiết trong hồ sơ ===== */
+  .dr{background:var(--paper-dim);border-radius:12px;margin-top:10px}
+  .dr summary{cursor:pointer;padding:12px 14px;font-family:'Archivo',sans-serif;font-weight:900;font-size:.88rem;color:var(--green-deep);list-style-position:inside}
+  .dr-b{padding:0 14px 14px}
+  .dr-b .tbl{font-size:.78rem}
+  .dr-p{font-size:.8rem;line-height:1.6;color:#31473C;margin:8px 0}
+  .dr-p b{color:var(--green-deep)}
+  @media(max-width:600px){
+    .dr .tbl tr:first-child,.va-tbl tr:first-child{display:none}
+    .dr .tbl,.dr .tbl tbody,.dr .tbl tr,.dr .tbl td,.va-tbl,.va-tbl tbody,.va-tbl tr,.va-tbl td{display:block;width:100%}
+    .dr .tbl tr,.va-tbl tr{border-top:1px solid #DDD6C2;padding:9px 12px}
+    .dr .tbl tr:nth-child(2),.va-tbl tr:nth-child(2){border-top:none}
+    .dr .tbl td,.va-tbl td{border:none;padding:1px 0}
+    .dr .tbl td.m,.va-tbl td.m{white-space:normal;margin-bottom:2px}
+    .dr .tbl td:nth-child(n+3),.va-tbl td:nth-child(3){font-size:.72rem;color:#5C6B62}
+    .va-tbl td:nth-child(4){margin-top:4px}
+  }
+  .f-warms{flex-wrap:wrap}
+  .f-warm{min-width:28%}
+
+  /* ===== Phân tích video ===== */
+  .va{display:grid;gap:12px}
+  .va-in{background:var(--paper);color:var(--ink);border-radius:18px;padding:18px}
+  .va-drop{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;border:2px dashed #BDB49A;border-radius:14px;padding:22px 14px;cursor:pointer;background:#fff;transition:background .15s,border-color .15s}
+  .va-drop:hover,.va-drop.over{background:#FFF8DD;border-color:var(--yellow)}
+  .va-drop input{position:absolute;width:1px;height:1px;opacity:0}
+  .va-drop b{font-family:'Archivo',sans-serif;font-weight:900;font-size:1rem;color:var(--green-deep)}
+  .va-drop span{font-size:.74rem;color:#5C6B62}
+  .va-drop:focus-within{outline:2px solid var(--green-mid);outline-offset:2px}
+  .va-fname{font-size:.74rem;font-weight:700;color:var(--green-mid);margin-top:8px;text-align:center}
+  .va-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  @media(max-width:560px){.va-opts{grid-template-columns:1fr 1fr}}
+  .va-opts label,.va-trim label{font-size:.7rem;font-weight:700;color:#31473C;display:block}
+  .va-opts select,.va-trim input{width:100%;margin-top:4px;font-family:'Be Vietnam Pro',sans-serif;font-size:.86rem;padding:8px 10px;border:1.5px solid #CFC7B0;border-radius:9px;background:#fff;color:var(--ink)}
+  #va-video{width:100%;max-height:420px;background:#000;border-radius:12px;margin-top:12px}
+  .va-trim{display:grid;grid-template-columns:1fr auto 1fr auto;gap:8px;align-items:end;margin-top:10px}
+  .va-trim .btn{padding:9px 11px;font-size:.7rem;background:var(--green-mid)}
+  .va-trim[hidden],#va-video[hidden],.va-prog[hidden]{display:none}
+  .va-prog{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .va-prog .bar{flex:1 1 100%;height:8px;border-radius:99px;background:var(--paper-dim);overflow:hidden}
+  .va-prog .bar i{display:block;height:100%;width:0;background:var(--green-mid);transition:width .25s}
+  .va-prog span{flex:1;font-size:.76rem;font-weight:600;color:#31473C}
+  .va-prog button{font-size:.72rem;border:1px solid #C9C2AC;background:#fff;border-radius:99px;padding:5px 12px;cursor:pointer}
+  .va-tips{background:var(--green-mid);border:1px solid var(--green-line);border-radius:14px;padding:12px 16px;font-size:.8rem;color:#DCEBE3}
+  .va-tips summary{cursor:pointer;font-weight:800;color:var(--yellow-soft)}
+  .va-tips ul{margin:8px 0 0 18px;line-height:1.65}
+  .va-tips b{color:var(--white)}
+  .va-card{background:var(--paper);color:var(--ink);border-radius:18px;overflow:hidden}
+  .va-card h4{font-family:'Archivo',sans-serif;font-weight:900;font-size:.9rem;color:var(--green-deep);margin:18px 18px 8px}
+  .va-card>.tbl-scroll,.va-card>.plist,.va-card>.alert,.va-card>.dr-p,.va-card>.tbl-note{margin-left:18px;margin-right:18px}
+  .va-head{background:var(--green-deep);color:var(--paper);padding:16px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .va-title{font-family:'Archivo',sans-serif;font-weight:900;font-size:1.15rem;color:var(--white);margin-top:3px}
+  .va-meta{font-size:.7rem;color:#A9C8BA;margin-top:3px}
+  .va-score{text-align:center;background:var(--yellow);color:var(--green-deep);border-radius:14px;padding:8px 14px;flex:0 0 auto}
+  .va-score b{display:block;font-family:'Archivo',sans-serif;font-weight:900;font-size:1.6rem;line-height:1}
+  .va-score span{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+  .va-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:14px 18px 0}
+  @media(max-width:560px){.va-keys{grid-template-columns:repeat(2,1fr)}}
+  .va-keys figure{margin:0;background:#0A2A1F;border-radius:10px;overflow:hidden}
+  .va-keys img{display:block;width:100%;height:auto}
+  .va-keys figcaption{font-family:'Archivo',sans-serif;font-weight:800;font-size:.72rem;color:var(--yellow);text-align:center;padding:5px}
+  .va-legend{font-size:.68rem;color:#5C6B62;padding:6px 18px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .va-legend i{display:inline-block;width:18px;border-top:2px dashed;margin-right:4px;vertical-align:middle}
+  .va-legend i.y{border-color:#C99A0A} .va-legend i.c{border-color:#2F9FC0}
+  .va-tbl .why{font-size:.66rem;font-weight:500;color:#7A8780;font-family:'Be Vietnam Pro',sans-serif;white-space:normal}
+  .va-act{display:flex;gap:8px;flex-wrap:wrap;padding:16px 18px 6px}
+  .va-act .btn{background:var(--green-mid)} .va-act .btn.y{background:var(--yellow);color:var(--green-deep)}
+  .va-card .tbl-note{padding-bottom:16px}
+
   footer{margin-top:52px;padding:24px 0 100px;border-top:1px solid var(--green-line);font-size:.73rem;color:#8FB3A3}
   footer .wrap{display:flex;flex-direction:column;gap:6px}
 </style>
@@ -403,6 +472,7 @@
     <a href="#homnay"><span class="ic">📅</span>Hôm nay tập gì</a>
     <a href="#theluc"><span class="ic">🏋️</span>Thể lực</a>
     <a href="#swing"><span class="ic">🎯</span>Giáo án Swing</a>
+    <a href="#video"><span class="ic">🎥</span>Phân tích video</a>
     <div class="sg">Kế hoạch</div>
     <a href="#lotrinh"><span class="ic">🗺️</span>Lộ trình 12 tháng</a>
     <a href="#monitor"><span class="ic">📊</span>Số liệu mục tiêu</a>
@@ -599,6 +669,42 @@
       <tr><td class="m">4</td><td><b>RA SÂN THẬT:</b> đánh 10 drive · ghi khoảng cách trung bình + xa nhất · so số liệu sân với monitor</td><td><a class="vbtn doc" href="https://practical-golf.com/strike-is-king" target="_blank" rel="noopener">Strike is King — đọc lại trước khi ra sân</a></td></tr>
     </table></div>
     <p class="tbl-note">Con số trên sân thật cuối GĐ4 (tháng 6) và GĐ7→8 (tháng 11–12) là hai kỳ "thi học kỳ" của cả năm.</p>
+  </div>
+</section>
+
+<!-- ===== PHÂN TÍCH VIDEO ===== -->
+<section class="wrap" id="video">
+  <h2>🎥 Phân tích video swing</h2>
+  <p class="sub">Chọn video một cú swing quay bằng điện thoại. Máy nhận diện 33 điểm khớp trên từng khung hình, tách 4 pha (address → đỉnh → impact → kết thúc), đo tư thế và tempo rồi đưa ra bài sửa. <b style="color:var(--yellow-soft)">Video xử lý ngay trên máy bạn, không tải lên đâu.</b></p>
+  <div class="va">
+    <details class="va-tips"><summary>📱 Cách quay để phân tích chính xác (bấm để xem)</summary>
+      <ul>
+        <li><b>Chính diện (face-on):</b> máy đối diện ngực, vuông góc đường bóng — đo tempo, trọng tâm, đầu, hông.</li>
+        <li><b>Dọc đường bóng (down-the-line):</b> máy phía sau tay, nhìn theo hướng mục tiêu — đo tư thế, early extension, đường swing.</li>
+        <li>Máy đặt ngang hông, cách 3–4 m, <b>đứng yên</b> (kê giá/chân máy). Cả người và đầu gậy nằm trọn trong khung, người chiếm ≥ ½ chiều cao khung.</li>
+        <li>Mỗi video <b>một cú swing</b>, bắt đầu quay trước khi vào address 1–2 giây. Đủ sáng, quần áo tương phản với nền.</li>
+        <li>Video slow-motion vẫn dùng được — chọn đúng hệ số để hiển thị thời gian thật.</li>
+      </ul>
+    </details>
+    <div class="va-in">
+      <label class="va-drop" id="va-drop"><input type="file" id="va-file" accept="video/*"><b>📁 Chọn video swing</b><span>hoặc kéo thả vào đây · MP4 / MOV / WebM · tối đa 60 giây</span></label>
+      <div class="va-fname" id="va-fname"></div>
+      <div class="va-opts">
+        <label>Góc quay<select id="va-view"><option value="auto">Tự nhận diện</option><option value="fo">Chính diện</option><option value="dtl">Dọc đường bóng</option></select></label>
+        <label>Gậy<select id="va-club"><option value="driver">Driver</option><option value="iron">Gậy sắt / gỗ</option></select></label>
+        <label>Tốc độ video<select id="va-slow"><option value="1">Bình thường</option><option value="2">Slow-mo 2× (60 fps)</option><option value="4">Slow-mo 4× (120 fps)</option><option value="8">Slow-mo 8× (240 fps)</option></select></label>
+      </div>
+      <video id="va-video" playsinline muted controls preload="auto" hidden></video>
+      <div class="va-trim" id="va-trim" hidden>
+        <label>Phân tích từ giây<input type="number" id="va-t0" min="0" step="0.1" inputmode="decimal"></label>
+        <button class="btn" type="button" id="va-mark0" title="Lấy thời điểm đang dừng trên video">⏱ Lấy</button>
+        <label>đến giây<input type="number" id="va-t1" min="0" step="0.1" inputmode="decimal"></label>
+        <button class="btn" type="button" id="va-mark1" title="Lấy thời điểm đang dừng trên video">⏱ Lấy</button>
+      </div>
+      <button class="start" type="button" id="va-go" disabled>▶  PHÂN TÍCH SWING</button>
+      <div class="va-prog" id="va-prog" hidden><div class="bar"><i id="va-bar"></i></div><span id="va-st" data-phase=""></span><button type="button" id="va-cancel">Hủy</button></div>
+    </div>
+    <div id="va-res" aria-live="polite"></div>
   </div>
 </section>
 
@@ -904,6 +1010,10 @@ function tweakSessions(p,P){
   var inj=p.inj||{}, eq=p.eq, S=JSON.parse(JSON.stringify(SESSIONS));
   var FO={A:0,B:5,C:10,D:15};
   S.forEach(function(s){s.ex.forEach(function(e,n){e.fig=FO[s.id]+n; e.ld=LOADKIND[e.name]||''})});
+  var PRE=[]; if(inj.back) PRE.push('Bird dog ×6/bên','McGill curl-up ×5'); if(inj.knee) PRE.push('Band walk ngang ×10/bên');
+  if(inj.shoulder) PRE.push('Band pull-apart ×15'); if(inj.elbow) PRE.push('Gập cổ tay eccentric ×15');
+  if(PRE.length){S.forEach(function(s){s.warm=s.warm.concat(PRE.map(function(x){return '🛡 '+x}))});
+    P.notes.push('Khởi động mọi buổi thêm bài phòng chấn thương: <b>'+PRE.join(', ')+'</b>.')}
   function get(sid){return S.filter(function(x){return x.id===sid})[0]}
   function swap(sid,name,o,why){
     var s=get(sid); if(!s) return;
@@ -1084,6 +1194,9 @@ function tweakChanges(p,P){
 /* ---------- Khối kỹ thuật riêng — chèn thẳng vào Giáo án Swing ---------- */
 function swingBlocks(p,P){
   var B=[], heel=P.lefty?'phải':'trái', lm=p.dev==='lm', spw=spinWin(P.v0);
+  var VI=[]; ['fo','dtl'].forEach(function(k){var x=p.video&&p.video[k];if(x&&x.issues) x.issues.forEach(function(i){VI.push({c:i.code,s:i.sev,d:x.d})})});
+  VI.sort(function(a,b){return b.s-a.s}).forEach(function(x){var I=ISSUES[x.c];
+    if(I&&!B.some(function(b){return b.code===x.c})) B.push({code:x.c,n:I.n+' (từ video '+x.d+')',how:I.how,dose:I.dose,chk:I.chk})});
   if(p.golf==='new') B.push({n:'Nền tảng: setup + tempo',how:'Đọc Setup checklist trước mỗi bóng, đếm nhịp 3:1, 80% lực',dose:'10 bóng',chk:'đủ 4 điểm checklist ở mọi bóng'});
   if((p.aoa!=null&&p.aoa<0)||p.miss==='low') B.push({n:'Đánh lên — attack angle dương',how:'Tee cao hơn 1 nấc, bóng ngang gót '+heel+', vai sau thấp, cột sống nghiêng về sau',dose:'10 bóng',chk:lm?'AoA ≥ 0° ở 7/10 bóng, tiến tới +3°':'tee bay về phía trước (không cắm xuống) ở 7/10 bóng'});
   if(p.miss==='slice') B.push({n:'Sửa slice — cổng 2 tee',how:'Cắm 2 tee tạo cổng phía trước bóng, hơi chếch ra ngoài đường mục tiêu; swing từ trong ra đi qua cổng, mặt gậy khép nhẹ',dose:'10 bóng',chk:lm?'face-to-path −2° → +2°, bóng cong < 15 yd':'7/10 bóng không cong ra ngoài'});
@@ -1112,8 +1225,8 @@ function clubRows(p,P){
   var lo=loftFor(v0), l1=loftFor(v1); if(p.miss==='slice'){lo=[lo[0]+.5,lo[1]+.5]}
   r={k:'Loft',mine:c.loft?vn(c.loft)+'°':'—',now:rng(lo,'°'),later:rng(l1,'°')};
   if(!c.loft){r.st='na';r.why='Số in trên đầu gậy (vd 9°, 10,5°). Driver có hosel chỉnh được thì đọc vị trí trên hosel.'}
-  else if(c.loft<lo[0]){r.st=c.loft<lo[0]-1?'bad':'warn';r.why='Thấp so với tốc độ: bóng khó lên, rơi sớm — thêm 1–1,5° (xoay hosel nếu có) thường cộng ngay carry.'}
-  else if(c.loft>lo[1]){r.st='warn';r.why='Cao: bóng bổng, spin cao. Chỉ giảm loft SAU khi attack angle đã dương.'}
+  else if(c.loft<lo[0]){var dl=(lo[0]+lo[1])/2-c.loft;r.st=c.loft<lo[0]-1?'bad':'warn';r.why='Thấp so với tốc độ: bóng khó lên, rơi sớm. Tăng ~'+vn(dl.toFixed(1))+'° (xoay hosel nếu có) → launch ≈ +'+vn((dl*.8).toFixed(1))+'°, spin ≈ +'+num(Math.round(dl*200/50)*50)+' rpm.'}
+  else if(c.loft>lo[1]){var dh=c.loft-(lo[0]+lo[1])/2;r.st='warn';r.why='Cao: bóng bổng, spin cao. Giảm ~'+vn(dh.toFixed(1))+'° → launch ≈ −'+vn((dh*.8).toFixed(1))+'°, spin ≈ −'+num(Math.round(dh*200/50)*50)+' rpm — chỉ làm SAU khi attack angle đã dương.'}
   else {r.st='ok';r.why='Trong vùng tối ưu.'}
   if(p.miss==='slice') r.why+=' Loft cao hơn một chút giúp giảm độ cong của slice.';
   R.push(r);
@@ -1122,7 +1235,7 @@ function clubRows(p,P){
   r={k:'Trọng lượng shaft',mine:c.sw?(c.sw>=85?'80 g+':(c.sw-5)+'–'+(c.sw+4)+' g'):'—',now:sw[0]+'–'+sw[1]+' g',later:sw1[0]+'–'+sw1[1]+' g'};
   if(!c.sw){r.st='na';r.why='Thường in trên shaft (vd "6S" = 60 g, Stiff).'}
   else if(c.sw+4<sw[0]){r.st='warn';r.why='Nhẹ hơn khuyến nghị: tốc độ có thể tăng nhưng khó kiểm soát nhịp và mặt gậy.'}
-  else if(c.sw-5>sw[1]){r.st='warn';r.why='Nặng hơn khuyến nghị: tốn sức, giảm tốc độ đầu gậy — shaft nhẹ hơn 10 g ≈ +1–2 mph.'}
+  else if(c.sw-5>sw[1]){var dg=c.sw-(sw[0]+sw[1])/2;r.st='warn';r.why='Nặng hơn khuyến nghị: tốn sức, giảm tốc độ đầu gậy. Shaft nhẹ hơn ~'+Math.round(dg)+' g ≈ +'+vn((dg*.15).toFixed(1))+' mph club speed (≈ +'+Math.round(dg*.15*P.k0)+' yd).'}
   else {r.st='ok';r.why='Phù hợp.'}
   R.push(r);
   /* Chiều dài */
@@ -1130,7 +1243,7 @@ function clubRows(p,P){
   if(shaky) ln=[ln[0]-.5,ln[1]-.5];
   r={k:'Chiều dài gậy',mine:c.len?vn(c.len)+'"':'—',now:rng(ln,'"'),later:rng(ln,'"')};
   if(!c.len){r.st='na';r.why='Đa số driver bán sẵn dài 45,5–46". Đo từ gót đầu gậy tới đầu cán khi gậy đặt ở tư thế address.'}
-  else if(c.len>ln[1]+.25){r.st='warn';r.why='Dài hơn khuyến nghị: +1" ≈ +1–1,5 mph nhưng strike lệch tâm nhiều hơn — với bạn smash quan trọng hơn chiều dài.'}
+  else if(c.len>ln[1]+.25){r.st='warn';r.why='Dài hơn khuyến nghị '+vn((c.len-ln[1]).toFixed(2))+'": mỗi 1" ≈ +1–1,5 mph nhưng strike lệch tâm nhiều hơn — lệch tâm 1 cm mất ~3–5% ball speed, lớn hơn phần tốc độ được thêm.'}
   else if(c.len<ln[0]-.5){r.st='warn';r.why='Ngắn: dễ kiểm soát nhưng mất bán kính swing — có thể nối dài 0,5".'}
   else {r.st='ok';r.why='Cân bằng giữa tốc độ và độ chuẩn.'}
   if(shaky) r.why+=' Strike đang chưa ổn định nên khuyến nghị đã giảm 0,5".';
@@ -1164,6 +1277,8 @@ function clubRows(p,P){
 /* ---------- Ưu tiên swing cá nhân ---------- */
 function swingPriorities(p,P){
   var L=[], heel=P.lefty?'phải':'trái', lw=launchWin(P.v0), spw=spinWin(P.v0);
+  ['fo','dtl'].forEach(function(k){var x=p.video&&p.video[k];if(x&&x.issues) x.issues.slice(0,2).forEach(function(i){var I=ISSUES[i.code];
+    if(I) L.push('<b>Video '+x.d+' ('+(k==='fo'?'chính diện':'dọc đường bóng')+'): '+I.t+'</b> — '+i.val+'. '+I.n+': '+I.how+'.')})});
   var aoaYd=yd5(P.v0*.3);
   if(p.golf==='new') L.push('<b>Nền tảng trước tốc độ.</b> Mới chơi golf: 4 tuần đầu dành 70% buổi Swing cho Setup checklist + Tempo 3:1. Tốc độ chỉ có giá trị khi bóng trúng giữa mặt gậy.');
   if(p.aoa!=null&&p.aoa<0) L.push('<b>Đưa attack angle từ '+vn(p.aoa)+'° lên +3°.</b> Bóng ngang gót '+heel+', tee cao, cột sống nghiêng về sau. Ở ~'+mph(P.v0)+' mph, AoA từ −5° lên +5° đáng giá ~'+aoaYd+' yd carry mà không cần thêm mph.');
@@ -1176,7 +1291,299 @@ function swingPriorities(p,P){
   if(p.spin!=null&&p.spin>spw[1]+200&&p.miss!=='high') L.push('<b>Spin '+num(p.spin)+' rpm là quá cao</b> cho tốc độ của bạn (tối ưu '+num(spw[0])+'–'+num(spw[1])+'). Attack angle dương + strike cao trên mặt gậy giảm spin nhanh nhất.');
   L.push('<b>Giữ nhịp khi tăng tốc.</b> Mỗi khi đạt mốc mph mới, quay lại Tempo 3:1 một tuần để hệ thần kinh "khóa" tốc độ mới với strike tốt.');
   if(P.lefty) L.push('<b>Thuận tay trái:</b> mọi chỉ dẫn trái/phải trong giáo án đã được đảo cho bạn. Hình minh họa vẽ người thuận tay phải — xem như soi gương.');
-  return L.slice(0,4);
+  return L.slice(0,5);
+}
+
+/* ---------- Thư viện lỗi swing (dùng chung cho phân tích video và giáo án) ----------
+   n/how/dose/chk = khối tập đưa thẳng vào Giáo án Swing khi người dùng bấm "Đưa vào giáo án". */
+var ISSUES={
+ tempo_fast:{t:'Nhịp lên gậy quá vội',why:'Lên gậy vội làm thân chưa kịp xoay hết và trọng tâm chưa kịp dồn; tay "giật" từ đỉnh nên mất độ trễ (lag) và strike kém.',
+   n:'Tempo 3:1 — đếm nhịp',how:'Đếm "một–hai–ba" khi lên gậy, "một" khi xuống; dùng app metronome nhịp 3:1',dose:'10 swing khan + 10 bóng',chk:'tempo 2,7–3,3 ở video lần sau'},
+ tempo_slow:{t:'Lên gậy quá chậm / dừng ở đỉnh',why:'Backswing quá chậm làm cơ mất phản xạ kéo giãn khi đổi chiều — giảm tốc độ đầu gậy.',
+   n:'Tempo liền mạch 3:1',how:'Bỏ khoảng dừng ở đỉnh, đếm đều "một–hai–ba–MỘT"',dose:'10 swing khan + 10 bóng',chk:'tempo 2,7–3,3'},
+ sway:{t:'Hông trượt ngang khi lên gậy (sway)',why:'Hông trượt xa mục tiêu thay vì xoay → mất lực xoắn, phải trượt ngược lại khi xuống gậy, điểm chạm thấp nhất không ổn định.',
+   n:'Chống sway — gậy chắn hông sau',how:'Cắm gậy thẳng đứng sát bên ngoài hông sau; lên gậy mà hông không chạm gậy — xoay trong "ống"',dose:'10 swing khan + 10 bóng',chk:'hông dịch < 0,15 thân ở đỉnh'},
+ head_sway:{t:'Đầu trôi ngang theo hông khi lên gậy',why:'Trục xoay dịch chuyển nên khó trở về đúng điểm chạm cũ — strike lệch tâm.',
+   n:'Giữ trục đầu',how:'Swing khan trước gương/bóng đổ, đầu được lùi nhẹ nhưng không trôi quá một bàn tay',dose:'10 swing khan',chk:'đầu dịch < 0,3 thân'},
+ head_fwd:{t:'Đầu lao về phía mục tiêu lúc impact',why:'Với driver đầu phải ở SAU bóng để đánh lên; đầu lao tới làm attack angle âm, spin tăng, dễ slice.',
+   n:'Đầu ở sau bóng',how:'Mắt nhìn mặt sau quả bóng, giữ đầu sau bóng đến khi bóng rời mặt gậy',dose:'10 bóng',chk:'đầu không vượt vị trí address lúc impact'},
+ head_dip:{t:'Hạ người (đầu tụt) lúc impact',why:'Đáy cung swing thay đổi → đánh đất hoặc top, mất smash.',
+   n:'Giữ độ cao qua bóng',how:'Giữ khoảng cách đầu–bóng, đạp chân trước để "đứng lên" qua bóng thay vì ngồi xuống',dose:'10 bóng',chk:'đầu hạ < 0,15 thân'},
+ hang_back:{t:'Trọng tâm còn ở chân sau lúc impact',why:'Đáy cung swing lùi ra sau bóng → top/đánh đất, và không dùng được lực đạp đất — mất tốc độ.',
+   n:'Step Drill — dồn chân trước',how:'Bước chân trước về đích rồi mới xuống gậy; kết thúc với ~90% trọng lượng trên chân trước',dose:'5 khan + 10 bóng',chk:'hông dồn ≥ 0,1 thân về mục tiêu lúc impact'},
+ slide:{t:'Hông trượt quá nhiều về phía mục tiêu',why:'Hông trượt thay vì xoay khiến thân "đuổi theo", mặt gậy mở → đẩy/slice.',
+   n:'Dịch nhẹ rồi xoay',how:'Dịch hông một chút rồi xoay quanh chân trước như cánh cửa; gậy cắm ngoài hông trước làm mốc',dose:'10 swing khan + 10 bóng',chk:'hông dồn 0,1–0,45 thân'},
+ short_turn:{t:'Vai xoay chưa đủ',why:'Cung swing ngắn = ít quãng để tăng tốc; cơ thể phải bù bằng tay.',
+   n:'Mở biên độ xoay vai',how:'Open Book 2×8 trước buổi; swing khan với gậy ngang vai tới khi lưng quay về mục tiêu',dose:'Open Book 2×8 + 10 swing khan',chk:'vai xoay tăng ở video lần sau'},
+ bent_arm:{t:'Tay trước gập nhiều ở đỉnh',why:'Bán kính swing thay đổi nên cung swing ngắn và strike không ổn định.',
+   n:'Tay trước duỗi — bán kính rộng',how:'Lên gậy 3/4 với tay trước duỗi, cảm giác đẩy đầu gậy ra xa trong takeaway',dose:'10 swing 3/4 + 10 bóng',chk:'khuỷu tay trước ≥ 150°'},
+ tilt_low:{t:'Cột sống chưa nghiêng về sau (driver)',why:'Thiếu độ nghiêng về sau làm cung swing đi xuống → attack angle âm, spin cao, mất carry.',
+   n:'Setup nghiêng cột sống',how:'Bóng ngang gót chân trước, vai sau thấp hơn — cột sống nghiêng 5–15° ra xa mục tiêu',dose:'đọc checklist trước mỗi bóng',chk:'độ nghiêng 5–15° trên video'},
+ tilt_high:{t:'Nghiêng về sau quá nhiều ở setup',why:'Nghiêng quá mức dễ kẹt trọng tâm ở chân sau → top bóng hoặc hook.',
+   n:'Setup trung tính hơn',how:'Giảm độ nghiêng về 8–12°, trọng lượng 55/45 nghiêng nhẹ về chân sau',dose:'đọc checklist trước mỗi bóng',chk:'độ nghiêng 5–15°'},
+ finish:{t:'Kết thúc chưa dồn hết lên chân trước',why:'Kết thúc còn ở chân sau là dấu hiệu trình tự chuyển động chưa đúng — lực chưa đi hết qua bóng.',
+   n:'Kết thúc cân bằng 3 giây',how:'Mỗi cú giữ tư thế kết thúc 3 giây: hông hướng mục tiêu, gót sau nhấc, trọng lượng trên chân trước',dose:'mọi bóng trong buổi',chk:'hông nằm trên chân trước ở finish'},
+ stance_narrow:{t:'Đứng hẹp so với driver',why:'Nền hẹp khó giữ thăng bằng khi tăng tốc — cơ thể tự giảm lực.',
+   n:'Nới rộng thế đứng',how:'Mép trong gót chân rộng bằng mép ngoài vai',dose:'mọi bóng driver',chk:'bàn chân ≥ 1,1 lần độ rộng vai'},
+ stance_wide:{t:'Đứng quá rộng',why:'Nền quá rộng cản hông xoay và dồn trọng tâm.',
+   n:'Thu hẹp thế đứng',how:'Thu chân về khoảng 1,1–1,4 lần độ rộng vai',dose:'mọi bóng',chk:'bàn chân 1,1–1,6 lần độ rộng vai'},
+ short_back:{t:'Backswing ngắn',why:'Tay chưa lên tới ngang vai ở đỉnh — thiếu quãng tăng tốc.',
+   n:'Backswing đầy đủ',how:'Lên gậy tới khi tay trên vai sau, lưng quay về mục tiêu; không gập cổ tay để bù',dose:'10 swing khan',chk:'tay ở đỉnh cao hơn vai'},
+ upright:{t:'Tư thế đứng quá thẳng',why:'Gập hông ít làm tay không có chỗ đi xuống, dễ đổ gậy ra ngoài.',
+   n:'Gập hông đúng',how:'Đẩy mông ra sau tới khi tay rũ thẳng dưới vai, lưng thẳng',dose:'kiểm tra trước mỗi bóng',chk:'gập người 20–40°'},
+ hunched:{t:'Cúi gập người quá nhiều',why:'Khó xoay vai, dễ đứng dậy khi xuống gậy.',
+   n:'Nâng ngực ở setup',how:'Ngực hướng lên, gập ở hông chứ không cong lưng trên',dose:'kiểm tra trước mỗi bóng',chk:'gập người 20–40°'},
+ knee_straight:{t:'Gối gần như thẳng ở setup',why:'Thiếu độ nhún nên không có "lò xo" đạp đất.',
+   n:'Nhún gối vừa đủ',how:'Chùng gối 15–25°, trọng lượng ở giữa bàn chân',dose:'kiểm tra trước mỗi bóng',chk:'gối gập 10–35°'},
+ knee_deep:{t:'Ngồi quá sâu ở setup',why:'Gối gập nhiều làm hông khó xoay và thân dễ bật dậy.',
+   n:'Đứng cao hơn',how:'Giảm độ gập gối về 15–25°',dose:'kiểm tra trước mỗi bóng',chk:'gối gập 10–35°'},
+ early_ext:{t:'Early extension — hông lao về phía bóng',why:'Thân đứng dậy, tay bị kẹt → đẩy/hook, strike gót, mất tốc độ. Đây là lỗi phổ biến nhất ở golfer nghiệp dư (TPI).',
+   n:'Chống early extension — mông chạm ghế',how:'Đặt ghế/gậy chạm mông ở address; xuống gậy mông vẫn chạm tới impact',dose:'10 khan + 10 bóng',chk:'hông không tiến về bóng quá 0,1 thân'},
+ posture_loss:{t:'Mất góc cột sống ở đỉnh',why:'Thân nhổm lên/cúi xuống khi lên gậy làm độ cao đáy cung thay đổi.',
+   n:'Giữ góc cột sống',how:'Swing khan với gậy dọc sống lưng: đầu gậy luôn chạm lưng và mông',dose:'10 swing khan',chk:'góc cột sống đổi < 10°'},
+ ott:{t:'Xuống gậy từ ngoài vào (over-the-top)',why:'Vai/tay ném gậy ra ngoài trước → đường swing ngoài–trong: slice hoặc kéo, mất 10–20 yd.',
+   n:'Xuống gậy phía trong — pump drill',how:'Lên đỉnh, kéo tay xuống ngang hông sau 2 lần rồi mới đánh; đặt bao gậy ngoài bóng làm chướng ngại',dose:'5 pump + 10 bóng',chk:'đường tay xuống không ra ngoài đường lên'},
+ inside:{t:'Xuống gậy quá phía trong',why:'Đường swing trong–ra quá mức dễ đẩy bóng hoặc hook.',
+   n:'Đường swing trung tính',how:'Cổng 2 tee thẳng hàng mục tiêu, swing đi qua cổng; thân xoay tiếp qua impact',dose:'10 bóng',chk:'đường tay lên–xuống trùng nhau'},
+ head_rise:{t:'Đầu nhô lên lúc impact',why:'Thân đứng dậy trước impact — thường đi cùng early extension, dễ top/strike gót.',
+   n:'Giữ độ cao đầu',how:'Giữ góc cột sống tới khi bóng rời mặt gậy',dose:'10 bóng',chk:'đầu nhô < 0,12 thân'}
+};
+
+/* ---------- Phân tích chi tiết theo số liệu hồ sơ ---------- */
+function scaleF(s,kind,f){
+  if(!s||!kind) return s;
+  var st={db:2,kb:4,bb:5,mb:1}[kind], mn={db:2,kb:4,bb:20,mb:1}[kind];
+  function R(x){var v=Math.max(mn,Math.round(x*f/st)*st);return kind==='mb'?Math.min(v,6):v}
+  function N(x){return +String(x).replace(',','.')}
+  return s.replace(/(\d+(?:,\d+)?)(\s*(?:–|→)\s*)(\d+(?:,\d+)?)(\s*kg)|(\d+(?:,\d+)?)(\s*kg)/g,function(m,a,sep,b,kg,c,kg2){
+    if(a){var A=R(N(a)),B=R(N(b)); if(B<=A) B=(kind==='mb'&&A>=6)?A:A+st; return A===B?A+kg:A+sep+B+kg}
+    return R(N(c))+kg2;
+  });
+}
+function deepReport(p,P){
+  var H=[], v0=P.v0, inj=p.inj||{};
+  function sec(title,body,open){return '<details class="dr"'+(open?' open':'')+'><summary>'+title+'</summary><div class="dr-b">'+body+'</div></details>'}
+  function row(a,b,c){return '<tr><td class="m">'+a+'</td><td>'+b+'</td><td>'+(c||'')+'</td></tr>'}
+
+  /* 1. Tốc độ & cự ly */
+  var ypb=v0*1.45>130?1.8:1.6;                         /* yard carry / mph ball speed */
+  var kOpt=2.55, pot=Math.max(0,Math.round(v0*kOpt-P.car0));
+  var L=[], used=0;
+  if(P.smash0&&P.smash0<1.48){var y=Math.round(v0*(1.48-P.smash0)*ypb);L.push(['Smash '+P.smash0.toFixed(2)+' → 1.48','Ball speed mất ~'+vn((v0*(1.48-P.smash0)).toFixed(1))+' mph do strike lệch tâm',y])}
+  var aoaT=v0<85?2:3;
+  if(p.aoa!=null&&p.aoa<aoaT){var y2=Math.round((aoaT-p.aoa)*.035*v0);L.push(['Attack angle '+vn(p.aoa)+'° → +'+aoaT+'°','Mỗi 1° đánh lên ≈ +'+vn((.035*v0).toFixed(1))+' yd carry ở tốc độ của bạn',y2])}
+  var sw=spinWin(v0);
+  if(p.spin!=null&&p.spin>sw[1]){var y3=Math.round((p.spin-sw[1])/100*.018*v0);L.push(['Spin '+num(p.spin)+' → ≤ '+num(sw[1])+' rpm','Bóng "leo" rồi rơi sớm, mất lăn',y3])}
+  var lw=launchWin(v0);
+  if(p.launch!=null&&p.launch<lw[0]){var y4=Math.round((lw[0]-p.launch)*.025*v0);L.push(['Launch '+vn(p.launch)+'° → '+lw[0]+'–'+lw[1]+'°','Bóng bay thấp, rơi trước khi hết đà',y4])}
+  L.forEach(function(x){used+=x[2]});
+  var scale=used>pot&&used>0?pot/used:1;
+  var tb='<p class="dr-p">Ở <b>'+mph(v0)+' mph</b>, một cú driver tối ưu (smash 1.48, attack angle dương, launch/spin đúng cửa sổ) bay được ~<b>'+yd5(v0*kOpt)+' yd carry</b>. '+
+    'Bạn đang carry ~<b>'+P.car0+' yd</b> ('+vn(P.k0.toFixed(2))+' yd/mph so với chuẩn tối ưu 2,55) → còn khoảng <b>'+pot+' yd "miễn phí"</b> lấy được bằng kỹ thuật và fitting, chưa cần tăng mph.</p>';
+  if(L.length){
+    tb+='<div class="tbl-scroll"><table class="tbl"><tr><th>Nguồn mất cự ly</th><th>Vì sao</th><th>≈ Yard lấy lại</th></tr>'+
+      L.map(function(x){return row(x[0],x[1],'<b>+'+Math.round(x[2]*scale)+' yd</b>')}).join('')+
+      (pot-Math.round(used*scale)>5?row('Phần còn lại','Chưa đủ số liệu để tách — đo thêm launch/spin/AoA trên monitor','~'+(pot-Math.round(used*scale))+' yd'):'')+'</table></div>';
+  } else tb+='<p class="dr-p">Chưa có số liệu launch/spin/attack angle nên chưa tách được yard mất ở đâu. Một buổi đo 10 cú trên launch monitor sẽ cho biết chính xác — sau đó cập nhật hồ sơ.</p>';
+  var fromSpeed=Math.round((P.v12-v0)*P.k1);
+  tb+='<p class="dr-p">Kế hoạch 12 tháng: <b>+'+Math.round(pot*.6)+' yd</b> từ hiệu suất (tháng 1–4, lấy được ~60% phần "miễn phí") + <b>+'+fromSpeed+' yd</b> từ tốc độ (+'+mph(P.v12-v0)+' mph × '+vn(P.k1.toFixed(2))+' yd/mph) → tổng ~<b>'+P.tot12+' yd</b>.</p>';
+  var bench=[['Nam nghiệp dư trung bình',93],['LPGA Tour',94],['PGA Tour',115]];
+  tb+='<p class="dr-p">So sánh (TrackMan, club speed driver): '+bench.map(function(b){return b[0]+' '+b[1]+' mph (bạn đạt '+Math.round(v0/b[1]*100)+'%)'}).join(' · ')+'.</p>';
+  H.push(sec('📈 Tốc độ &amp; cự ly — bạn đang để mất bao nhiêu yard',tb,true));
+
+  /* 2. Cột mốc */
+  var MS=[[1,'Setup + strike, học form tạ'],[3,'Sức mạnh + kiểm soát mặt gậy'],[6,'TEST giữa năm — ra sân thật'],[9,'Công suất II · attack angle +4°'],[12,'TEST cuối năm']];
+  var mt='<div class="tbl-scroll"><table class="tbl"><tr><th>Tháng</th><th>Club speed</th><th>Carry / Tổng</th><th>Trọng tâm</th></tr>'+MS.map(function(m){
+    var v=P.months[m[0]-1], k=P.k0+(P.k1-P.k0)*Math.min(1,m[0]/6);
+    return '<tr><td class="m">'+m[0]+'</td><td>'+mph(v)+' mph</td><td>~'+yd5(v*k)+' / '+yd5(v*k*1.1)+' yd</td><td>'+m[1]+'</td></tr>'}).join('')+'</table></div>'+
+    '<p class="dr-p">Nếu 2 lần đo cuối tháng liên tiếp thấp hơn mốc > 2 mph: kéo dài giai đoạn hiện tại thêm 1 tháng thay vì tăng cường độ.</p>';
+  H.push(sec('🗓 Cột mốc kiểm tra',mt));
+
+  /* 3. Thể lực: mức tạ khởi điểm → mục tiêu */
+  var g3={none:[1.5,1.9],lt1:[1.35,1.6],y13:[1.15,1.3],gt3:[1.08,1.15]}[p.gym]||[1.3,1.5];
+  if(p.age>=50){g3=[1+(g3[0]-1)*.7,1+(g3[1]-1)*.7]}
+  var lifts=[];
+  SESSIONS.forEach(function(s){s.ex.forEach(function(e){if(e.ld&&e.ld!=='mb'&&/\d/.test(e.kg||'')&&lifts.length<5) lifts.push([s.id,e])})});
+  var st='<div class="tbl-scroll"><table class="tbl"><tr><th>Bài</th><th>Tháng 1</th><th>Tháng 3</th><th>Tháng 6</th></tr>'+
+    lifts.map(function(x){var e=x[1],k0=e.kg.split('·')[0].trim();return '<tr><td class="m">'+x[0]+' · '+esc(e.name)+'</td><td>'+esc(k0)+'</td><td>'+esc(scaleF(k0,e.ld,g3[0]))+'</td><td>'+esc(scaleF(k0,e.ld,g3[1]))+'</td></tr>'}).join('')+'</table></div>'+
+    '<p class="dr-p">Tăng tạ khi làm đủ mọi set 2 tuần liên tiếp mà rep cuối còn dư ~2 rep. '+({none:'Chưa tập tạ bao giờ: 3 tháng đầu tiến bộ nhanh nhất — ưu tiên form đúng hơn số kg.',lt1:'Mức tăng dự kiến ~2,5–5%/tuần ở 3 tháng đầu.',y13:'Đã có nền: tăng chậm hơn, tập trung tốc độ mỗi rep.',gt3:'Nền sức mạnh tốt: yard sẽ đến chủ yếu từ công suất và overspeed.'}[p.gym])+'</p>';
+  if(lifts.length) H.push(sec('🏋️ Mức tạ: khởi điểm → mục tiêu',st));
+
+  /* 4. Dinh dưỡng & phục hồi */
+  var bmr=10*p.w+6.25*p.h-5*p.age+(p.sex==='f'?-161:5);
+  var act={3:1.375,4:1.46,5:1.55}[p.days]+(p.sport&&p.sport!=='none'?.05:0);
+  var tdee=Math.round(bmr*act/10)*10, kcal, goal;
+  if(P.bmi>=25){kcal=tdee-400;goal='giảm ~0,3–0,4 kg/tuần, giữ cơ (protein cao, tập tạ đều)'}
+  else if(P.bmi>=23){kcal=tdee-200;goal='giảm mỡ chậm, giữ nguyên sức mạnh'}
+  else if(P.bmi<18.5){kcal=tdee+300;goal='tăng ~0,25 kg/tuần — thêm khối cơ giúp tăng tốc độ'}
+  else {kcal=tdee;goal='giữ cân, +150 kcal ngày tập nặng'}
+  var pr=[Math.round(p.w*1.6),Math.round(p.w*2)], carb=[Math.round(p.w*3),Math.round(p.w*5)];
+  var nt='<div class="tbl-scroll"><table class="tbl"><tr><th>Chỉ số</th><th>Của bạn</th><th>Ghi chú</th></tr>'+
+    row('BMI (chuẩn châu Á)',vn(P.bmi.toFixed(1))+' · '+P.bmiCat,'18,5–22,9 là bình thường')+
+    row('Năng lượng nền (BMR)',num(Math.round(bmr))+' kcal','Mifflin–St Jeor')+
+    row('Tiêu hao/ngày (TDEE)',num(tdee)+' kcal',p.days+' buổi/tuần'+(p.sport&&p.sport!=='none'?' + môn phụ':''))+
+    row('Mục tiêu năng lượng','<b>'+num(Math.round(kcal/50)*50)+' kcal/ngày</b>',goal)+
+    row('Protein','<b>'+pr[0]+'–'+pr[1]+' g/ngày</b>','~'+Math.round(pr[0]/4)+' g × 4 bữa — thịt, cá, trứng, sữa, đậu')+
+    row('Carb ngày tập','<b>'+carb[0]+'–'+carb[1]+' g</b>','ăn 2–3 giờ trước buổi tập')+
+    row('Nước',P.water+' + 0,5–0,75 L mỗi buổi tập','nước tiểu vàng nhạt là đủ')+
+    row('Ngủ',(p.age>=60?'7–8':'7–9')+' giờ','ngủ < 6 giờ làm tốc độ phản xạ giảm rõ rệt')+'</table></div>';
+  H.push(sec('🍚 Dinh dưỡng &amp; phục hồi',nt));
+
+  /* 5. Rủi ro & phòng ngừa */
+  var rk=[];
+  if(inj.back) rk.push('<b>Lưng dưới:</b> khởi động thêm Bird dog ×6/bên + McGill curl-up ×5 (đã chèn vào mọi buổi). Tránh gập–xoay lưng dưới tải; swing max chỉ khi đã khởi động 10 phút.');
+  if(inj.knee) rk.push('<b>Gối:</b> thêm Band walk ngang ×10/bên vào khởi động (đã chèn). Mọi bài squat/lunge giới hạn trong biên độ không đau; không bật nhảy.');
+  if(inj.shoulder) rk.push('<b>Vai:</b> thêm Band pull-apart ×15 + xoay ngoài với dây ×12 vào khởi động (đã chèn). Overspeed giảm còn 2×5.');
+  if(inj.elbow) rk.push('<b>Khuỷu/cổ tay:</b> thêm gập cổ tay eccentric ×15 vào khởi động (đã chèn). Grip gậy vừa đủ chặt; giảm số bóng nếu đau mặt trong khuỷu.');
+  if(inj.heart) rk.push('<b>Tim mạch:</b> không nín thở khi gắng sức, nghỉ đủ giữa set; dừng ngay nếu tức ngực, chóng mặt.');
+  if(p.age>=50) rk.push('<b>'+p.age+' tuổi:</b> phục hồi chậm hơn — giữ tối thiểu 48 giờ giữa 2 buổi tạ nặng và tuần deload đúng hạn.');
+  if(P.bmi>=27.5) rk.push('<b>Khối lượng cơ thể lớn:</b> ưu tiên bài không va chạm, khởi động cổ chân–gối kỹ.');
+  if(JUMPY[p.sport]) rk.push('<b>'+SPORTS[p.sport].replace(/^\S+\s/,'')+':</b> tuần chơi 2+ buổi thì bỏ bài bật nhảy tuần đó.');
+  if(!rk.length) rk.push('Không có yếu tố rủi ro đặc biệt. Giữ khởi động đủ 5–8 phút, không swing max khi cơ còn nguội.');
+  H.push(sec('🛡 Rủi ro &amp; phòng ngừa','<ul class="adj">'+rk.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'));
+  return H.join('');
+}
+
+/* ===== PHÂN TÍCH SWING TỪ ĐIỂM KHỚP (lõi, không phụ thuộc giao diện) =====
+   frames: [{t, l:[[x,y,vis]×33] | null}] toạ độ chuẩn hoá 0–1; W,H: kích thước video.
+   opt: {hand:'r'|'l', view:'auto'|'fo'|'dtl'}                                        */
+function swingAnalyze(frames,W,H,opt){
+  opt=opt||{};
+  var LM={nose:0,lSh:11,rSh:12,lEl:13,rEl:14,lWr:15,rWr:16,lHip:23,rHip:24,lKn:25,rKn:26,lAn:27,rAn:28};
+  function P(f,i){var p=f.l[i];return {x:p[0]*W,y:p[1]*H,v:p[2]}}
+  function mid(a,b){return {x:(a.x+b.x)/2,y:(a.y+b.y)/2}}
+  function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+  function ang3(a,b,c){var v1=[a.x-b.x,a.y-b.y],v2=[c.x-b.x,c.y-b.y];var d=(v1[0]*v2[0]+v1[1]*v2[1])/(Math.hypot(v1[0],v1[1])*Math.hypot(v2[0],v2[1])||1);return Math.acos(Math.max(-1,Math.min(1,d)))*180/Math.PI}
+  function med(a){var s=a.slice().sort(function(x,y){return x-y});return s.length?s[Math.floor(s.length/2)]:NaN}
+
+  /* 1. Chuỗi khung hợp lệ + nội suy khoảng trống ngắn */
+  var F=frames.filter(function(f){return f.l});
+  if(F.length<12) return {ok:false,err:'noperson'};
+  var rows=F.map(function(f){
+    var r={t:f.t};
+    ['nose','lSh','rSh','lEl','rEl','lWr','rWr','lHip','rHip','lKn','rKn','lAn','rAn'].forEach(function(k){r[k]=P(f,LM[k])});
+    r.sh=mid(r.lSh,r.rSh); r.hip=mid(r.lHip,r.rHip); r.hand=mid(r.lWr,r.rWr);
+    r.vis=f.l.reduce(function(s,p){return s+(p[2]||0)},0)/33;
+    return r;
+  });
+  /* làm mượt tay (trung vị 3 điểm) — tay là tín hiệu tách pha */
+  var hx=rows.map(function(r){return r.hand.x}),hy=rows.map(function(r){return r.hand.y});
+  rows.forEach(function(r,i){if(i>0&&i<rows.length-1){r.hand={x:med([hx[i-1],hx[i],hx[i+1]]),y:med([hy[i-1],hy[i],hy[i+1]])}}});
+
+  var T=med(rows.map(function(r){return dist(r.sh,r.hip)}));   /* chiều dài thân — thước đo chung */
+  var tall=med(rows.map(function(r){return Math.max(r.lAn.y,r.rAn.y)-r.nose.y}));
+  if(!(T>0)) return {ok:false,err:'noperson'};
+
+  /* 2. Tách pha theo mẫu: tay THẤP & đứng yên (address) → CAO (đỉnh) → THẤP (impact) → CAO (kết thúc).
+        Độ cao tay đo so với hông của chính khung đó nên không lệch khi người cúi / máy quay rung. */
+  var n=rows.length, i, j;
+  var rel=rows.map(function(r){return (r.hand.y-r.hip.y)/T});      /* 0 ≈ ngang hông; âm = cao hơn hông */
+  var lowRef=med(rel.slice().sort(function(a,b){return b-a}).slice(0,Math.max(3,Math.floor(n*.25))));  /* mức tay thấp điển hình */
+  var LOWT=lowRef-.35, HIGHT=lowRef-1.25;                            /* ngưỡng "thấp" và "cao" */
+  var lab=rel.map(function(y){return y>LOWT?'L':y<HIGHT?'H':'M'});
+  var cands=[];
+  for(i=0;i<n;i++){
+    if(lab[i]!=='H'||(i>0&&lab[i-1]==='H')) continue;               /* đầu một đoạn CAO */
+    var a0=-1; for(j=i-1;j>=0;j--){ if(lab[j]==='L'){a0=j;break} if(lab[j]==='H') break }
+    if(a0<0) continue;                                              /* phải đi lên từ vùng thấp */
+    var e=i; while(e+1<n&&lab[e+1]!=='L') e++;                       /* hết đoạn trước khi về thấp */
+    if(e+1>=n) continue;                                            /* không thấy tay quay về = không có impact */
+    var tp=i; for(j=i;j<=e;j++) if(rel[j]<rel[tp]) tp=j;
+    /* sau impact phải có tay lên cao lại (kết thúc) — lọc động tác vẫy gậy */
+    var f1=-1; for(j=e+1;j<n;j++){ if(lab[j]==='H'){f1=j;break} }
+    if(f1<0) continue;
+    var dsp=(rel[e+1]-rel[tp])/((rows[e+1].t-rows[tp].t)||1e-3);    /* tốc độ tay đi xuống */
+    cands.push({a0:a0,top:tp,im:e+1,f1:f1,dsp:dsp});
+  }
+  if(!cands.length) return {ok:false,err:'noswing',T:T};
+  var C=cands.reduce(function(a,b){return b.dsp>a.dsp?b:a});         /* cú có xuống gậy nhanh nhất */
+  var top=C.top;
+  /* address: đoạn tay đứng yên cuối cùng trong vùng thấp trước khi lên gậy */
+  var a1=C.a0; while(a1-1>=0&&lab[a1-1]==='L') a1--;
+  /* khung tĩnh muộn nhất: cửa sổ ±2 khung mà tay dao động < 0,06T (góc chính diện tay đi ngang khi lên gậy) */
+  var still=-1;
+  for(j=C.a0;j>=a1;j--){
+    var okS=true, win=.3*(opt.slow||1);                              /* cửa sổ theo THỜI GIAN, không theo số khung */
+    for(var k=j;k>=a1&&rows[j].t-rows[k].t<=win;k--) if(dist(rows[k].hand,rows[j].hand)>.06*T){okS=false;break}
+    for(k=j;okS&&k<top&&rows[k].t-rows[j].t<=win;k++) if(dist(rows[k].hand,rows[j].hand)>.06*T){okS=false;break}
+    if(okS){still=j;break}
+  }
+  if(still<0) still=a1;
+  var A0={x:rows[still].hand.x,y:rows[still].hand.y};
+  var ts=still; for(j=still;j<top;j++){ if(dist(rows[j].hand,A0)<=.04*T) ts=j; else break }
+  var ad=still;
+  /* impact: tay đi xuống cắt lại độ cao address (nội suy); lấy mốc tay thấp nhất nếu lấy mẫu thưa */
+  var yImp=A0.y-.05*T, im=C.im, tImp=rows[im].t;
+  for(j=top+1;j<n;j++){ if(rows[j].hand.y>=yImp){ im=j;
+      var a=rows[j-1],b=rows[j]; tImp=a.t+(b.t-a.t)*Math.max(0,Math.min(1,(yImp-a.hand.y)/((b.hand.y-a.hand.y)||1))); break }
+    if(j>C.f1) break }
+  if(rows[im].hand.y<yImp){ var lo=C.im; for(j=top+1;j<C.f1;j++) if(rows[j].hand.y>rows[lo].hand.y) lo=j; im=lo; tImp=rows[lo].t }
+  /* đỉnh = lúc tay ĐỔI CHIỀU: điểm tay đi xa nhất theo hướng lên gậy (tính từ address).
+     Ổn định hơn "tay cao nhất" vì ở đỉnh tay gần như đứng yên theo chiều cao khá lâu. */
+  var ux=rows[top].hand.x-A0.x, uy=rows[top].hand.y-A0.y, ul=Math.hypot(ux,uy)||1; ux/=ul; uy/=ul;
+  function prog(k){return (rows[k].hand.x-A0.x)*ux+(rows[k].hand.y-A0.y)*uy}
+  var tp2=top;
+  for(j=ts+1;j<im;j++) if(prog(j)>prog(tp2)) tp2=j;
+  top=tp2;
+  var tTop=rows[top].t;
+  if(top>0&&top<n-1){var y0=prog(top-1),y1=prog(top),y2=prog(top+1),den=y0-2*y1+y2;if(den<0){var off=.5*(y0-y2)/den;if(Math.abs(off)<1) tTop+=off*(rows[top+1].t-rows[top-1].t)/2}}
+  var tStart=rows[ts].t;
+  if(ts<n-1){var c=rows[ts],d=rows[ts+1],d0=dist(c.hand,A0),d1=dist(d.hand,A0);if(d1>d0) tStart=c.t+(d.t-c.t)*Math.max(0,Math.min(1,(.04*T-d0)/(d1-d0)))}
+  /* kết thúc: tay cao nhất sau impact, trong khoảng bằng 1,5 lần thời gian swing */
+  var span=tImp-tStart, fin=im;
+  for(j=im;j<n&&rows[j].t-tImp<=1.5*span;j++) if(rows[j].hand.y<rows[fin].hand.y) fin=j;
+  var back=tTop-tStart, down=tImp-tTop;
+  if(!(back>0&&down>0)) return {ok:false,err:'noswing',T:T};
+
+  var R={A:rows[ad],Tp:rows[top],I:rows[im],Fn:rows[fin]};
+  /* 3. Góc quay: tự nhận diện */
+  /* chính diện: hai bàn chân và hai vai tách xa nhau; dọc đường bóng: gần như chồng lên nhau */
+  var spread=(Math.abs(R.A.lAn.x-R.A.rAn.x)+Math.abs(R.A.lSh.x-R.A.rSh.x))/T;
+  var view=opt.view&&opt.view!=='auto'?opt.view:(spread>=.8?'fo':'dtl');
+  var lefty=opt.hand==='l';
+  var lead=lefty?{sh:'rSh',el:'rEl',wr:'rWr',hip:'rHip',kn:'rKn',an:'rAn'}:{sh:'lSh',el:'lEl',wr:'lWr',hip:'lHip',kn:'lKn',an:'lAn'};
+  var trail=lefty?{sh:'lSh',hip:'lHip',kn:'lKn',an:'lAn'}:{sh:'rSh',hip:'rHip',kn:'rKn',an:'rAn'};
+  var M={}, out={ok:true,view:view,viewAuto:!(opt.view&&opt.view!=='auto'),T:T,sizeRatio:tall/H,
+    times:{start:tStart,top:tTop,impact:tImp,finish:R.Fn.t},idx:{address:ad,top:top,impact:im,finish:fin},frames:rows,keys:R,metrics:M,
+    avgVis:rows.slice(ad,fin+1).reduce(function(s,r){return s+r.vis},0)/Math.max(1,fin-ad+1)};
+  M.tempo=back/down; M.back=back; M.down=down;
+  M.handTop=(R.A.sh.y-R.Tp.hand.y)/T;                    /* tay ở đỉnh cao hơn vai address bao nhiêu T */
+  function spineFromVertical(r){return Math.atan2(r.sh.x-r.hip.x,r.hip.y-r.sh.y)*180/Math.PI}   /* dương = vai lệch sang +x */
+
+  if(view==='fo'){
+    var tdir=Math.sign(R.A[lead.sh].x-R.A[trail.sh].x)||1;        /* hướng mục tiêu trên màn hình */
+    out.tdir=tdir;
+    var hwA=Math.abs(R.A.lHip.x-R.A.rHip.x);
+    M.headSway=(R.Tp.nose.x-R.A.nose.x)*-tdir/T;              /* + = đầu lùi xa mục tiêu ở đỉnh */
+    M.headImpact=(R.I.nose.x-R.A.nose.x)*tdir/T;              /* + = đầu lao về phía mục tiêu lúc impact */
+    M.headDrop=(R.I.nose.y-R.A.nose.y)/T;                     /* + = đầu hạ thấp */
+    M.hipSway=(R.Tp.hip.x-R.A.hip.x)*-tdir/T;                 /* + = hông trượt xa mục tiêu ở đỉnh */
+    M.hipShift=(R.I.hip.x-R.A.hip.x)*tdir/T;                  /* + = hông dồn về mục tiêu lúc impact */
+    M.shTurn=Math.acos(Math.max(0,Math.min(1,Math.abs(R.Tp.lSh.x-R.Tp.rSh.x)/Math.abs(R.A.lSh.x-R.A.rSh.x))))*180/Math.PI;
+    M.hipTurn=Math.acos(Math.max(0,Math.min(1,Math.abs(R.Tp.lHip.x-R.Tp.rHip.x)/(hwA||1))))*180/Math.PI;
+    M.xFactor=M.shTurn-M.hipTurn;
+    M.leadArm=ang3(R.Tp[lead.sh],R.Tp[lead.el],R.Tp[lead.wr]);
+    M.spineTilt=spineFromVertical(R.A)*-tdir;                 /* + = vai nghiêng xa mục tiêu (đúng với driver) */
+    M.finishOver=(R.Fn.hip.x-R.Fn[lead.an].x)*tdir/(hwA||T*.5);/* 0 = hông ngay trên chân trước; âm = còn ở phía sau */
+    M.stance=Math.abs(R.A.lAn.x-R.A.rAn.x)/Math.abs(R.A.lSh.x-R.A.rSh.x);
+  } else {
+    var bdir=Math.sign(R.A.hand.x-R.A.hip.x)||1;               /* hướng về phía bóng */
+    out.bdir=bdir;
+    function fwdBend(r){return Math.atan2((r.sh.x-r.hip.x)*bdir,r.hip.y-r.sh.y)*180/Math.PI}
+    var side=(R.A.lKn.v+R.A.lHip.v+R.A.lAn.v)>(R.A.rKn.v+R.A.rHip.v+R.A.rAn.v)?'l':'r';
+    function knee(r){return 180-ang3(r[side+'Hip'],r[side+'Kn'],r[side+'An'])}
+    M.spineAddr=fwdBend(R.A); M.spineTop=fwdBend(R.Tp); M.spineImp=fwdBend(R.I);
+    M.kneeFlex=knee(R.A);
+    M.hipToBall=(R.I.hip.x-R.A.hip.x)*bdir/T;                  /* + = hông lao về phía bóng (early extension) */
+    M.headToBall=(R.I.nose.x-R.A.nose.x)*bdir/T;
+    M.headRise=(R.A.nose.y-R.I.nose.y)/T;                      /* + = đầu nhô lên lúc impact */
+    /* đường tay: so vị trí ngang lúc lên và xuống ở cùng độ cao (giữa hông và vai) */
+    var lvl=R.A.hand.y-.9*T, xb=null, xd=null;
+    for(j=ad+1;j<=top;j++){var p0=rows[j-1].hand,p1=rows[j].hand;if(p0.y>=lvl&&p1.y<lvl){xb=p0.x+(p1.x-p0.x)*(p0.y-lvl)/((p0.y-p1.y)||1);break}}
+    for(j=top+1;j<=im;j++){p0=rows[j-1].hand;p1=rows[j].hand;if(p0.y<lvl&&p1.y>=lvl){xd=p0.x+(p1.x-p0.x)*(lvl-p0.y)/((p1.y-p0.y)||1);break}}
+    M.pathDiff=(xb!=null&&xd!=null)?(xd-xb)*bdir/T:null;         /* + = xuống gậy phía ngoài (over-the-top) */
+  }
+  return out;
 }
 
 /* ---------- Áp hồ sơ vào dữ liệu trước khi trang render ---------- */
@@ -1370,11 +1777,13 @@ function renderProfile(){
         '<div class="kpi"><div class="v">'+P.tot0+'→'+P.tot12+' <small>yd</small></div><div class="l">Cự ly tổng</div></div>'+
       '</div>'+
       P.alerts.map(function(a){return '<div class="alert'+(a[0]==='i'?' i':'')+'">'+a[1]+'</div>'}).join('')+
+      '<h4>📊 Phân tích chi tiết theo số liệu của bạn</h4>'+deepReport(p,P)+
       '<h4>🏌️ Phân tích driver'+(c.brand?' · '+esc(c.brand):'')+'</h4>'+
       '<div class="fit">'+CR.map(function(r){return '<div class="fit-i"><div class="fit-h"><span class="fit-k">'+r.k+'</span><span class="st '+r.st+'">'+STN[r.st]+'</span></div>'+
         '<div class="fit-g"><div><span>Gậy của bạn</span><b>'+r.mine+'</b></div><div class="now"><span>Nên dùng lúc này</span><b>'+r.now+'</b></div><div><span>Khi đạt đích</span><b>'+r.later+'</b></div></div>'+
         '<div class="why">'+r.why+'</div></div>'}).join('')+'</div>'+
       '<p class="tbl-note" style="color:#7A8780">Khuyến nghị theo chuẩn fitting phổ biến dựa trên tốc độ đầu gậy và chiều cao. Flex giữa các hãng không đồng nhất — trước khi mua gậy mới, hãy xác nhận bằng một buổi fitting có launch monitor.</p>'+
+      (p.video&&(p.video.fo||p.video.dtl)?'':'<div class="alert i">🎥 Chưa có phân tích video. <a href="#video" style="color:var(--green-deep);font-weight:800">Tải video swing lên</a> để ưu tiên kỹ thuật dựa trên chuyển động thật của bạn.</div>')+
       '<h4>🎯 Ưu tiên kỹ thuật — đã đưa vào Giáo án Swing</h4><ol class="plist">'+swingPriorities(p,P).map(function(x){return '<li><div>'+x+'</div></li>'}).join('')+'</ol>'+
       (P.notes.length?'<details class="adj-d"><summary>🛠 Tóm tắt '+P.notes.length+' điều chỉnh — đã áp dụng thẳng vào giáo án</summary><ul class="adj">'+P.notes.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></details>':'<p class="tbl-note" style="color:#5C6B62">Thể trạng của bạn khớp giáo án chuẩn — giữ nguyên mức tạ và bài tập.</p>')+
       '<p class="tbl-note" style="color:#7A8780;margin-top:12px">Tăng tạ khi hoàn thành đủ mọi set 2 tuần liên tiếp mà rep cuối còn dư ~2 rep. Mức tạ gợi ý là điểm bắt đầu, không phải giới hạn.</p>'+
@@ -1514,9 +1923,10 @@ function obOpen(mode){
 function obClose(){OB.el.classList.remove('on');document.body.classList.remove('locked');lsSet('golf-onb-seen','1')}
 function obSave(){
   var p=obGet();
-  if(OB.mode==='edit'&&ME){p.id=ME.id;p.legacy=ME.legacy;p.created=ME.created;
+  if(OB.mode==='edit'&&ME){p.id=ME.id;p.legacy=ME.legacy;p.created=ME.created;p.video=ME.video;
     PROFILES=PROFILES.map(function(x){return x.id===ME.id?p:x})}
-  else {p.id='p'+Date.now().toString(36);p.legacy=!PROFILES.some(function(x){return x.legacy});p.created=new Date().toISOString().slice(0,10);PROFILES.push(p)}
+  else {try{var pend=JSON.parse(lsGet('golf-va-pending')||'null');if(pend){p.video={};p.video[pend.view]=pend;localStorage.removeItem('golf-va-pending')}}catch(e){}
+    p.id='p'+Date.now().toString(36);p.legacy=!PROFILES.some(function(x){return x.legacy});p.created=new Date().toISOString().slice(0,10);PROFILES.push(p)}
   if(!lsSet(PKEY,JSON.stringify(PROFILES))){$id('ob-err').textContent='Trình duyệt đang chặn bộ nhớ — không lưu được hồ sơ (thử tắt chế độ ẩn danh).';return}
   lsSet(AKEY,p.id); lsSet('golf-onb-seen','1');
   location.hash='hoso'; location.reload();
@@ -2356,6 +2766,268 @@ upgradeVideos(document);
   var b=document.getElementById('f-play'); if(!b) return;
   b.addEventListener('click',function(){ setAnim(!ANIM_ON); stSet('golf-anim', ANIM_ON?'1':'0'); });
   stGet('golf-anim').then(function(v){ if(v==='0') setAnim(false); }).catch(function(){});
+})();
+
+/* ======================================================================
+   PHÂN TÍCH VIDEO SWING — nhận diện 33 điểm khớp (MediaPipe Pose) ngay
+   trên máy người dùng, tách 4 pha, đo tư thế + tempo, ra khuyến nghị.
+   Video KHÔNG rời khỏi thiết bị.
+   ====================================================================== */
+var VA={pl:null,loading:null,ts:0,cancel:false,busy:false,res:null,url:null};
+var MP_VER='0.10.14';
+function vaEl(i){return document.getElementById(i)}
+function vaStatus(txt,pct){vaEl('va-st').textContent=txt; if(pct!=null) vaEl('va-bar').style.width=Math.round(pct)+'%'}
+function vaLoadModel(){
+  if(VA.pl) return Promise.resolve(VA.pl);
+  if(VA.loading) return VA.loading;
+  VA.loading=import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@'+MP_VER+'/vision_bundle.mjs').then(function(m){
+    return m.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@'+MP_VER+'/wasm').then(function(fs){
+      var opt=function(dev){return {baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task',delegate:dev},
+        runningMode:'VIDEO',numPoses:1,minPoseDetectionConfidence:.3,minPosePresenceConfidence:.3,minTrackingConfidence:.3}};
+      return m.PoseLandmarker.createFromOptions(fs,opt('GPU')).catch(function(){return m.PoseLandmarker.createFromOptions(fs,opt('CPU'))});
+    });
+  }).then(function(pl){VA.pl=pl;return pl}).catch(function(e){VA.loading=null;throw e});
+  return VA.loading;
+}
+function vaSeek(v,t){return new Promise(function(res){
+  var done=false,to=setTimeout(fin,4000);
+  function fin(){if(done)return;done=true;clearTimeout(to);v.removeEventListener('seeked',fin);res()}
+  v.addEventListener('seeked',fin); v.currentTime=Math.min(Math.max(0,t),v.duration-.001);
+})}
+function vaDetect(src){VA.ts+=40;var r=VA.pl.detectForVideo(src,VA.ts);return r&&r.landmarks&&r.landmarks[0]||null}
+
+/* Quét một đoạn: box = vùng cắt quanh người (null = toàn khung) */
+async function vaScan(v,t0,t1,fps,box,p0,p1){
+  var out=[],W=v.videoWidth,H=v.videoHeight,cv=null,g=null;
+  if(box){cv=document.createElement('canvas');var S=512,m=Math.max(box.w,box.h);cv.width=Math.round(S*box.w/m);cv.height=Math.round(S*box.h/m);g=cv.getContext('2d')}
+  var n=Math.max(2,Math.round((t1-t0)*fps)),k=0;
+  for(var t=t0;t<=t1+1e-6;t+=1/fps,k++){
+    if(VA.cancel) throw new Error('cancel');
+    await vaSeek(v,t);
+    var l;
+    if(box){g.drawImage(v,box.x,box.y,box.w,box.h,0,0,cv.width,cv.height);l=vaDetect(cv);
+      if(l) l=l.map(function(p){return [(box.x+p.x*box.w)/W,(box.y+p.y*box.h)/H,p.visibility||0]})}
+    else {l=vaDetect(v); if(l) l=l.map(function(p){return [p.x,p.y,p.visibility||0]})}
+    out.push({t:+t.toFixed(4),l:l});
+    if(k%3===0) vaStatus(vaEl('va-st').dataset.phase+' '+Math.min(100,Math.round(k/n*100))+'%',p0+(p1-p0)*Math.min(1,k/n));
+  }
+  return out;
+}
+function vaBox(frames,W,H,pad){
+  var xs=[],ys=[];
+  frames.forEach(function(f){if(f.l) f.l.forEach(function(p){if(p[2]>.5){xs.push(p[0]*W);ys.push(p[1]*H)}})});
+  if(xs.length<20) return null;
+  xs.sort(function(a,b){return a-b});ys.sort(function(a,b){return a-b});
+  function q(a,f){return a[Math.floor(f*(a.length-1))]}
+  var x0=q(xs,.02),x1=q(xs,.98),y0=q(ys,.02),y1=q(ys,.98),cx=(x0+x1)/2,cy=(y0+y1)/2,side=Math.min(Math.max(W,H),Math.max(x1-x0,y1-y0)*(pad||1.9));
+  var b={x:Math.max(0,cx-side/2),y:Math.max(0,cy-side/2)};b.w=Math.min(side,W-b.x);b.h=Math.min(side,H-b.y);
+  b.personH=(y1-y0)/H; return b;
+}
+
+/* ---------- Đánh giá chỉ số → trạng thái + mã lỗi ---------- */
+function vaEval(r,club,hcm){
+  var M=r.metrics, rows=[], iss=[], drv=club==='driver', cmT=(hcm||170)*.3;
+  function cm(x){return Math.round(Math.abs(x)*cmT)+' cm'}
+  function add(k,val,ref,st,code,sev,note){rows.push({k:k,val:val,ref:ref,st:st,note:note||''});if(code&&(st==='warn'||st==='bad')) iss.push({code:code,sev:sev||(st==='bad'?2:1),k:k,val:val})}
+  function lvl(x,w,b){return x>b?'bad':x>w?'warn':'ok'}
+  var tp=M.tempo, tst=(tp<2.6||tp>3.6)?((tp<2||tp>4.5)?'bad':'warn'):'ok';
+  if(r.view==='dtl'&&tst!=='ok') tst='na';
+  var real=VA.slow>1?' · lên '+vn((M.back/VA.slow).toFixed(2))+' s, xuống '+vn((M.down/VA.slow).toFixed(2))+' s':'';
+  add('Tempo (lên : xuống)',vn(tp.toFixed(1))+' : 1'+real,'2,7–3,3 : 1',tst,tst==='na'?null:(tp<2.7?'tempo_fast':'tempo_slow'),null,
+    r.view==='dtl'?'Góc dọc đường bóng đo tempo kém chính xác — dùng video chính diện để chấm tempo.':'');
+  add('Tay ở đỉnh (so với vai)',M.handTop>=0?'cao hơn vai '+cm(M.handTop):'thấp hơn vai '+cm(M.handTop),'cao hơn vai',M.handTop<.2?'warn':'ok','short_back');
+  if(r.view==='fo'){
+    add('Đầu dịch ngang khi lên gậy',cm(M.headSway)+(M.headSway<0?' (về phía mục tiêu)':''),'< '+Math.round(.3*cmT)+' cm',lvl(Math.abs(M.headSway),.3,.45),'head_sway');
+    var hl=drv?.12:.2;
+    add('Đầu lúc impact',M.headImpact>0?'lao tới '+cm(M.headImpact):'ở sau '+cm(M.headImpact),drv?'ở sau hoặc ngang vị trí address':'lệch < '+Math.round(hl*cmT)+' cm',lvl(M.headImpact,hl,hl+.13),'head_fwd');
+    add('Độ cao đầu lúc impact',M.headDrop>0?'hạ '+cm(M.headDrop):'nhô '+cm(M.headDrop),'thay đổi < '+Math.round(.2*cmT)+' cm',
+      M.headDrop>.2?(M.headDrop>.3?'bad':'warn'):M.headDrop<-.15?'warn':'ok',M.headDrop>.2?'head_dip':'head_rise');
+    add('Hông trượt khi lên gậy (sway)',M.hipSway>0?cm(M.hipSway)+' ra xa mục tiêu':'không trượt','< '+Math.round(.15*cmT)+' cm',lvl(M.hipSway,.15,.3),'sway');
+    add('Hông dồn về mục tiêu lúc impact',M.hipShift>=0?cm(M.hipShift):'lùi '+cm(M.hipShift),Math.round(.1*cmT)+'–'+Math.round(.45*cmT)+' cm',
+      M.hipShift<.05?(M.hipShift<-.05?'bad':'warn'):M.hipShift>.55?'warn':'ok',M.hipShift<.05?'hang_back':'slide');
+    add('Vai xoay ở đỉnh (ước tính 2D)',Math.round(M.shTurn)+'°','≥ 45° (2D)',M.shTurn<40?(M.shTurn<30?'bad':'warn'):'ok','short_turn',null,'Góc chiếu 2D thường thấp hơn góc thật.');
+    add('Hông xoay ở đỉnh (ước tính 2D)',Math.round(M.hipTurn)+'°','25–45°',M.hipTurn>55?'warn':'ok',null);
+    add('Tay trước ở đỉnh',Math.round(M.leadArm)+'°','≥ 110° (2D)',M.leadArm<100?(M.leadArm<85?'bad':'warn'):'ok','bent_arm',null,'Góc chiếu chính diện làm tay trông gập hơn thực tế.');
+    if(drv) add('Cột sống nghiêng ra xa mục tiêu (setup)',Math.round(M.spineTilt)+'°','5–15° với driver',M.spineTilt<2?(M.spineTilt<-2?'bad':'warn'):M.spineTilt>20?'warn':'ok',M.spineTilt<2?'tilt_low':'tilt_high');
+    else add('Cột sống nghiêng (setup)',Math.round(M.spineTilt)+'°','0–8° với gậy sắt',M.spineTilt>15?'warn':'ok','tilt_high');
+    var sn=drv?[1,1.9]:[.8,1.8];
+    add('Độ rộng thế đứng',vn(M.stance.toFixed(2))+' × vai',drv?'1,1–1,6 × vai':'0,9–1,4 × vai',M.stance<sn[0]?'warn':M.stance>sn[1]?'warn':'ok',M.stance<sn[0]?'stance_narrow':'stance_wide');
+    add('Hông ở tư thế kết thúc',M.finishOver>=-.5?'trên chân trước':'còn ở phía sau','trên chân trước',M.finishOver<-.8?(M.finishOver<-1.3?'bad':'warn'):'ok','finish');
+  } else {
+    add('Gập người ở setup',Math.round(M.spineAddr)+'°','20–40°',M.spineAddr<18?'warn':M.spineAddr>42?'warn':'ok',M.spineAddr<18?'upright':'hunched');
+    add('Gập gối ở setup',Math.round(M.kneeFlex)+'°','10–35°',M.kneeFlex<8?'warn':M.kneeFlex>38?'warn':'ok',M.kneeFlex<8?'knee_straight':'knee_deep');
+    var dTop=M.spineTop-M.spineAddr;
+    add('Góc cột sống ở đỉnh',(dTop>=0?'+':'')+Math.round(dTop)+'° so với setup','thay đổi < 10°',Math.abs(dTop)>10?(Math.abs(dTop)>16?'bad':'warn'):'ok','posture_loss');
+    var ee=Math.max(M.hipToBall/.1,(M.spineAddr-M.spineImp)/8);
+    add('Hông tiến về phía bóng lúc impact',(M.hipToBall>0?cm(M.hipToBall):'không')+' · thân đứng dậy '+Math.max(0,Math.round(M.spineAddr-M.spineImp))+'°','< '+Math.round(.1*cmT)+' cm · < 8°',ee>1?(ee>2?'bad':'warn'):'ok','early_ext');
+    add('Đầu nhô lên lúc impact',M.headRise>0?cm(M.headRise):'không','< '+Math.round(.12*cmT)+' cm',lvl(M.headRise,.12,.2),'head_rise');
+    if(M.pathDiff==null) add('Đường tay khi xuống gậy','không đo được','trùng hoặc hơi trong đường lên','na',null);
+    else add('Đường tay khi xuống gậy',M.pathDiff>.05?'ra ngoài '+cm(M.pathDiff):M.pathDiff<-.05?'vào trong '+cm(M.pathDiff):'trùng đường lên','trùng hoặc trong ≤ '+Math.round(.3*cmT)+' cm',
+      M.pathDiff>.15?(M.pathDiff>.3?'bad':'warn'):M.pathDiff<-.3?'warn':'ok',M.pathDiff>.15?'ott':'inside');
+  }
+  iss.sort(function(a,b){return b.sev-a.sev});
+  var seen={}; iss=iss.filter(function(x){if(seen[x.code])return false;seen[x.code]=1;return true});
+  return {rows:rows,issues:iss};
+}
+
+/* ---------- Vẽ 4 khung hình chính ---------- */
+var VA_EDGES=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28],[27,31],[28,32]];
+async function vaKeyframes(v,r){
+  var W=v.videoWidth,H=v.videoHeight,fr=r.frames.slice(r.idx.address,r.idx.finish+1);
+  var xs=[],ys=[];fr.forEach(function(f){['nose','lAn','rAn','lWr','rWr','lSh','rSh','lHip','rHip'].forEach(function(k){xs.push(f[k].x);ys.push(f[k].y)})});
+  var x0=Math.min.apply(0,xs),x1=Math.max.apply(0,xs),y0=Math.min.apply(0,ys),y1=Math.max.apply(0,ys);
+  var ph=(y1-y0),bw=Math.max(x1-x0,ph*.62)*1.35,bh=ph*1.3,cx=(x0+x1)/2,cy=(y0+y1)/2;
+  var box={x:Math.max(0,cx-bw/2),y:Math.max(0,cy-bh/2)};box.w=Math.min(bw,W-box.x);box.h=Math.min(bh,H-box.y);
+  var A=r.keys.A, out=[], names=[['address','Address'],['top','Đỉnh'],['impact','Impact'],['finish','Kết thúc']];
+  for(var i=0;i<4;i++){
+    var key=names[i][0], row=r.frames[r.idx[key]];
+    await vaSeek(v,row.t);
+    var cv=document.createElement('canvas'),sc=260/box.w;cv.width=260;cv.height=Math.round(box.h*sc);
+    var g=cv.getContext('2d');g.drawImage(v,box.x,box.y,box.w,box.h,0,0,cv.width,cv.height);
+    function X(x){return (x-box.x)*sc} function Y(y){return (y-box.y)*sc}
+    g.setLineDash([5,4]);g.lineWidth=1.6;
+    if(r.view==='fo'){
+      g.strokeStyle='rgba(242,194,48,.95)';g.beginPath();g.moveTo(X(A.nose.x),0);g.lineTo(X(A.nose.x),cv.height);g.stroke();
+      g.strokeStyle='rgba(120,220,255,.9)';g.beginPath();g.moveTo(X(A.hip.x),Y(A.hip.y)-40);g.lineTo(X(A.hip.x),cv.height);g.stroke();
+    } else {
+      var dx=A.sh.x-A.hip.x,dy=A.sh.y-A.hip.y;
+      g.strokeStyle='rgba(242,194,48,.95)';g.beginPath();g.moveTo(X(A.hip.x-dx*.3),Y(A.hip.y-dy*.3));g.lineTo(X(A.sh.x+dx*.5),Y(A.sh.y+dy*.5));g.stroke();
+      var back=A.hip.x-(r.bdir||1)*r.T*.12;
+      g.strokeStyle='rgba(120,220,255,.9)';g.beginPath();g.moveTo(X(back),Y(A.hip.y)-50);g.lineTo(X(back),cv.height);g.stroke();
+    }
+    g.setLineDash([]);
+    var raw=null;for(var q=0;q<VA.frames.length;q++) if(Math.abs(VA.frames[q].t-row.t)<1e-3){raw=VA.frames[q].l;break}
+    if(raw){
+      g.lineWidth=2.6;g.lineCap='round';
+      VA_EDGES.forEach(function(e){var a=raw[e[0]],b=raw[e[1]];if(a[2]<.3||b[2]<.3)return;
+        g.strokeStyle=e[0]%2?'#F2C230':'#7FE0C8';g.beginPath();g.moveTo(X(a[0]*W),Y(a[1]*H));g.lineTo(X(b[0]*W),Y(b[1]*H));g.stroke()});
+      g.fillStyle='#fff';[0,15,16].forEach(function(k){var a=raw[k];g.beginPath();g.arc(X(a[0]*W),Y(a[1]*H),3,0,7);g.fill()});
+    }
+    out.push({lab:names[i][1],t:row.t,url:cv.toDataURL('image/jpeg',.82)});
+  }
+  return out;
+}
+
+/* ---------- Hiển thị kết quả ---------- */
+var VA_ERR={noperson:'Không nhận ra người trong video. Quay rõ cả người từ đầu tới chân, đủ sáng, không bị che.',
+  noswing:'Không tìm thấy trọn một cú swing (address → đỉnh → impact → kết thúc). Kiểm tra video có đủ cả cú, hoặc chỉnh lại đoạn "từ giây / đến giây".',
+  load:'Không tải được mô hình nhận diện (cần Internet ở lần đầu). Thử lại sau vài giây.',
+  small:'Người trong video quá nhỏ — hãy quay gần hơn để người chiếm ít nhất nửa chiều cao khung hình.'};
+function vaRender(r,ev,keys){
+  var p=ME, club=VA.club, STN={ok:'✓ Tốt',warn:'⚠ Cần chỉnh',bad:'✕ Lỗi rõ',na:'· Tham khảo'};
+  var viewN=r.view==='fo'?'Chính diện (face-on)':'Dọc đường bóng (down-the-line)';
+  var nBad=ev.rows.filter(function(x){return x.st==='bad'}).length, nWarn=ev.rows.filter(function(x){return x.st==='warn'}).length;
+  var score=Math.max(0,Math.round(100-nBad*14-nWarn*6));
+  var miss=p&&p.miss, link='';
+  var codes=ev.issues.map(function(x){return x.code});
+  function has(){for(var i=0;i<arguments.length;i++) if(codes.indexOf(arguments[i])>=0) return true;return false}
+  if(miss==='slice'&&has('ott','head_fwd','slide','tilt_low')) link='Khớp với đường bóng <b>slice</b> bạn khai báo — sửa các lỗi dưới đây là sửa tận gốc.';
+  else if(miss==='hook'&&has('inside','early_ext','hang_back')) link='Khớp với đường bóng <b>hook</b> bạn khai báo.';
+  else if((miss==='thin'||miss==='fat')&&has('hang_back','head_dip','early_ext','posture_loss','head_rise')) link='Giải thích lỗi <b>'+(miss==='fat'?'đánh đất':'đánh mỏng/top')+'</b> bạn khai báo: đáy cung swing đang thay đổi.';
+  else if(miss==='low'&&has('head_fwd','tilt_low')) link='Giải thích bóng <b>bay thấp</b>: đang đánh xuống thay vì đánh lên.';
+  var top3=ev.issues.slice(0,3);
+  var html='<div class="va-card">'+
+    '<div class="va-head"><div><div class="sess-kicker">Kết quả phân tích · '+new Date().toLocaleDateString('vi-VN')+'</div>'+
+      '<div class="va-title">'+viewN+' · '+(club==='driver'?'Driver':'Gậy sắt')+'</div>'+
+      '<div class="va-meta">'+r.frames.length+' khung hình phân tích · độ tin cậy nhận diện '+Math.round(r.avgVis*100)+'%'+(r.viewAuto?' · góc quay tự nhận diện':'')+'</div></div>'+
+      '<div class="va-score"><b>'+score+'</b><span>điểm tư thế</span></div></div>'+
+    '<div class="va-keys">'+keys.map(function(k){return '<figure><img src="'+k.url+'" alt="'+k.lab+'"><figcaption>'+k.lab+'</figcaption></figure>'}).join('')+'</div>'+
+    '<p class="va-legend">'+(r.view==='fo'?'<i class="y"></i>vị trí đầu lúc address <i class="c"></i>vị trí hông lúc address':'<i class="y"></i>góc cột sống lúc address <i class="c"></i>mốc mông lúc address')+'</p>'+
+    (link?'<div class="alert i">'+link+'</div>':'')+
+    '<h4>📐 Chỉ số đo được</h4><div class="tbl-scroll"><table class="tbl va-tbl"><tr><th>Chỉ số</th><th>Của bạn</th><th>Chuẩn tham chiếu</th><th></th></tr>'+
+    ev.rows.map(function(x){return '<tr><td class="m">'+x.k+(x.note?'<div class="why">'+x.note+'</div>':'')+'</td><td>'+x.val+'</td><td>'+x.ref+'</td><td><span class="st '+x.st+'">'+STN[x.st]+'</span></td></tr>'}).join('')+'</table></div>'+
+    '<h4>🎯 Khuyến nghị theo thứ tự ưu tiên</h4>'+
+    (top3.length?'<ol class="plist">'+top3.map(function(x){var I=ISSUES[x.code];
+      return '<li><div><b>'+I.t+'</b> <span class="st '+(x.sev>1?'bad':'warn')+'">'+x.val+'</span><br>'+I.why+
+        '<br><b>Bài sửa:</b> '+I.n+' — '+I.how+' · <b>'+I.dose+'</b>.<br><b>Đạt khi:</b> '+I.chk+'.</div></li>'}).join('')+'</ol>'
+      :'<p class="dr-p">Không phát hiện lỗi tư thế rõ ràng ở góc quay này. Quay thêm góc '+(r.view==='fo'?'dọc đường bóng':'chính diện')+' để kiểm tra phần còn lại.</p>')+
+    '<div class="va-act">'+
+      (top3.length?(p?'<button class="btn y" type="button" id="va-apply">✦ Đưa '+top3.length+' bài sửa vào giáo án của '+esc(p.name)+'</button>'
+        :'<button class="btn y" type="button" id="va-apply">✦ Tạo hồ sơ &amp; đưa vào giáo án</button>'):'')+
+      '<button class="btn" type="button" id="va-again">↺ Phân tích video khác</button></div>'+
+    '<p class="tbl-note" style="color:#7A8780">Đo từ ảnh 2D nên các góc là ước tính; quay đúng hướng dẫn để sai số nhỏ nhất. Nên quay cả 2 góc: chính diện (tempo, trọng tâm, đầu) và dọc đường bóng (tư thế, đường swing).</p>'+
+  '</div>';
+  vaEl('va-res').innerHTML=html;
+  VA.last={view:r.view,club:club,d:new Date().toLocaleDateString('vi-VN'),tempo:+r.metrics.tempo.toFixed(2),score:score,
+    issues:top3.map(function(x){return {code:x.code,sev:x.sev,val:x.val}})};
+  vaEl('va-res').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ---------- Chạy phân tích ---------- */
+async function vaRun(){
+  if(VA.busy) return;
+  var v=vaEl('va-video'); if(!v.src) return;
+  VA.busy=true;VA.cancel=false;
+  vaEl('va-go').disabled=true;vaEl('va-prog').hidden=false;vaEl('va-res').innerHTML='';
+  VA.club=vaEl('va-club').value; VA.slow=+vaEl('va-slow').value||1;
+  var t0=Math.max(0,+String(vaEl('va-t0').value).replace(',','.')||0), t1=Math.min(v.duration,+String(vaEl('va-t1').value).replace(',','.')||v.duration);
+  if(!(t1>t0+.4)){t0=0;t1=v.duration}
+  try{
+    vaEl('va-st').dataset.phase='Đang tải mô hình nhận diện (~9 MB, chỉ lần đầu)…';vaStatus(vaEl('va-st').dataset.phase,2);
+    try{await vaLoadModel()}catch(e){throw new Error('load')}
+    v.pause();
+    try{await v.play();v.pause()}catch(e){}
+    var W=v.videoWidth,H=v.videoHeight,dur=t1-t0;
+    vaEl('va-st').dataset.phase='① Tìm người trong khung';
+    var fa=await vaScan(v,t0,t1,Math.min(6,Math.max(2,40/dur)),null,5,20);
+    var box=vaBox(fa,W,H,1.9); if(!box) throw new Error('noperson');
+    if(box.personH<.18) throw new Error('small');
+    vaEl('va-st').dataset.phase='② Quét toàn bộ chuyển động';
+    var fb=await vaScan(v,t0,t1,Math.min(20,Math.max(6,240/dur)),box,20,60);
+    var hand=ME&&ME.hand==='l'?'l':'r', view=vaEl('va-view').value;
+    var r=swingAnalyze(fb,W,H,{hand:hand,view:view,slow:VA.slow});
+    if(!r.ok) throw new Error(r.err);
+    var span=r.times.finish-r.times.start, w0=Math.max(t0,r.times.start-Math.max(.4,.2*span)), w1=Math.min(t1,r.times.finish+.15*span);
+    vaEl('va-st').dataset.phase='③ Phân tích chi tiết cú swing';
+    var fc=await vaScan(v,w0,w1,Math.min(60,Math.max(15,300/(w1-w0))),box,60,92);
+    var all=fb.filter(function(f){return f.t<w0||f.t>w1}).concat(fc).sort(function(a,b){return a.t-b.t});
+    var r2=swingAnalyze(all,W,H,{hand:hand,view:view,slow:VA.slow});
+    if(r2.ok) r=r2; else all=fb;
+    VA.frames=all;
+    vaEl('va-st').dataset.phase='④ Dựng hình minh họa';vaStatus('④ Dựng hình minh họa…',95);
+    var keys=await vaKeyframes(v,r);
+    var ev=vaEval(r,VA.club,ME?ME.h:170);
+    VA.res=r; vaRender(r,ev,keys); vaStatus('Xong',100);
+  }catch(e){
+    var m=e&&e.message;
+    if(m!=='cancel') vaEl('va-res').innerHTML='<div class="alert">'+(VA_ERR[m]||('Lỗi khi phân tích: '+esc(m||'không rõ')))+'</div>';
+  }finally{
+    VA.busy=false;vaEl('va-go').disabled=false;vaEl('va-prog').hidden=true;
+  }
+}
+function vaSetFile(f){
+  if(!f) return;
+  if(!/^video\//.test(f.type)&&!/\.(mp4|mov|webm|m4v|3gp)$/i.test(f.name)){vaEl('va-res').innerHTML='<div class="alert">Tệp này không phải video.</div>';return}
+  if(VA.url) URL.revokeObjectURL(VA.url);
+  VA.url=URL.createObjectURL(f);
+  var v=vaEl('va-video'); v.src=VA.url; v.hidden=false;
+  vaEl('va-fname').textContent=f.name+' · '+(f.size/1048576).toFixed(1)+' MB';
+  v.onloadedmetadata=function(){
+    vaEl('va-t0').value=0; vaEl('va-t1').value=Math.min(v.duration,60).toFixed(1);
+    vaEl('va-trim').hidden=false; vaEl('va-go').disabled=false;
+    vaEl('va-res').innerHTML=v.duration>60?'<div class="alert i">Video dài '+Math.round(v.duration)+' giây — đã giới hạn 60 giây đầu. Chỉnh "từ giây / đến giây" quanh đúng một cú swing để phân tích nhanh và chính xác hơn.</div>':'';
+  };
+}
+(function(){
+  var fi=vaEl('va-file'), drop=vaEl('va-drop');
+  if(!fi) return;
+  fi.addEventListener('change',function(){vaSetFile(fi.files[0])});
+  ['dragenter','dragover'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.add('over')})});
+  ['dragleave','drop'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.remove('over')})});
+  drop.addEventListener('drop',function(e){var f=e.dataTransfer.files&&e.dataTransfer.files[0];vaSetFile(f)});
+  vaEl('va-go').addEventListener('click',vaRun);
+  vaEl('va-cancel').addEventListener('click',function(){VA.cancel=true});
+  vaEl('va-mark0').addEventListener('click',function(){vaEl('va-t0').value=vaEl('va-video').currentTime.toFixed(1)});
+  vaEl('va-mark1').addEventListener('click',function(){vaEl('va-t1').value=vaEl('va-video').currentTime.toFixed(1)});
+  if(ME&&ME.club) vaEl('va-club').value='driver';
+  document.addEventListener('click',function(e){
+    if(e.target.id==='va-again'){vaEl('va-res').innerHTML='';fi.value='';fi.click();return}
+    if(e.target.id!=='va-apply'||!VA.last) return;
+    if(!ME){lsSet('golf-va-pending',JSON.stringify(VA.last));obOpen('new');return}
+    ME.video=ME.video||{}; ME.video[VA.last.view]=VA.last;
+    PROFILES=PROFILES.map(function(x){return x.id===ME.id?ME:x});
+    lsSet(PKEY,JSON.stringify(PROFILES)); location.hash='swing'; location.reload();
+  });
 })();
 
 /* ===== Menu dọc: mở/đóng trên điện thoại + đánh dấu mục đang xem ===== */
