@@ -448,6 +448,18 @@
   .va-legend i.y{border-color:#C99A0A} .va-legend i.c{border-color:#2F9FC0}
   .va-tbl .why{font-size:.66rem;font-weight:500;color:#7A8780;font-family:'Be Vietnam Pro',sans-serif;white-space:normal}
   .va-act{display:flex;gap:8px;flex-wrap:wrap;padding:16px 18px 6px}
+  .mc{display:flex;gap:14px;margin:0 18px;flex-wrap:wrap}
+  .mc-fig{flex:0 0 160px}
+  .mc-fig svg{width:160px;height:168px;background:var(--green-deep);border-radius:12px;display:block}
+  .mc-cap{font-size:.62rem;color:#5C6B62;text-align:center;margin-top:4px;font-weight:700}
+  .mc-ctl{flex:1;min-width:220px}
+  .mc-l{display:block;font-size:.76rem;font-weight:700;color:#31473C;margin:8px 0}
+  .mc-l input[type=range]{width:min(220px,60%);vertical-align:middle}
+  .mc-l select{font-family:'Be Vietnam Pro',sans-serif;font-size:.8rem;padding:6px 8px;border:1.5px solid #CFC7B0;border-radius:8px;background:#fff;max-width:100%}
+  .mc-ctl .btn.y{background:var(--yellow);color:var(--green-deep);margin-top:6px}
+  .mc-badge{display:inline-block;font-size:.62rem;font-weight:800;background:rgba(242,194,48,.18);color:var(--yellow-soft);border:1px solid var(--green-line);border-radius:99px;padding:2px 8px;margin-top:3px}
+  .mc-badge button,.mc-x{background:none;border:none;color:inherit;cursor:pointer;font-size:inherit;font-weight:800;padding:0 2px}
+  .mc-x{color:#8FB3A3;text-transform:none;letter-spacing:0;margin-left:6px}
   .va-act .btn{background:var(--green-mid)} .va-act .btn.y{background:var(--yellow);color:var(--green-deep)}
   .va-card .tbl-note{padding-bottom:16px}
 
@@ -762,7 +774,7 @@
 <footer>
   <div class="wrap">
     <span id="foot-who">Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
-    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · chuyển động thật từ video (retarget khớp 3D MediaPipe lên hình, xoay góc nhìn, lưu theo bài) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
   </div>
 </footer>
 
@@ -2163,7 +2175,7 @@ function shine(a,b,wa,wb){
   return '<path d="M'+f1(ax+nx*A)+' '+f1(ay+ny*A)+'L'+f1(bx+nx*B)+' '+f1(by+ny*B)+'L'+f1(bx-nx*B)+' '+f1(by-ny*B)+'L'+f1(ax-nx*A)+' '+f1(ay-ny*A)+'Z" fill="#fff" opacity=".34"/>';
 }
 function draw4(q){
-  var S=skel4(q), view=q.view||0, org=q.org||[65,80], out=[];
+  var S=q.J?partsFromJ(q.J):skel4(q), view=q.view||0, org=q.org||[65,80], out=[];
   S.P.forEach(function(o){
     if(o.k==='poly'){
       var pts=o.pts.map(function(p){return pr(p,view,org,q);});
@@ -2181,6 +2193,10 @@ function draw4(q){
       if(o.cap) d+='<circle cx="'+f1(b.x)+'" cy="'+f1(b.y)+'" r="'+f1(o.w[1]*0.5*b.k)+'" fill="'+col(o.c,t)+'" stroke="'+EDGE+'" stroke-width="'+f1(1.2*b.k)+'"/>';
       if(o.c!=='shoe') d+=shine(a,b,o.w[0],o.w[1]);
       out.push({z:z, d:d});
+    } else if(o.k==='club3'){
+      var a=pr(o.a,view,org,q), b=pr(o.b,view,org,q), dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy)||1;
+      out.push({z:(a.z+b.z)/2-0.5, d:'<line x1="'+f1(a.x)+'" y1="'+f1(a.y)+'" x2="'+f1(b.x)+'" y2="'+f1(b.y)+'" stroke="#F2C230" stroke-width="'+f1(1.7*b.k)+'" stroke-linecap="round"/>'+
+        '<line x1="'+f1(b.x-dy/L*3)+'" y1="'+f1(b.y+dx/L*3)+'" x2="'+f1(b.x+dy/L*3)+'" y2="'+f1(b.y-dx/L*3)+'" stroke="#F2C230" stroke-width="'+f1(2.6*b.k)+'" stroke-linecap="round"/>'});
     } else if(o.k==='joint'){
       var p=pr(o.p,view,org,q), t=tone(p.z);
       out.push({z:p.z+0.4, d:'<circle cx="'+f1(p.x)+'" cy="'+f1(p.y)+'" r="'+f1(o.r*p.k)+'" fill="'+col(o.c,t)+'"/>'});
@@ -2216,6 +2232,111 @@ function draw4(q){
   }
   var hand=S.hands.length?pr(S.hands[0],view,org,q):pr(S.P[S.P.length-1].p,view,org,q);
   return {svg:sh+out.map(function(o){return o.d;}).join(''), hand:[hand.x,hand.y]};
+}
+
+/* ===== CHUYỂN ĐỘNG THẬT (mocap) — vẽ hình từ VỊ TRÍ KHỚP thay vì góc =====
+   Khớp lấy từ MediaPipe (33 điểm 3D theo mét, gốc ở giữa hông) rồi "retarget":
+   giữ nguyên độ dài xương của hình, chỉ lấy HƯỚNG từng đoạn từ người thật.
+   Một khung mocap = 21 điểm [x,y,z] theo đơn vị hình: hipL,hipR,shoL,shoR,chest,head,nose,
+   kneeL,kneeR,ankL,ankR,heelL,heelR,toeL,toeR,elbL,elbR,wrL,wrR,tipL,tipR. */
+var MC_I={hipL:0,hipR:1,shoL:2,shoR:3,chest:4,head:5,nose:6,kneeL:7,kneeR:8,ankL:9,ankR:10,heelL:11,heelR:12,toeL:13,toeR:14,elbL:15,elbR:16,wrL:17,wrR:18,tipL:19,tipR:20};
+function v3sub(a,b){return [a[0]-b[0],a[1]-b[1],a[2]-b[2]];}
+function v3mid(a,b){return [(a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2];}
+function v3len(a){return Math.hypot(a[0],a[1],a[2]);}
+
+/* 33 điểm MediaPipe (mét) → 21 điểm hình (đơn vị hình) */
+function mocapRetarget(w){
+  function P(i){return [w[i][0],w[i][1],w[i][2]];}
+  var hipL=P(23),hipR=P(24),shoL=P(11),shoR=P(12);
+  var pel0=v3mid(hipL,hipR), chest0=v3mid(shoL,shoR), pel=[0,0,0];
+  var up=nrm(v3sub(chest0,pel0)), chest=ad(pel,up,TORSO);
+  var hipAx=nrm(v3sub(hipR,hipL)), shoAx=nrm(v3sub(shoR,shoL));
+  var hips=[ad(pel,hipAx,-PELV_W), ad(pel,hipAx,PELV_W)];
+  var shoB=ad(chest,up,-1.7), shos=[ad(shoB,shoAx,-SHLD_W), ad(shoB,shoAx,SHLD_W)];
+  var ears=v3mid(P(7),P(8)), hdir=nrm(v3sub(ears,chest0));
+  var head=ad(ad(chest,hdir,NECK_L),hdir,HEAD_R*1.15), nose=ad(head,nrm(v3sub(P(0),ears)),HEAD_R);
+  var out=[hips[0],hips[1],shos[0],shos[1],chest,head,nose];
+  var kn=[],an=[];
+  for(var i=0;i<2;i++){kn[i]=ad(hips[i],nrm(v3sub(P(25+i),P(23+i))),THIGH);an[i]=ad(kn[i],nrm(v3sub(P(27+i),P(25+i))),SHIN);}
+  out.push(kn[0],kn[1],an[0],an[1]);
+  out.push(ad(an[0],nrm(v3sub(P(29),P(27))),3.2), ad(an[1],nrm(v3sub(P(30),P(28))),3.2));
+  out.push(ad(an[0],nrm(v3sub(P(31),P(27))),FOOT*1.15), ad(an[1],nrm(v3sub(P(32),P(28))),FOOT*1.15));
+  var el=[],hd=[];
+  for(i=0;i<2;i++){el[i]=ad(shos[i],nrm(v3sub(P(13+i),P(11+i))),UARM);hd[i]=ad(el[i],nrm(v3sub(P(15+i),P(13+i))),FARM);}
+  out.push(el[0],el[1],hd[0],hd[1]);
+  out.push(ad(hd[0],nrm(v3sub(P(19),P(15))),HAND), ad(hd[1],nrm(v3sub(P(20),P(16))),HAND));
+  return out.map(function(p){return [Math.round(p[0]*10)/10,Math.round(p[1]*10)/10,Math.round(p[2]*10)/10];});
+}
+/* 21 điểm → cấu trúc khớp để vẽ */
+function mocapDecode(pts,club){
+  var G=function(k){return pts[MC_I[k]];};
+  var hips=[G('hipL'),G('hipR')], shos=[G('shoL'),G('shoR')], chest=G('chest'), head=G('head');
+  var pel=v3mid(hips[0],hips[1]), up=nrm(v3sub(chest,pel));
+  var hipAx=nrm(v3sub(hips[1],hips[0])), shoAx=nrm(v3sub(shos[1],shos[0]));
+  var hup=nrm(v3sub(head,chest)), fwd=nrm(v3sub(G('nose'),head));
+  var J={pel:pel,chest:chest,up:up,hipAx:hipAx,shoAx:shoAx,hips:hips,shos:shos,neck:ad(chest,hup,NECK_L),head:head,hup:hup,fwd:fwd,
+    legs:[{hip:hips[0],kn:G('kneeL'),an:G('ankL'),heel:G('heelL'),toe:G('toeL')},{hip:hips[1],kn:G('kneeR'),an:G('ankR'),heel:G('heelR'),toe:G('toeR')}],
+    arms:[{sho:shos[0],el:G('elbL'),hd:G('wrL'),tip:G('tipL')},{sho:shos[1],el:G('elbR'),hd:G('wrR'),tip:G('tipR')}]};
+  if(club){ var grip=v3mid(G('tipL'),G('tipR')), dir=nrm(v3sub(grip,chest)); J.club={a:grip,b:ad(grip,dir,club)}; }
+  return J;
+}
+/* dựng danh sách khối từ khớp (cùng định dạng với skel4) */
+function partsFromJ(J){
+  var P=[], up=J.up, pel=J.pel, waist=ad(pel,up,TORSO*0.42), waAx=nrm([J.hipAx[0]+J.shoAx[0],J.hipAx[1]+J.shoAx[1],J.hipAx[2]+J.shoAx[2]]);
+  var ww=PELV_W*WAIST_K, wai=[ad(waist,waAx,-ww),ad(waist,waAx,ww)], nb=[ad(J.chest,J.shoAx,-SHLD_W*0.34),ad(J.chest,J.shoAx,SHLD_W*0.34)], pb=ad(pel,up,-5.6);
+  P.push({k:'poly',c:'pants',zoff:0.35,pts:[J.hips[0],J.hips[1],ad(pb,J.hipAx,PELV_W*0.9),ad(pb,J.hipAx,-PELV_W*0.9)]});
+  P.push({k:'poly',c:'shirt',hl:1,pts:[J.hips[0],J.hips[1],wai[1],J.shos[1],nb[1],nb[0],J.shos[0],wai[0]]});
+  P.push({k:'limb',c:'skin',a:J.chest,b:J.neck,w:WID.neck});
+  var feet=[],hands=[];
+  J.legs.forEach(function(L){
+    P.push({k:'limb',c:'pants',a:L.hip,b:L.kn,w:WID.thigh});P.push({k:'limb',c:'pants',a:L.kn,b:L.an,w:WID.shin});
+    P.push({k:'joint',c:'pants',p:L.kn,r:2.5});P.push({k:'limb',c:'shoe',a:L.heel,b:L.toe,w:WID.foot});
+    P.push({k:'joint',c:'shoe',p:L.an,r:2.1});P.push({k:'joint',c:'pants',p:L.hip,r:2.8});feet.push(L.toe,L.heel);
+  });
+  J.arms.forEach(function(A){
+    P.push({k:'limb',c:'shirt',a:A.sho,b:A.el,w:WID.uarm});P.push({k:'limb',c:'skin',a:A.el,b:A.hd,w:WID.farm});
+    P.push({k:'limb',c:'skin',a:A.hd,b:A.tip,w:WID.hand,cap:1});P.push({k:'joint',c:'skin',p:A.el,r:2.1});
+    P.push({k:'joint',c:'shirt',p:A.sho,r:3.0});hands.push(A.tip);
+  });
+  if(J.club) P.push({k:'club3',a:J.club.a,b:J.club.b});
+  P.push({k:'head',p:J.head,r:HEAD_R,up:J.hup,fwd:J.fwd});
+  return {P:P,hands:hands,feet:feet,pel:pel};
+}
+/* chuỗi khung mocap → clip lưu được: {d, dur, view, club, org0, f:[{t,p,o}]} */
+function mocapClip(frames,W,H,slow,t0,t1,club){
+  var F=frames.filter(function(f){return f.w&&f.l&&f.t>=t0&&f.t<=t1;});
+  if(F.length<6) return null;
+  var step=0.02*slow, keep=[], last=-1e9;                     /* ≤ 50 khung/giây thật */
+  F.forEach(function(f){ if(f.t-last>=step-1e-6){keep.push(f);last=f.t;} }); F=keep;
+  /* làm mượt 3 khung trên toạ độ 3D */
+  var Wm=F.map(function(f,i){var a=F[Math.max(0,i-1)].w,b=f.w,c=F[Math.min(F.length-1,i+1)].w;
+    return b.map(function(p,k){return [a[k][0]*.25+p[0]*.5+c[k][0]*.25,a[k][1]*.25+p[1]*.5+c[k][1]*.25,a[k][2]*.25+p[2]*.5+c[k][2]*.25];});});
+  /* tỉ lệ đơn vị hình / pixel: từ chiều cao người ở khung đầu (tai → cổ chân ≈ 0,87 chiều cao) */
+  var l0=F[0].l, ph=(Math.max(l0[27][1],l0[28][1])-(l0[7][1]+l0[8][1])/2)*H/0.87, upp=95/Math.max(40,ph);
+  var hx0=(l0[23][0]+l0[24][0])/2*W, hy0=(l0[23][1]+l0[24][1])/2*H;
+  var out=[], tStart=F[0].t;
+  F.forEach(function(f,i){
+    var pts=mocapRetarget(Wm[i]);
+    var hx=(f.l[23][0]+f.l[24][0])/2*W, hy=(f.l[23][1]+f.l[24][1])/2*H;
+    out.push({t:Math.round((f.t-tStart)/slow*1000),p:pts,o:[Math.round((hx-hx0)*upp*10)/10,Math.round((hy-hy0)*upp*10)/10]});
+  });
+  /* neo chân xuống sàn theo khung đầu */
+  var J0=mocapDecode(out[0].p), fy=Math.max(J0.legs[0].toe[1],J0.legs[0].heel[1],J0.legs[1].toe[1],J0.legs[1].heel[1]);
+  return {d:new Date().toLocaleDateString('vi-VN'),dur:out[out.length-1].t,view:0,club:club?30:0,org0:[65,Math.round((GYY-1.5-fy)*10)/10],f:out};
+}
+/* tư thế tại thời điểm t (ms) của clip — nội suy tuyến tính giữa 2 khung */
+function mocapPose(clip,t,view){
+  var F=clip.f, n=F.length, i=0;
+  if(t<=0) i=0; else if(t>=F[n-1].t) i=n-1; else { var lo=0,hi=n-1; while(hi-lo>1){var m=(lo+hi)>>1; if(F[m].t<=t) lo=m; else hi=m;} i=lo; }
+  var A=F[i], B=F[Math.min(n-1,i+1)], x=(B.t>A.t)?Math.max(0,Math.min(1,(t-A.t)/(B.t-A.t))):0;
+  var pts=A.p.map(function(p,k){var q=B.p[k];return [p[0]+(q[0]-p[0])*x,p[1]+(q[1]-p[1])*x,p[2]+(q[2]-p[2])*x];});
+  var o=[A.o[0]+(B.o[0]-A.o[0])*x, A.o[1]+(B.o[1]-A.o[1])*x];
+  return {view:view==null?(clip.view||0):view, org:[clip.org0[0]+o[0], clip.org0[1]+o[1]], J:mocapDecode(pts,clip.club)};
+}
+function playClip(el,clip,tag,view){
+  el.innerHTML=bodyF(mocapPose(clip,0,view));
+  PLAYERS.push({el:el,clip:clip,view:view,dur:clip.dur+700,t0:nowMs(),tag:tag});
+  if(ANIM_ON&&!RAF) RAF=requestAnimationFrame(tick);
 }
 
 /* dụng cụ + mặt sàn + hàm dựng hoàn chỉnh */
@@ -2451,6 +2572,7 @@ function tick(now){
     var p=PLAYERS[i], el=p.el;
     if(!el.isConnected){PLAYERS.splice(i--,1);continue;}
     var tt=(now-p.t0)%p.dur; if(tt<0) tt+=p.dur;
+    if(p.clip){ el.innerHTML=bodyF(mocapPose(p.clip,Math.min(tt,p.clip.dur),p.view)); continue; }
     var r=poseAt(p,tt), o=r.o;
     var br=Math.sin(now/1300);                              /* nhịp thở rất nhỏ: thân nhấp nhô, ngực nở */
     o.lean=(o.lean||0)+br*0.3; o.org=[o.org[0], o.org[1]+br*0.25]; if(o.sw!=null) o.sw+=br*0.12;
@@ -2507,7 +2629,8 @@ if(PLAN&&PLAN.lefty){
   }).join('');
   var cards=[].slice.call(host.querySelectorAll('.drill'));
   cards.forEach(function(c){ c.querySelector('svg').innerHTML=bodyF(byId(c.dataset.d).p[0]); });
-  function start(c){ if(c._on) return; c._on=1; var d=byId(c.dataset.d); play(c.querySelector('svg'), d.p, d.dur, 'drill', d.s); }
+  function start(c){ if(c._on) return; c._on=1; var d=byId(c.dataset.d), clip=ME&&ME.clips&&ME.clips['D:'+d.id];
+    if(clip) playClip(c.querySelector('svg'), clip, 'drill', clip.view); else play(c.querySelector('svg'), d.p, d.dur, 'drill', d.s); }
   function stop(c){ c._on=0; var s=c.querySelector('svg');
     for(var i=0;i<PLAYERS.length;i++){ if(PLAYERS[i].el===s){ PLAYERS.splice(i,1); break; } } }
   if(window.IntersectionObserver){
@@ -2585,7 +2708,9 @@ function renderStep(){
       }).join('')+'</div>'+
       (e.rest?'<button class="f-rest" type="button" data-rest="'+e.rest+'">⏱  Nghỉ '+e.rest+'s</button>':'');
     var av=FX.main.querySelector('.f-anim svg');
-    if(av){var fi=figIdx(s.id,e,st.n), fr=FIGS3[fi]; if(fr) play(av, fr.map(function(x){return x.q;}), 2800, undefined, FIGA[fi]);}
+    if(av){var fi=figIdx(s.id,e,st.n), fr=FIGS3[fi], clip=ME&&ME.clips&&ME.clips['F'+fi];
+      if(clip){ playClip(av, clip, undefined, clip.view); FX.main.querySelector('.f-anim-cap').innerHTML='🎬 chuyển động thật · '+esc(clip.d)+' <button type="button" class="mc-x" data-clipdel="F'+fi+'">✕ mẫu vẽ</button>'; }
+      else if(fr) play(av, fr.map(function(x){return x.q;}), 2800, undefined, FIGA[fi]);}
     FX.next.textContent=(st.n===s.ex.length-1)?'Kết thúc →':'Tiếp →';
   }
   upgradeVideos(FX.main);   /* link video vừa render -> thẻ video nhúng sẵn */
@@ -2873,6 +2998,7 @@ upgradeVideos(document);
 
 /* ===== Bật/tắt chuyển động (mặc định BẬT) ===== */
 (function(){
+  applyClips();
   var b=document.getElementById('f-play'); if(!b) return;
   b.addEventListener('click',function(){ setAnim(!ANIM_ON); stSet('golf-anim', ANIM_ON?'1':'0'); });
   stGet('golf-anim').then(function(v){ if(v==='0') setAnim(false); }).catch(function(){});
@@ -2904,7 +3030,7 @@ function vaSeek(v,t){return new Promise(function(res){
   function fin(){if(done)return;done=true;clearTimeout(to);v.removeEventListener('seeked',fin);res()}
   v.addEventListener('seeked',fin); v.currentTime=Math.min(Math.max(0,t),v.duration-.001);
 })}
-function vaDetect(src){VA.ts+=40;var r=VA.pl.detectForVideo(src,VA.ts);return r&&r.landmarks&&r.landmarks[0]||null}
+function vaDetect(src){VA.ts+=40;var r=VA.pl.detectForVideo(src,VA.ts);VA.lastW=r&&r.worldLandmarks&&r.worldLandmarks[0]||null;return r&&r.landmarks&&r.landmarks[0]||null;}
 
 /* Quét một đoạn: box = vùng cắt quanh người (null = toàn khung) */
 async function vaScan(v,t0,t1,fps,box,p0,p1){
@@ -2918,7 +3044,7 @@ async function vaScan(v,t0,t1,fps,box,p0,p1){
     if(box){g.drawImage(v,box.x,box.y,box.w,box.h,0,0,cv.width,cv.height);l=vaDetect(cv);
       if(l) l=l.map(function(p){return [(box.x+p.x*box.w)/W,(box.y+p.y*box.h)/H,p.visibility||0]})}
     else {l=vaDetect(v); if(l) l=l.map(function(p){return [p.x,p.y,p.visibility||0]})}
-    out.push({t:+t.toFixed(4),l:l});
+    out.push({t:+t.toFixed(4),l:l,w:l&&VA.lastW?VA.lastW.map(function(p){return [p.x,p.y,p.z];}):null});
     if(k%3===0) vaStatus(vaEl('va-st').dataset.phase+' '+Math.min(100,Math.round(k/n*100))+'%',p0+(p1-p0)*Math.min(1,k/n));
   }
   return out;
@@ -3051,6 +3177,14 @@ function vaRender(r,ev,keys){
       return '<li><div><b>'+I.t+'</b> <span class="st '+(x.sev>1?'bad':'warn')+'">'+x.val+'</span><br>'+I.why+
         '<br><b>Bài sửa:</b> '+I.n+' — '+I.how+' · <b>'+I.dose+'</b>.<br><b>Đạt khi:</b> '+I.chk+'.</div></li>'}).join('')+'</ol>'
       :'<p class="dr-p">Không phát hiện lỗi tư thế rõ ràng ở góc quay này. Quay thêm góc '+(r.view==='fo'?'dọc đường bóng':'chính diện')+' để kiểm tra phần còn lại.</p>')+
+    (VA.clip?'<h4>🎬 Chuyển động thật của bạn</h4>'+
+      '<div class="mc"><div class="mc-fig"><svg id="mc-svg" viewBox="6 12 118 124"></svg><div class="mc-cap">'+(VA.clip.dur/1000).toFixed(1)+' s · '+VA.clip.f.length+' khung 3D</div></div>'+
+      '<div class="mc-ctl"><p class="dr-p">Khớp 3D lấy từ video được chuyển lên hình người (giữ vóc dáng chuẩn, lấy chuyển động của bạn). Vì là 3D nên xoay được góc nhìn.</p>'+
+      '<label class="mc-l">Góc nhìn <input type="range" id="mc-view" min="-90" max="90" value="0" step="5"> <span id="mc-vv">như quay</span></label>'+
+      '<label class="mc-l"><input type="checkbox" id="mc-club"'+(VA.clip.club?' checked':'')+'> Vẽ gậy (ước lượng theo hướng tay — video không nhận diện được gậy)</label>'+
+      '<label class="mc-l">Dùng làm mẫu cho <select id="mc-target">'+mocapTargets().map(function(o){return '<option value="'+o[0]+'">'+esc(o[1])+'</option>';}).join('')+'</select></label>'+
+      (p?'<button class="btn y" type="button" id="mc-save">🎬 Lưu làm chuyển động mẫu</button>':'<p class="tbl-note">Tạo hồ sơ để lưu chuyển động mẫu.</p>')+
+      '<div class="tbl-note" id="mc-msg"></div></div></div>':'')+
     '<div class="va-act">'+
       (top3.length?(p?'<button class="btn y" type="button" id="va-apply">✦ Đưa '+top3.length+' bài sửa vào giáo án của '+esc(p.name)+'</button>'
         :'<button class="btn y" type="button" id="va-apply">✦ Tạo hồ sơ &amp; đưa vào giáo án</button>'):'')+
@@ -3097,7 +3231,10 @@ async function vaRun(){
     vaEl('va-st').dataset.phase='④ Dựng hình minh họa';vaStatus('④ Dựng hình minh họa…',95);
     var keys=await vaKeyframes(v,r);
     var ev=vaEval(r,VA.club,ME?ME.h:170);
+    var sp=r.times.finish-r.times.start;
+    VA.clip=mocapClip(all,W,H,VA.slow,r.times.start-Math.max(.3,.25*sp),Math.min(t1,r.times.finish+.25*sp),VA.club==='driver'||VA.club==='iron');
     VA.res=r; vaRender(r,ev,keys); vaStatus('Xong',100);
+    if(VA.clip) mocapPreview();
   }catch(e){
     var m=e&&e.message;
     if(m!=='cancel') vaEl('va-res').innerHTML='<div class="alert">'+(VA_ERR[m]||('Lỗi khi phân tích: '+esc(m||'không rõ')))+'</div>';
@@ -3105,6 +3242,47 @@ async function vaRun(){
     VA.busy=false;vaEl('va-go').disabled=false;vaEl('va-prog').hidden=true;
   }
 }
+function mocapTargets(){
+  var o=[]; ['tempo','ground','stepdrill','finish','coil','setup','longdrive'].forEach(function(id){var d=DRILLS.filter(function(x){return x.id===id})[0]; if(d) o.push(['D:'+d.id,'Swing · '+d.n]);});
+  SESSIONS.forEach(function(s){s.ex.forEach(function(e,i){var fi=figIdx(s.id,e,i); if(fi!=null&&FIGS3[fi]) o.push(['F'+fi,'Buổi '+s.id+' · '+e.name]);});});
+  return o;
+}
+function mocapPreview(){
+  var svg=vaEl('mc-svg'); if(!svg||!VA.clip) return;
+  var view=+(vaEl('mc-view').value||0);
+  PLAYERS=PLAYERS.filter(function(p){return p.tag!=='mc';});
+  playClip(svg,VA.clip,'mc',view);
+}
+document.addEventListener('change',function(e){
+  if(e.target.id==='mc-club'&&VA.clip){VA.clip.club=e.target.checked?30:0;mocapPreview();}
+});
+document.addEventListener('input',function(e){
+  if(e.target.id==='mc-view'){var v=+e.target.value;vaEl('mc-vv').textContent=v?(v>0?'xoay phải ':'xoay trái ')+Math.abs(v)+'°':'như quay';VA.clip.view=v;mocapPreview();}
+});
+document.addEventListener('click',function(e){
+  if(e.target.id!=='mc-save'||!VA.clip||!ME) return;
+  var key=vaEl('mc-target').value, c=JSON.parse(JSON.stringify(VA.clip)); c.view=+(vaEl('mc-view').value||0);
+  ME.clips=ME.clips||{}; ME.clips[key]=c;
+  PROFILES=PROFILES.map(function(x){return x.id===ME.id?ME:x});
+  if(!lsSet(PKEY,JSON.stringify(PROFILES))){vaEl('mc-msg').textContent='⚠ Bộ nhớ trình duyệt đầy — không lưu được clip.';return;}
+  vaEl('mc-msg').innerHTML='✓ Đã lưu. Hình động của bài này giờ phát chuyển động thật của bạn — <a href="'+(key.charAt(0)==='D'?'#swing':'#theluc')+'" style="font-weight:800;color:var(--green-deep)">xem</a>.';
+  applyClips();
+});
+/* thay hình vẽ tay bằng clip mocap ở thư viện swing (chế độ tập trung xử lý trong renderStep) */
+function applyClips(){
+  if(!ME||!ME.clips) return;
+  document.querySelectorAll('.drill').forEach(function(c){
+    var key='D:'+c.dataset.d, clip=ME.clips[key], ds=c.querySelector('.ds'); if(!clip) return;
+    if(!ds.querySelector('.mc-badge')) ds.insertAdjacentHTML('beforeend',' <span class="mc-badge">🎬 chuyển động thật · '+esc(clip.d)+' <button type="button" data-clipdel="'+key+'" aria-label="Trả về mẫu vẽ">✕</button></span>');
+    if(c._on){ PLAYERS=PLAYERS.filter(function(p){return p.el!==c.querySelector('svg');}); playClip(c.querySelector('svg'),clip,'drill',clip.view); }
+    else c.querySelector('svg').innerHTML=bodyF(mocapPose(clip,0,clip.view));
+  });
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-clipdel]'); if(!b||!ME||!ME.clips) return;
+  delete ME.clips[b.dataset.clipdel]; PROFILES=PROFILES.map(function(x){return x.id===ME.id?ME:x}); lsSet(PKEY,JSON.stringify(PROFILES));
+  location.reload();
+});
 function vaSetFile(f){
   if(!f) return;
   if(!/^video\//.test(f.type)&&!/\.(mp4|mov|webm|m4v|3gp)$/i.test(f.name)){vaEl('va-res').innerHTML='<div class="alert">Tệp này không phải video.</div>';return}

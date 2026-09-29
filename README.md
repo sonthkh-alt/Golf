@@ -14,3 +14,5 @@ Tính năng: lộ trình 12 tháng chu kỳ hóa, chi tiết từng buổi theo 
 **Phân tích chi tiết:** hồ sơ tính yard đang mất theo từng nguồn (smash, attack angle, spin, launch), cột mốc tháng 1/3/6/9/12, mức tạ khởi điểm → mục tiêu, năng lượng/protein/carb/nước, rủi ro & bài phòng chấn thương (tự chèn vào khởi động).
 
 **Phân tích video swing:** tải video điện thoại (chính diện hoặc dọc đường bóng); MediaPipe Pose chạy ngay trên trình duyệt (video không tải lên), tự tách address → đỉnh → impact → kết thúc, đo tempo, đầu, hông, cột sống, early extension, đường swing; khuyến nghị bài sửa và đưa thẳng vào Giáo án Swing.
+
+**Chuyển động thật (mocap):** từ video đã phân tích, 33 khớp 3D của MediaPipe được retarget lên hình người (giữ vóc dáng chuẩn, lấy chuyển động thật), xoay được góc nhìn, lưu làm mẫu cho bất kỳ bài swing/bài tập nào — hình động trong Giáo án và chế độ tập trung phát chuyển động của chính người tập. Gậy chỉ là ước lượng (video không nhận diện gậy).
