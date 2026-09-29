@@ -762,7 +762,7 @@
 <footer>
   <div class="wrap">
     <span id="foot-who">Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
-    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
   </div>
 </footer>
 
@@ -2256,6 +2256,7 @@ var WARM3={A:[{l:"Xoay hông ×10 mỗi chiều",p:[{view:-70,org:[58,80],tilt:-
    Dùng chung bộ vẽ với phần Thể lực. Vì góc máy quay cũng trộn được nên
    bài Setup cho máy quay XOAY QUANH người để soi tư thế từ nhiều phía. */
 function L3(side,t,tb,s,sb,fd){return {side:side,t:t,tb:tb,s:s,sb:sb,fdir:fd||1};}
+function S(a,b,d,e,h){return {a:a,b:b,d:d,e:e||'io',h:h||0};}
 var A_ADDR={view:-78, lean:30, tilt:-7, hipYaw:0, shoYaw:-6, org:[65,80],
   legs:[L3(-1,4,-14,-4,11), L3(1,4,14,-4,-11)],
   arms:[{side:-1,grip:[20,6,0]},{side:1,grip:[20,6,0]}],
@@ -2282,7 +2283,7 @@ var DRILLS=[
  {id:'coil', n:'Biên độ xoay — độ vặn thân', sub:'GĐ2/5 · vai 90°+',
   cues:['Hông xoay ~45°, vai xoay ~95°','Chênh lệch đó chính là ĐỘ VẶN sinh lực',
         'Giữ cột sống nghiêng, không đứng thẳng dậy'],
-  dur:3600,
+  dur:3600, s:[S(0,1,1400,'io',600),S(1,0,1000,'io',500)],
   p:[A_ADDR,
      vary(A_ADDR,{lean:29, tilt:-14, hipYaw:44, shoYaw:96, org:[70,79],
        legs:[L3(-1,2,-12,-2,9), L3(1,8,17,-10,-12)],
@@ -2292,7 +2293,7 @@ var DRILLS=[
  {id:'tempo', n:'Tempo 3:1', sub:'Lên gậy 3 nhịp — xuống gậy 1 nhịp',
   cues:['Đếm "một–hai–ba" khi lên gậy','Đếm "một" khi xuống gậy',
         'Nhịp đều quan trọng hơn nhanh'],
-  dur:4200,
+  dur:4200, s:[S(0,1,750,'io'),S(1,2,750,'out',120),S(2,1,250,'in'),S(1,0,250,'out',600)],
   p:[A_ADDR,
      vary(A_ADDR,{lean:29, tilt:-12, hipYaw:26, shoYaw:58, org:[68,79],
        legs:[L3(-1,3,-13,-3,10), L3(1,6,16,-7,-11)],
@@ -2306,7 +2307,7 @@ var DRILLS=[
  {id:'ground', n:'Lực đạp đất — "ngồi rồi bật"', sub:'GĐ3/6 · nguồn tốc độ',
   cues:['Từ đỉnh gậy: HẠ người xuống một nhịp','Rồi ĐẠP đất bật lên khi xuống gậy',
         'Nghe tiếng whoosh to nhất SAU vị trí bóng'],
-  dur:3400,
+  dur:3400, s:[S(0,1,350,'io',80),S(1,2,300,'in',700),S(2,0,0,'io',350)],
   p:[vary(A_ADDR,{lean:29, tilt:-14, hipYaw:44, shoYaw:96, org:[70,79],
        legs:[L3(-1,2,-12,-2,9), L3(1,8,17,-10,-12)],
        arms:[{side:-1,grip:[6,-30,20]},{side:1,grip:[6,-30,20]}],
@@ -2323,7 +2324,7 @@ var DRILLS=[
  {id:'stepdrill', n:'Step Drill', sub:'Ép thân dưới khởi động downswing',
   cues:['Lên gậy đồng thời NHẤC chân trước khỏi sàn','Đặt chân trước về đích TRƯỚC khi xuống gậy',
         'Cảm giác thứ tự: chân → hông → thân → tay'],
-  dur:3800,
+  dur:3800, s:[S(0,1,900,'io',150),S(1,3,220,'out',150),S(3,2,300,'in',700),S(2,0,0,'io',400)],
   p:[vary(A_ADDR,{legs:[L3(-1,4,-9,-4,7), L3(1,4,9,-4,-7)]}),
      vary(A_ADDR,{lean:28, tilt:-13, hipYaw:40, shoYaw:90, org:[70,79],
        legs:[L3(-1,-16,-6,-24,4), L3(1,8,16,-10,-11)],
@@ -2332,12 +2333,16 @@ var DRILLS=[
      vary(A_ADDR,{lean:28, tilt:-17, hipYaw:-38, shoYaw:-8, org:[59,80],
        legs:[L3(-1,-4,-20,4,16), L3(1,12,12,-16,-8)],
        arms:[{side:-1,grip:[21,7,-3]},{side:1,grip:[21,7,-3]}],
-       gear:{k:'club',a:10,len:49}})]},
+       gear:{k:'club',a:10,len:49}}),
+     vary(A_ADDR,{lean:28, tilt:-13, hipYaw:40, shoYaw:90, org:[64,80],           /* chân đã đặt, gậy còn ở đỉnh */
+       legs:[L3(-1,-2,-16,2,13), L3(1,10,12,-14,-8)],
+       arms:[{side:-1,grip:[6,-28,19]},{side:1,grip:[6,-28,19]}],
+       gear:{k:'club',a:-126,len:26}})]},
 
  {id:'finish', n:'Kết thúc cân bằng', sub:'Dấu hiệu swing đúng trình tự',
   cues:['Trọng lượng dồn HẾT sang chân trước','Gót chân sau nhấc, mũi chân chống đất',
         'Giữ được thăng bằng 3 giây = trình tự đúng'],
-  dur:3400,
+  dur:3400, s:[S(0,1,420,'out',1500),S(1,0,0,'io',350)],
   p:[vary(A_ADDR,{lean:28, tilt:-18, hipYaw:-42, shoYaw:-12, org:[60,80],
        legs:[L3(-1,-2,-16,2,13), L3(1,10,12,-14,-8)],
        arms:[{side:-1,grip:[21,7,-3]},{side:1,grip:[21,7,-3]}],
@@ -2349,6 +2354,49 @@ var DRILLS=[
 ];
 
 var FIGOFF={A:0,B:5,C:10,D:15};
+
+/* ===== KỊCH BẢN CHUYỂN ĐỘNG TỪNG BÀI =====
+   Mỗi bài = chuỗi pha {a→b, d: ms, e: gia tốc, h: dừng ms}. e = 'io' đều, 'in' tăng tốc dần
+   (pha bùng nổ, rơi), 'out' nhanh rồi hãm (đẩy lên, tới đỉnh). d=0 = cắt về ngay (kết thúc rep).
+   Khung có x:1 là khung phụ chỉ dùng cho hình động, không hiện trong dải 3 hình. */
+var Q_IMPACT={view:-78,lean:28,tilt:-18,hipYaw:-42,shoYaw:-12,org:[60,80],legs:[L3(-1,-2,-16,2,13),L3(1,10,12,-14,-8)],
+  arms:[{side:-1,grip:[21,7,-3]},{side:1,grip:[21,7,-3]}],gear:{k:'club',a:10,len:49}};
+var Q_FINISH={view:-78,lean:6,tilt:14,hipYaw:-86,shoYaw:-112,org:[57,78],legs:[L3(-1,-6,-10,4,8),L3(1,26,20,-30,-16,-1)],
+  arms:[{side:-1,grip:[-6,-30,-20]},{side:1,grip:[-6,-30,-20]}],gear:{k:'club',a:128,len:26}};
+(function(){
+  function X(q){return {x:1,q:q};}
+  /* Box Jump: thêm khung đứng thẳng trước khi nhún */
+  FIGS3[3].push(X({view:32,org:[46,80],lean:4,legs:[L3(-1,2,-11,0,8),L3(1,2,11,0,-8)],arms:[{side:-1,u:4,ub:-9,f:6,fb:-7},{side:1,u:4,ub:9,f:6,fb:7}],behind:FIGS3[3][0].q.behind}));
+  /* KB Swing: ở đáy tay đưa tạ ra SAU giữa hai đùi */
+  FIGS3[1][1].q.arms=[{side:-1,u:-30,ub:-8,f:-34,fb:-5.6},{side:1,u:-30,ub:8,f:-34,fb:5.6}];
+  /* Swing golf: khung impact giữa đỉnh và finish */
+  [15,16,18].forEach(function(i){FIGS3[i].push(X(Q_IMPACT));});
+  /* Step Drill: khung "chân đã đặt xuống, gậy còn ở đỉnh" + finish */
+  var top=FIGS3[17][1].q, pl=JSON.parse(JSON.stringify(top));
+  pl.legs=[L3(-1,-2,-16,2,13),L3(1,10,12,-14,-8)]; pl.org=[64,80];
+  FIGS3[17].push(X(pl)); FIGS3[17].push(X(Q_FINISH));
+})();
+var FIGA={
+  0:[S(0,1,1500,'io',250),S(1,2,450,'out'),S(2,0,350,'out',550)],                         /* Goblet squat: hạ chậm, lên nhanh */
+  1:[S(0,1,900,'io',100),S(1,2,320,'out',180),S(2,1,650,'in',80),S(1,2,320,'out',180),S(2,1,650,'in',80),S(1,0,700,'io',500)], /* KB swing: 2 lần bật hông */
+  2:[S(0,1,1500,'io',250),S(1,2,450,'out'),S(2,0,350,'out',600)],
+  3:[S(3,0,500,'io',150),S(0,1,300,'out'),S(1,2,320,'in',750),S(2,3,0,'io',450)],          /* Box jump: đứng → nhún → bay → đáp, cắt về */
+  4:[S(0,1,600,'out',550),S(1,2,600,'io'),S(2,0,600,'io',400)],                            /* Bridge: siết nhanh, hạ chậm */
+  5:[S(0,1,380,'io',80),S(1,2,220,'in',300),S(2,0,1000,'io',400)],                          /* Ném xoay: hông trước, ném bùng nổ, về chậm */
+  6:[S(0,1,260,'in'),S(1,2,220,'out',320),S(2,0,1000,'io',450)],
+  7:[S(0,1,900,'io',1000),S(1,2,450,'io'),S(2,0,450,'io',500)],                             /* Pallof: giữ 1 s khi duỗi */
+  8:[S(0,1,1200,'io',400),S(1,2,600,'io'),S(2,0,600,'io',400)],
+  9:[S(0,1,800,'io',300),S(1,2,900,'io',450),S(2,1,900,'io',300),S(1,0,700,'io',500)],
+  10:[S(0,1,1800,'io',300),S(1,2,500,'out'),S(2,0,500,'out',450)],                          /* RDL: hạ 1,8 s */
+  11:[S(0,1,1300,'io',200),S(1,2,400,'out'),S(2,0,400,'out',450)],
+  12:[S(0,1,650,'out',450),S(1,2,600,'io'),S(2,0,600,'io',350)],
+  13:[S(0,1,220,'in'),S(1,2,160,'in',300),S(2,0,1100,'io',350)],                            /* Slam: đập bùng nổ, nhặt bóng chậm */
+  14:[S(0,1,900,'io',300),S(1,2,400,'out'),S(2,0,400,'out',450)],
+  15:[S(0,1,900,'io',150),S(1,3,300,'in'),S(3,2,380,'out',900),S(2,0,0,'io',500)],          /* Swing: lên chậm → impact → finish, giữ, cắt về */
+  16:[S(0,1,900,'io',150),S(1,3,300,'in'),S(3,2,380,'out',900),S(2,0,0,'io',500)],
+  17:[S(0,1,900,'io',150),S(1,3,220,'out',150),S(3,2,300,'in'),S(2,4,380,'out',800),S(4,0,0,'io',500)], /* Step drill: đặt chân TRƯỚC rồi mới xuống gậy */
+  18:[S(0,1,900,'io',150),S(1,3,300,'in'),S(3,2,380,'out',900),S(2,0,0,'io',500)]
+};
 /* ===== Chuyển động cho đặc tả 3D =====
    Dữ liệu 3D đã là góc thuần (không còn IK phải giải lúc chạy),
    nên chỉ cần trộn tuyến tính từng trường số giữa hai mốc. */
@@ -2381,26 +2429,46 @@ function blend3(A,B,x){
 /* một vòng lặp rAF duy nhất chạy mọi hình đang hiển thị */
 var PLAYERS=[], RAF=null, ANIM_ON=true;
 function nowMs(){return (window.performance&&performance.now)?performance.now():Date.now();}
+function easeF(e,u){
+  if(e==='in') return u*u*u;
+  if(e==='out') return 1-Math.pow(1-u,3);
+  return u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;
+}
+/* kịch bản mặc định khi bài chưa có: qua lại đều giữa các khung, dừng ~10% ở mỗi khung */
+function defaultScript(n,dur){
+  var seq=n>=3?[0,1,2,1]:[0,1], span=dur/seq.length, s=[];
+  seq.forEach(function(f,i){s.push(S(f,seq[(i+1)%seq.length],span*0.82,'io',span*0.18));});
+  return s;
+}
+function poseAt(p,tt){
+  var sc=p.script, seg=sc[0], acc=0;
+  for(var j=0;j<sc.length;j++){ if(tt<acc+sc[j].d+sc[j].h){seg=sc[j];break;} acc+=sc[j].d+sc[j].h; }
+  var lx=seg.d>0?Math.min(1,(tt-acc)/seg.d):1;
+  return {o:blend3(p.q[seg.a], p.q[seg.b], easeF(seg.e,lx)), seg:seg, lx:lx};
+}
 function tick(now){
   for(var i=0;i<PLAYERS.length;i++){
     var p=PLAYERS[i], el=p.el;
     if(!el.isConnected){PLAYERS.splice(i--,1);continue;}
-    var span=p.dur/p.seq.length, tt=(now-p.t0)%p.dur;
-    if(tt<0) tt+=p.dur;              /* rAF co the tra moc som hon t0 -> phep du am -> seg=-1 */
-    var seg=Math.floor(tt/span)%p.seq.length, lx=(tt-Math.floor(tt/span)*span)/span;
-    var u=Math.max(0,Math.min(1,(lx-.09)/.82));            /* giữ tư thế ~9% ở mỗi đầu đoạn */
-    var e=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;
-    var o=blend3(p.q[p.seq[seg]], p.q[p.seq[(seg+1)%p.seq.length]], e);
+    var tt=(now-p.t0)%p.dur; if(tt<0) tt+=p.dur;
+    var r=poseAt(p,tt), o=r.o;
     var br=Math.sin(now/1300);                              /* nhịp thở rất nhỏ: thân nhấp nhô, ngực nở */
     o.lean=(o.lean||0)+br*0.3; o.org=[o.org[0], o.org[1]+br*0.25]; if(o.sw!=null) o.sw+=br*0.12;
-    el.innerHTML=bodyF(o);
+    var svg=bodyF(o);
+    if(r.seg.d>0&&r.seg.d<=350&&r.lx>0.05&&r.lx<1){           /* pha bùng nổ: vệt mờ của 70 ms trước */
+      var g=poseAt(p,Math.max(0,tt-70)).o;
+      svg='<g opacity=".22">'+bodyF(g)+'</g>'+svg;
+    }
+    el.innerHTML=svg;
   }
   RAF=PLAYERS.length?requestAnimationFrame(tick):null;
 }
-function play(el, specs, dur, tag){
-  el.innerHTML=bodyF(specs[0]);           /* vẽ ngay dáng đầu, tránh nhịp trống */
+function play(el, specs, dur, tag, script){
+  var sc=script||defaultScript(specs.length,dur||2800), total=0;
+  sc.forEach(function(s){total+=s.d+s.h;});
+  el.innerHTML=bodyF(specs[sc[0].a]);      /* vẽ ngay dáng đầu, tránh nhịp trống */
   if(specs.length<2) return;
-  PLAYERS.push({el:el, q:specs, seq:(specs.length>=3?[0,1,2,1]:[0,1]), dur:dur||2800, t0:nowMs(), tag:tag});
+  PLAYERS.push({el:el, q:specs, script:sc, dur:total, t0:nowMs(), tag:tag});
   if(ANIM_ON && !RAF) RAF=requestAnimationFrame(tick);
 }
 function stopAll(){   /* chỉ dừng hình của chế độ tập trung, giữ hình thư viện */
@@ -2418,7 +2486,7 @@ function animSvg(){return '<svg viewBox="6 12 118 124"></svg>';}
 function figIdx(sid,e,i){return e.fig!==undefined?e.fig:FIGOFF[sid]+i}
 function figStrip(fi){
   var fr=fi!=null?FIGS3[fi]:null; if(!fr) return '';
-  return '<div class="f-figs">'+fr.map(function(f){
+  return '<div class="f-figs">'+fr.filter(function(f){return !f.x;}).map(function(f){
     return '<div class="f-fig"><svg viewBox="6 12 118 124">'+bodyF(f.q)+'</svg>'+
            '<div class="fc">'+f.cap+'</div><div class="fq">'+f.cue+'</div></div>';
   }).join('')+'</div>';
@@ -2439,7 +2507,7 @@ if(PLAN&&PLAN.lefty){
   }).join('');
   var cards=[].slice.call(host.querySelectorAll('.drill'));
   cards.forEach(function(c){ c.querySelector('svg').innerHTML=bodyF(byId(c.dataset.d).p[0]); });
-  function start(c){ if(c._on) return; c._on=1; play(c.querySelector('svg'), byId(c.dataset.d).p, byId(c.dataset.d).dur, 'drill'); }
+  function start(c){ if(c._on) return; c._on=1; var d=byId(c.dataset.d); play(c.querySelector('svg'), d.p, d.dur, 'drill', d.s); }
   function stop(c){ c._on=0; var s=c.querySelector('svg');
     for(var i=0;i<PLAYERS.length;i++){ if(PLAYERS[i].el===s){ PLAYERS.splice(i,1); break; } } }
   if(window.IntersectionObserver){
@@ -2517,7 +2585,7 @@ function renderStep(){
       }).join('')+'</div>'+
       (e.rest?'<button class="f-rest" type="button" data-rest="'+e.rest+'">⏱  Nghỉ '+e.rest+'s</button>':'');
     var av=FX.main.querySelector('.f-anim svg');
-    if(av){var fr=FIGS3[figIdx(s.id,e,st.n)]; if(fr) play(av, fr.map(function(x){return x.q;}), 2800);}
+    if(av){var fi=figIdx(s.id,e,st.n), fr=FIGS3[fi]; if(fr) play(av, fr.map(function(x){return x.q;}), 2800, undefined, FIGA[fi]);}
     FX.next.textContent=(st.n===s.ex.length-1)?'Kết thúc →':'Tiếp →';
   }
   upgradeVideos(FX.main);   /* link video vừa render -> thẻ video nhúng sẵn */
