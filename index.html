@@ -175,6 +175,43 @@
   .plan .prx{font-family:'Archivo',sans-serif;font-weight:900;font-size:.9rem;color:var(--green-deep);white-space:nowrap}
   .plan .pkg{display:block;font-family:'Be Vietnam Pro',sans-serif;font-weight:600;font-size:.68rem;color:#7A8780;text-align:right;margin-top:1px;white-space:normal;max-width:125px;margin-left:auto;line-height:1.35}
 
+  /* Thẻ bài tập thể lực — cùng ngôn ngữ với thư viện động tác + video của giáo án Swing */
+  .wmrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 4px}
+  .wmh{grid-column:1/-1;font:800 .66rem/1 'Archivo',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8A5A00}
+  .wm{background:var(--paper-dim);border-radius:12px;padding:6px 6px 8px;text-align:center}
+  .wm svg{width:100%;max-width:110px;display:block;margin:0 auto;background:var(--green-deep);border-radius:9px}
+  .wm .wl{font-size:.68rem;font-weight:600;line-height:1.3;color:#31473C;margin-top:5px}
+  .plan.exl{display:grid;gap:14px;margin-top:14px;counter-reset:none}
+  .plan.exl>li.exc{display:block;padding:14px;border:1px solid #E2DCC8;border-radius:16px;background:#fff;
+      box-shadow:0 1px 2px rgba(15,61,46,.05),0 8px 20px -12px rgba(15,61,46,.3)}
+  .plan.exl>li.exc:first-child{border-top:1px solid #E2DCC8}
+  .exc-main{display:flex;gap:14px;align-items:flex-start}
+  .exc-fig{flex:0 0 138px;text-align:center}
+  .exc-fig svg{width:100%;display:block;background:var(--green-deep);border-radius:12px}
+  .exc-cap{font-size:.62rem;font-weight:700;color:#7A8780;margin-top:5px;line-height:1.3}
+  .exc-txt{flex:1;min-width:0}
+  .exc-h{display:flex;gap:9px;align-items:center}
+  .exc-n{font-family:'Archivo',sans-serif;font-weight:900;font-size:1.02rem;line-height:1.2;color:var(--green-deep)}
+  .exc-rx{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 2px}
+  .exc-rx span{font-size:.7rem;font-weight:700;background:var(--paper);border-radius:99px;padding:4px 10px;color:#3C4A42;line-height:1.2}
+  .exc-rx .rx{background:var(--green-mid);color:var(--paper);font-family:'Archivo',sans-serif;font-weight:900}
+  .exc-note{font-size:.8rem;line-height:1.5;color:#31473C;margin-top:8px}
+  .exc-steps{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:5px}
+  .plan .exc-steps li{display:block;border:none;padding:6px 10px;font-size:.74rem;line-height:1.45;color:#3C4A42;background:var(--paper);border-radius:9px;border-left:3px solid var(--yellow)}
+  .exc-steps b{color:var(--green-deep)}
+  .exc-vids{margin-top:14px;padding-top:12px;border-top:1px dashed #D8D0B8;text-align:center}
+  .exc-vids .vbtn{margin:8px 4px 0}
+  .exc-vids .yt-row .yt{max-width:340px}
+  @media(min-width:1000px){
+    .plan.exl>li.exc:has(.yt){display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,340px);gap:20px;align-items:start}
+    .exc:has(.yt) .exc-vids{margin:0;padding:0 0 0 20px;border-top:none;border-left:1px dashed #D8D0B8;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+    .exc-fig{flex-basis:160px}
+  }
+  @media(max-width:460px){
+    .exc-fig{flex-basis:108px}
+    .exc-n{font-size:.94rem}
+    .wm .wl{font-size:.62rem}
+  }
   .start{display:block;width:100%;margin-top:18px;font-family:'Archivo',sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.04em;border:none;border-radius:13px;padding:16px;cursor:pointer;background:var(--yellow);color:var(--green-deep)}
   .start:hover{background:var(--yellow-soft)}
   .start:focus-visible{outline:3px solid var(--white);outline-offset:2px}
@@ -2084,12 +2121,20 @@ function vidHtml(v,cls){return '<a class="'+cls+(v.doc?' doc':'')+'" href="'+v.u
         '<div class="sess-facts"><span class="fact">'+s.day+'</span><span class="fact">'+s.dur+'</span><span class="fact">'+s.ex.length+' bài</span>'+(PLAN?'<span class="fact">✦ Theo hồ sơ '+esc(ME.name)+'</span>':'')+'</div>'+
       '</div>'+
       '<div class="sess-body">'+
-        '<div class="sess-warm">🔥<div><b>Khởi động:</b> '+s.warm.join(' · ')+'</div></div>'+
-        '<ul class="plan">'+s.ex.map(function(e,n){
-          return '<li><span class="pn">'+(n+1)+'</span><span class="pname">'+esc(e.name)+
-                 (e.orig?'<span class="swp">↻ Thay cho '+esc(e.orig)+' — '+esc(e.why)+'</span>':e.adj?'<span class="swp">✦ '+esc(e.adj)+'</span>':'')+'</span>'+
-                 '<span class="prx">'+esc(e.rx)+'<span class="pkg">'+esc((e.kg||'').split('·')[0].trim())+'</span></span></li>';
-        }).join('')+'</ul>'+
+        '<div class="wmrow"><div class="wmh">🔥 Khởi động · 5 phút</div>'+s.warm.map(function(w,n){
+          return '<div class="wm" data-s="'+s.id+'" data-n="'+n+'">'+animSvg()+'<div class="wl">'+esc(w)+'</div></div>';
+        }).join('')+'</div>'+
+        '<ol class="plan exl">'+s.ex.map(function(e,n){
+          var vids=(e.vids||[]).map(function(v){return vidHtml(v,'vbtn')}).join('');
+          return '<li class="exc" data-s="'+s.id+'" data-n="'+n+'"><div class="exc-body"><div class="exc-main">'+
+              '<div class="exc-fig">'+animSvg()+'<div class="exc-cap"></div></div>'+
+              '<div class="exc-txt"><div class="exc-h"><span class="pn">'+(n+1)+'</span><span class="exc-n pname">'+esc(e.name)+'</span></div>'+
+                (e.orig?'<span class="swp">↻ Thay cho '+esc(e.orig)+' — '+esc(e.why)+'</span>':e.adj?'<span class="swp">✦ '+esc(e.adj)+'</span>':'')+
+                '<div class="exc-rx"><span class="rx prx">'+esc(e.rx)+'</span>'+(e.kg?'<span>'+esc(e.kg)+'</span>':'')+(e.rest?'<span>⏱ nghỉ '+e.rest+'s</span>':'')+'</div>'+
+                (e.note?'<p class="exc-note">'+esc(e.note)+'</p>':'')+
+              '</div></div><ol class="exc-steps"></ol></div>'+
+            (vids?'<div class="exc-vids">'+vids+'</div>':'')+'</li>';
+        }).join('')+'</ol>'+
         '<button class="start" type="button" data-start="'+s.id+'">▶  BẮT ĐẦU BUỔI TẬP</button>'+
       '</div></div>';
     host.appendChild(p);
@@ -2722,6 +2767,37 @@ if(PLAN&&PLAN.lefty){
   } else cards.forEach(start);
 })();
 
+/* Thẻ bài tập thể lực: hình động (chuyển động thật nếu có), các bước, chạy khi thẻ trong tầm nhìn */
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.exc,.wm')); if(!cards.length) return;
+  function sess(id){for(var i=0;i<SESSIONS.length;i++) if(SESSIONS[i].id===id) return SESSIONS[i];}
+  cards.forEach(function(c){
+    var s=sess(c.dataset.s), n=+c.dataset.n, svg=c.querySelector('svg'); if(!s||!svg) return;
+    if(c.classList.contains('wm')){
+      var w=(WARM3[s.id]||[])[n]; c._clip=clipFor('W:'+s.id+':'+n); c._q=w&&w.p; c._dur=1900;
+    } else {
+      var e=s.ex[n], fi=figIdx(s.id,e,n), fr=FIGS3[fi];
+      c._clip=clipFor('F'+fi); c._q=fr&&fr.map(function(x){return x.q;}); c._sc=FIGA[fi]; c._dur=2800;
+      var steps=fr?fr.filter(function(f){return !f.x;}):[];
+      c.querySelector('.exc-steps').innerHTML=steps.map(function(f,k){return '<li><b>'+f.cap+'</b> — '+f.cue+'</li>';}).join('');
+      var mine=c._clip&&ME&&ME.clips&&ME.clips['F'+fi];
+      c.querySelector('.exc-cap').innerHTML=c._clip?(mine?'🎬 chuyển động của bạn':'🎬 chuyển động thật'+(c._clip.src?' <span class="mc-src" title="'+esc(c._clip.src)+'">ⓘ</span>':'')):(fr?'hình minh họa':'');
+    }
+    if(!c._clip&&!c._q){ svg.style.display='none'; return; }
+    svg.innerHTML=c._clip?bodyF(mocapPose(c._clip,0,c._clip.view)):bodyF(c._q[0]);
+  });
+  function start(c){ if(c._on) return; var svg=c.querySelector('svg'); if(!svg||(!c._clip&&!c._q)) return; c._on=1;
+    if(c._clip) playClip(svg,c._clip,'drill',c._clip.view); else play(svg,c._q,c._dur,'drill',c._sc); }
+  function stop(c){ c._on=0; var s=c.querySelector('svg');
+    for(var i=0;i<PLAYERS.length;i++){ if(PLAYERS[i].el===s){ PLAYERS.splice(i,1); break; } } }
+  if(window.IntersectionObserver){
+    var fired=false, io=new IntersectionObserver(function(es){ fired=true;
+      es.forEach(function(e){ if(e.isIntersecting) start(e.target); else stop(e.target); }); },{rootMargin:'100px'});
+    cards.forEach(function(c){ io.observe(c); });
+    setTimeout(function(){ if(!fired) cards.forEach(start); }, 1500);
+  } else cards.forEach(start);
+})();
+
 /* ===== CHẾ ĐỘ TẬP TRUNG ===== */
 var FX={el:document.getElementById('focus'),main:document.getElementById('f-main'),
   dots:document.getElementById('f-dots'),meta:document.getElementById('f-meta'),
@@ -3065,9 +3141,9 @@ function upgradeVideos(root){
     a.parentNode.replaceChild(w.firstChild, a);
   });
   /* ô bảng chứa video -> căn giữa; bảng có video -> xếp khối trên điện thoại */
-  [].slice.call((root||document).querySelectorAll('.tbl td')).forEach(function(td){
+  [].slice.call((root||document).querySelectorAll('.tbl td, .exc-vids')).forEach(function(td){
     if(!td.querySelector('.yt')) return;
-    td.classList.add('vcell'); td.closest('table').classList.add('tbl-vid');
+    if(td.tagName==='TD'){ td.classList.add('vcell'); td.closest('table').classList.add('tbl-vid'); }
     if(td.querySelector('.yt-row')) return;
     var row=document.createElement('div'); row.className='yt-row';
     var ys=td.querySelectorAll(':scope > .yt'); td.insertBefore(row, ys[0]);
