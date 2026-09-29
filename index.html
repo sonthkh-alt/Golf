@@ -45,10 +45,64 @@
 
   .honest{margin:18px 0 0;padding:13px 16px;border-left:3px solid var(--yellow);background:rgba(242,194,48,.08);border-radius:0 10px 10px 0;font-size:.86rem;color:#E8EFE9}
 
-  nav{position:sticky;top:0;z-index:50;background:rgba(15,61,46,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--green-line);margin-top:28px}
-  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px}
-  nav a{flex:0 0 auto;font-family:'Archivo',sans-serif;font-weight:800;font-size:.76rem;color:var(--paper);text-decoration:none;border:1px solid var(--green-line);border-radius:99px;padding:7px 12px;white-space:nowrap}
-  nav a:hover{background:var(--green-mid)}
+  /* ===== MENU DỌC BÊN TRÁI ===== */
+  :root{--side:252px}
+  .side{position:fixed;top:0;left:0;bottom:0;width:var(--side);z-index:120;background:#0A3024;border-right:1px solid var(--green-line);display:flex;flex-direction:column;gap:14px;padding:16px 12px 18px;overflow-y:auto;overscroll-behavior:contain}
+  .side-brand{display:flex;align-items:center;gap:10px;padding:2px 6px}
+  .side-brand .logo{width:36px;height:36px;border-radius:10px;background:var(--yellow);display:grid;place-items:center;font-size:1.1rem}
+  .side-brand b{display:block;font-family:'Archivo',sans-serif;font-weight:900;font-size:1.02rem;color:var(--white);line-height:1.1}
+  .side-brand small{font-size:.66rem;color:#8FB3A3}
+  .side-me{background:var(--green-mid);border:1px solid var(--green-line);border-radius:14px;padding:12px}
+  .me-top{display:flex;gap:10px;align-items:center}
+  .me-av{width:40px;height:40px;border-radius:50%;background:var(--yellow);color:var(--green-deep);display:grid;place-items:center;font-family:'Archivo',sans-serif;font-weight:900;font-size:1.05rem;flex:0 0 auto}
+  .me-av.demo{background:transparent;border:2px dashed #8FB3A3;color:#A9C8BA}
+  .me-n{font-family:'Archivo',sans-serif;font-weight:900;font-size:.95rem;color:var(--white);line-height:1.15;overflow-wrap:anywhere}
+  .me-s{font-size:.68rem;color:#A9C8BA;margin-top:1px}
+  .me-badge{display:inline-block;margin-top:9px;font-size:.62rem;font-weight:800;letter-spacing:.03em;border-radius:99px;padding:3px 9px;background:var(--yellow);color:var(--green-deep)}
+  .me-badge.demo{background:transparent;border:1px dashed #8FB3A3;color:#BCD6C9}
+  .me-act{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+  .me-act .btn{flex:1;padding:8px 10px;font-size:.72rem;white-space:nowrap}
+  .me-act .btn.y{background:var(--yellow);color:var(--green-deep)}
+  .me-act select{width:100%;font-family:'Be Vietnam Pro',sans-serif;font-size:.74rem;font-weight:600;border-radius:9px;border:1px solid var(--green-line);background:var(--green-deep);color:var(--paper);padding:7px 8px}
+  .side-nav{display:flex;flex-direction:column;gap:2px}
+  .side-nav .sg{font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#6F9A87;padding:10px 10px 4px}
+  .side-nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:var(--paper);text-decoration:none;font-weight:600;font-size:.86rem;transition:background .15s}
+  .side-nav a .ic{width:22px;text-align:center;font-size:.95rem;flex:0 0 auto}
+  .side-nav a:hover{background:var(--green-mid)}
+  .side-nav a.on{background:var(--yellow);color:var(--green-deep);font-weight:800}
+  .side-nav a:focus-visible{outline:2px solid var(--yellow);outline-offset:1px}
+  .side-go{margin-top:auto;font-family:'Archivo',sans-serif;font-weight:900;font-size:.84rem;border:none;border-radius:12px;padding:13px 12px;cursor:pointer;background:var(--yellow);color:var(--green-deep);text-align:center;line-height:1.3}
+  .side-go small{display:block;font-family:'Be Vietnam Pro',sans-serif;font-weight:600;font-size:.66rem;opacity:.8}
+  .side-go.rest{background:transparent;border:1px solid var(--green-line);color:var(--paper)}
+  .topbar{position:fixed;top:0;left:0;right:0;height:56px;z-index:100;background:rgba(10,48,36,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--green-line);display:flex;align-items:center;gap:10px;padding:0 12px}
+  .tb-menu{width:40px;height:40px;border-radius:10px;border:1px solid var(--green-line);background:var(--green-mid);color:var(--paper);font-size:1.15rem;cursor:pointer;flex:0 0 auto}
+  .tb-title{flex:1;min-width:0;font-family:'Archivo',sans-serif;font-weight:900;font-size:.95rem;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-today{font-family:'Archivo',sans-serif;font-weight:900;font-size:.75rem;border:none;border-radius:99px;padding:9px 13px;background:var(--yellow);color:var(--green-deep);cursor:pointer;white-space:nowrap}
+  .side-dim{display:none}
+  .side-x{position:absolute;top:14px;right:12px;background:none;border:none;color:var(--paper);font-size:1.3rem;cursor:pointer}
+  @media(min-width:1000px){
+    body{padding-left:var(--side)}
+    .topbar,.side-x{display:none}
+    html{scroll-padding-top:14px}
+  }
+  @media(max-width:999px){
+    body{padding-top:56px}
+    html{scroll-padding-top:66px}
+    .side{transform:translateX(-102%);transition:transform .24s ease;box-shadow:8px 0 40px rgba(0,0,0,.45);width:min(290px,86vw);visibility:hidden}
+    .side.open{transform:none;visibility:visible}
+    .side-dim.on{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:110}
+    header{padding-top:22px}
+  }
+  @media(prefers-reduced-motion:reduce){.side{transition:none}}
+
+  /* Nhãn "giáo án của bạn" ngay trong nội dung */
+  .mine{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:800;background:var(--yellow);color:var(--green-deep);border-radius:99px;padding:4px 12px;margin:2px 0 12px;border:none;font-family:'Be Vietnam Pro',sans-serif}
+  .mine.demo{background:transparent;border:1px dashed #8FB3A3;color:#BCD6C9;cursor:pointer}
+  .swp{display:block;font-size:.68rem;font-weight:700;color:#8A5A00;margin-top:2px;line-height:1.35}
+  .swp.f{color:var(--yellow-soft);font-size:.78rem;margin-top:8px}
+  .me-tag{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.03em;background:var(--green-deep);color:var(--yellow);border-radius:99px;padding:2px 8px;vertical-align:middle;margin-left:4px}
+  .tbl .me-row td{background:rgba(242,194,48,.2)}
+  .me-inl{margin-top:6px;font-size:.74rem;font-weight:600;color:#6B4A00;line-height:1.45}
 
   section{padding:40px 0 0}
   h2{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112;font-weight:800;font-size:1.4rem;color:var(--white);margin-bottom:4px}
@@ -281,6 +335,9 @@
   .plist li::before{content:counter(pr);font-family:'Archivo',sans-serif;font-weight:900;font-size:.8rem;background:var(--yellow);color:var(--green-deep);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto}
   .plist b{color:var(--green-deep)}
   .adj{font-size:.8rem;line-height:1.55;color:#31473C;padding-left:18px}
+  .adj-d{margin-top:16px;background:var(--paper-dim);border-radius:11px;padding:10px 13px}
+  .adj-d summary{cursor:pointer;font-family:'Archivo',sans-serif;font-weight:900;font-size:.85rem;color:var(--green-deep)}
+  .adj-d .adj{margin-top:8px}
   .adj li{margin:3px 0} .adj b{color:var(--green-deep)}
 
   /* ===== Trình tạo hồ sơ ===== */
@@ -331,11 +388,38 @@
 </head>
 <body>
 
+<!-- ===== MENU DỌC ===== -->
+<div class="topbar">
+  <button class="tb-menu" id="tb-menu" type="button" aria-label="Mở menu" aria-controls="side" aria-expanded="false">☰</button>
+  <span class="tb-title" id="tb-title">⛳ 300 Yard</span>
+  <button class="tb-today" id="tb-today" type="button">▶ Hôm nay</button>
+</div>
+<aside class="side" id="side" aria-label="Menu chính">
+  <button class="side-x" id="side-x" type="button" aria-label="Đóng menu">✕</button>
+  <div class="side-brand"><span class="logo">⛳</span><div><b>300 Yard</b><small>Giáo án 3.0 · 12 tháng</small></div></div>
+  <div class="side-me" id="side-me"></div>
+  <nav class="side-nav" id="side-nav">
+    <div class="sg">Tập luyện</div>
+    <a href="#homnay"><span class="ic">📅</span>Hôm nay tập gì</a>
+    <a href="#theluc"><span class="ic">🏋️</span>Thể lực</a>
+    <a href="#swing"><span class="ic">🎯</span>Giáo án Swing</a>
+    <div class="sg">Kế hoạch</div>
+    <a href="#lotrinh"><span class="ic">🗺️</span>Lộ trình 12 tháng</a>
+    <a href="#monitor"><span class="ic">📊</span>Số liệu mục tiêu</a>
+    <div class="sg">Theo dõi</div>
+    <a href="#nhatky"><span class="ic">📈</span>Nhật ký tốc độ</a>
+    <a href="#hoso"><span class="ic">👤</span>Hồ sơ &amp; cây gậy</a>
+    <a href="#nguyentac"><span class="ic">📌</span>Nguyên tắc</a>
+  </nav>
+  <button class="side-go" id="side-go" type="button">▶ Buổi hôm nay</button>
+</aside>
+<div class="side-dim" id="side-dim"></div>
+
 <header class="wrap">
   <p class="eyebrow">Giáo án 3.0 · Lộ trình 12 tháng · Thể lực + Swing · TPI-based</p>
   <div class="who" id="who"></div>
   <h1 id="hero-h1">220 <span class="to">→ 300</span> YARD</h1>
-  <p class="lede">Chương trình chu kỳ hóa (periodization) trọn 1 năm: Nền tảng → Sức mạnh → Công suất → Tốc độ, lặp 2 vòng. Chi tiết đến từng phút mỗi buổi, tích hợp launch monitor và lịch pickleball.</p>
+  <p class="lede" id="lede">Chương trình chu kỳ hóa (periodization) trọn 1 năm: Nền tảng → Sức mạnh → Công suất → Tốc độ, lặp 2 vòng. Chi tiết đến từng phút mỗi buổi, tích hợp launch monitor và lịch pickleball.</p>
 
   <div class="range" id="hero-range" role="img" aria-label="Thang cự ly: hiện tại 220 yard, mục tiêu 300 yard">
     <div class="range-track">
@@ -364,23 +448,6 @@
   <p class="honest" id="hero-honest"><strong>Cam kết trung thực:</strong> 105 mph với smash 1.48 và launch tối ưu cho carry ~255–265 yd, tổng lăn 280–300 yd tùy fairway. Lộ trình dưới đây là kịch bản tiến bộ tốt (+1–1,5 mph/tháng); nếu chậm hơn 2 tháng so với mốc, đừng nản — chỉ cần đường cong vẫn đi lên.</p>
 </header>
 
-<nav><div class="wrap">
-  <a href="#hoso">👤 Hồ sơ</a>
-  <a href="#homnay">Hôm nay</a>
-  <a href="#lotrinh">Lộ trình 12 tháng</a>
-  <a href="#theluc">Thể lực</a>
-  <a href="#swing">Giáo án Swing</a>
-  <a href="#monitor">Số liệu monitor</a>
-  <a href="#nhatky">Nhật ký mph</a>
-  <a href="#nguyentac">Nguyên tắc</a>
-</div></nav>
-
-<!-- ===== HỒ SƠ NGƯỜI TẬP ===== -->
-<section class="wrap" id="hoso">
-  <h2>Hồ sơ &amp; cây gậy của bạn</h2>
-  <p class="sub">Giáo án tự tính lại theo thể trạng, sức khỏe và thông số driver của từng người: tải tạ, bài thay thế, lịch tuần, mốc mph và khuyến nghị gậy.</p>
-  <div id="prof-host"></div>
-</section>
 
 <!-- ===== HÔM NAY ===== -->
 <section class="wrap" id="homnay">
@@ -565,6 +632,13 @@
     <div class="loglist" id="loglist"></div>
     <p class="lognote" id="lognote">Dữ liệu lưu tự động trên thiết bị này.</p>
   </div>
+</section>
+
+<!-- ===== HỒ SƠ NGƯỜI TẬP ===== -->
+<section class="wrap" id="hoso">
+  <h2>Hồ sơ &amp; cây gậy của bạn</h2>
+  <p class="sub">Giáo án tự tính lại theo thể trạng, sức khỏe và thông số driver của từng người: tải tạ, bài thay thế, lịch tuần, mốc mph và khuyến nghị gậy.</p>
+  <div id="prof-host"></div>
 </section>
 
 <!-- ===== NGUYÊN TẮC ===== -->
@@ -838,6 +912,7 @@ function tweakSessions(p,P){
       for(k in o) if(k!=='q'&&k!=='keepV') n[k]=o[k];
       if(!('fig' in o)) n.fig=null;
       if(!o.keepV&&!o.vids) n.vids=[{t:'Tìm video mẫu: '+n.name,u:YTS+encodeURIComponent(o.q||n.name)}];
+      n.orig=e.name; n.why=why;
       s.ex[i]=n;
       P.notes.push('Buổi '+sid+': <b>'+esc(e.name)+'</b> → <b>'+esc(n.name)+'</b> — '+why+'.');
       return;
@@ -899,7 +974,7 @@ function tweakSessions(p,P){
   }
   var ll=get('C').ex.filter(function(e){return e.name==='Lateral Lunge + Farmer Carry'})[0];
   if(ll){
-    if(inj.knee){ll.name='Lateral Band Walk + Farmer Carry';ll.kg='Dây quanh gối · + 2 × 30 m với 2×20–24 kg';ll.fig=null;
+    if(inj.knee){ll.orig=ll.name;ll.why='giảm tải khớp gối';ll.name='Lateral Band Walk + Farmer Carry';ll.kg='Dây quanh gối · + 2 × 30 m với 2×20–24 kg';ll.fig=null;
       P.notes.push('Buổi C: <b>Lateral Lunge</b> → <b>Lateral Band Walk</b> — giảm tải khớp gối.')}
     if(minEq){ll.kg=inj.knee?'Dây quanh gối · + 2 × 30 m xách balo':'Bodyweight · + 2 × 30 m xách balo/túi nước';ll.ld=''}
     if(inj.elbow) ll.note+=' ⚠ Khuỷu/cổ tay: giảm 30% tạ khi xách, dừng nếu đau mặt trong khuỷu.';
@@ -909,7 +984,7 @@ function tweakSessions(p,P){
   var D=get('D');
   D.ex.forEach(function(e){
     if(e.name==='Overspeed'){
-      if(inj.shoulder||inj.elbow||inj.back||p.age>=60){e.rx='2 × 5';P.notes.push('Buổi D: Overspeed giảm còn <b>2 × 5</b> — '+(p.age>=60?'phù hợp tuổi':'bảo vệ vùng đang đau')+'.')}
+      if(inj.shoulder||inj.elbow||inj.back||p.age>=60){e.rx='2 × 5';e.adj='Giảm từ 3 × 5 — '+(p.age>=60?'phù hợp tuổi':'bảo vệ vùng đang đau');P.notes.push('Buổi D: Overspeed giảm còn <b>2 × 5</b> — '+(p.age>=60?'phù hợp tuổi':'bảo vệ vùng đang đau')+'.')}
       if(p.golf==='new') e.note+=' Mới chơi golf: 2 tuần đầu chỉ swing 80% lực, giữ thăng bằng ở tư thế kết thúc.';
     }
     if(e.name==='Driver — đo mph'){
@@ -932,6 +1007,7 @@ function tweakSessions(p,P){
   if(p.days<5){
     var B=get('B'), pal=JSON.parse(JSON.stringify(B.ex[2])), rot=JSON.parse(JSON.stringify(B.ex[0]));
     pal.rx='2 × 10'; rot.rx='3 × 6';
+    pal.adj=rot.adj='Chuyển từ Buổi B (lịch '+p.days+' buổi/tuần)'; delete pal.orig; delete rot.orig;
     get('A').ex.push(pal); get('C').ex.push(rot);
     get('A').dur="45'"; get('C').dur="45'";
     S=S.filter(function(s){return s.id!=='B'});
@@ -939,6 +1015,9 @@ function tweakSessions(p,P){
   }
   get('A').day='Thứ 2';
   get('C').day=p.days===5?'Thứ 6':p.days===4?'Thứ 5':'Thứ 4';
+  if(p.days===3){var sb=swingBlocks(p,P)[0];
+    D.ex.push({name:'Kỹ thuật 15′ — khối riêng',rx:'1 khối',kg:sb.n+' · '+sb.dose.replace('10 bóng','6 bóng'),rest:0,fig:null,vids:[],
+      adj:'Buổi Swing kỹ thuật gộp vào đây (lịch 3 buổi)',note:sb.how+'. Đạt khi: '+sb.chk+'. Còn thời gian thì làm khối 1 của tuần trong Giáo án Swing.'});}
   if(p.days===3){D.dur="45'";D.title='Speed + kỹ thuật';D.goal='30\' tốc độ tối đa, sau đó 15\' kỹ thuật chậm theo Giáo án Swing của tuần.';
     P.notes.push('Lịch 3 buổi: buổi Swing kỹ thuật gộp vào <b>Thứ 7</b> — 15\' sau phần Speed, chỉ 1 khối của tuần.')}
 
@@ -996,7 +1075,24 @@ function tweakChanges(p,P){
   if(p.days===5){C.ph4[0].d=m1;C.ph4[4].d=m2;C.ph4[3]=SPR}
   else if(p.days===4) C.ph4=[{b:'T2',w:'Thể lực duy trì #1',d:m1},OS,SPR,{b:'T6',w:'Thể lực duy trì #2 + core',d:m2.replace(' — 25′',' · Pallof 2×10 — 30′')},TEST,REST];
   else C.ph4=[{b:'T2',w:'Thể lực duy trì (gộp)',d:m1.replace(' — 25′, ra về khi còn sung','')+' · '+m2.split(' — ')[0]+' — 35′'},{b:'T4',w:OS.w,d:OS.d,v:OS.v},SPR,TEST,REST];
+  ['ph2','ph3','ph4'].forEach(function(k){C[k].forEach(function(c){
+    if(!CHANGES[k].some(function(o){return o.b===c.b&&o.w===c.w&&o.d===c.d})) c.me=1;
+  })});
   return C;
+}
+
+/* ---------- Khối kỹ thuật riêng — chèn thẳng vào Giáo án Swing ---------- */
+function swingBlocks(p,P){
+  var B=[], heel=P.lefty?'phải':'trái', lm=p.dev==='lm', spw=spinWin(P.v0);
+  if(p.golf==='new') B.push({n:'Nền tảng: setup + tempo',how:'Đọc Setup checklist trước mỗi bóng, đếm nhịp 3:1, 80% lực',dose:'10 bóng',chk:'đủ 4 điểm checklist ở mọi bóng'});
+  if((p.aoa!=null&&p.aoa<0)||p.miss==='low') B.push({n:'Đánh lên — attack angle dương',how:'Tee cao hơn 1 nấc, bóng ngang gót '+heel+', vai sau thấp, cột sống nghiêng về sau',dose:'10 bóng',chk:lm?'AoA ≥ 0° ở 7/10 bóng, tiến tới +3°':'tee bay về phía trước (không cắm xuống) ở 7/10 bóng'});
+  if(p.miss==='slice') B.push({n:'Sửa slice — cổng 2 tee',how:'Cắm 2 tee tạo cổng phía trước bóng, hơi chếch ra ngoài đường mục tiêu; swing từ trong ra đi qua cổng, mặt gậy khép nhẹ',dose:'10 bóng',chk:lm?'face-to-path −2° → +2°, bóng cong < 15 yd':'7/10 bóng không cong ra ngoài'});
+  if(p.miss==='hook') B.push({n:'Kiểm soát hook — hold-off finish',how:'Grip trung tính (thấy 2 khớp tay trên), thân xoay liên tục qua impact, finish với mặt gậy hướng lên trời',dose:'10 bóng',chk:lm?'face-to-path −2° → +2°':'7/10 bóng không cong vào trong'});
+  if(p.miss==='high'||(p.spin!=null&&p.spin>spw[1]+200)) B.push({n:'Giảm spin — chạm cao trên mặt gậy',how:'Xịt phấn mặt gậy, tee cao, điểm chạm nhích lên nửa trên mặt',dose:'10 bóng',chk:lm?'spin '+num(spw[0])+'–'+num(spw[1])+' rpm':'dấu phấn ở nửa trên, giữa mặt'});
+  if(p.miss==='thin'||p.miss==='fat') B.push({n:'Điểm chạm thấp nhất — dồn chân trước',how:'Step Drill chậm rồi đánh bóng; kết thúc với 80% trọng lượng trên chân trước',dose:'5 khan + 10 bóng',chk:'không '+(p.miss==='fat'?'đánh đất':'top bóng')+' ở 8/10 bóng'});
+  if(p.miss==='mixed'||(P.smash0&&P.smash0<1.43)) B.push({n:'Strike giữa mặt — xịt phấn',how:'Xịt phấn mặt gậy, nhịp 3:1, 80% lực',dose:'10 bóng',chk:lm?'smash ≥ 1.45':'dấu phấn trong vùng đồng xu giữa mặt ở 6/10 bóng'});
+  if(!B.length) B.push({n:'Giữ strike khi tăng tốc',how:'Tempo 3:1 ở 90% lực, xịt phấn mặt gậy',dose:'10 bóng',chk:lm?'smash ≥ 1.46':'dấu phấn giữa mặt gậy'});
+  return B;
 }
 
 /* ---------- Khuyến nghị driver ---------- */
@@ -1098,6 +1194,7 @@ var CH={ymin:82,ymax:110,target:105};   /* thang biểu đồ mph */
 function applyProfileDom(){
   var p=ME,P=PLAN;
   var who=$id('who');
+  sectionChips();
   if(!P){
     who.innerHTML='<span>👋 Người mới? Tạo hồ sơ để giáo án tính theo cơ thể và cây gậy của bạn.</span><button class="btn" type="button" data-ob="new">＋ Tạo hồ sơ</button>';
     return;
@@ -1163,6 +1260,84 @@ function applyProfileDom(){
     var tw=document.createTreeWalker($id('swing'),NodeFilter.SHOW_TEXT,null,false),n;
     while((n=tw.nextNode())) n.nodeValue=lr(n.nodeValue);
   }
+  personalizeCurriculum(p,P);
+}
+function fmtH(cm){return (cm/100).toFixed(2).replace('.','m').replace(/0$/,'')}
+/* Nhãn ở đầu mỗi phần: giáo án riêng hay giáo án mẫu — tránh nhầm lẫn */
+function sectionChips(){
+  ['homnay','lotrinh','theluc','swing','monitor'].forEach(function(id){
+    var h2=document.querySelector('#'+id+' > h2'); if(!h2) return;
+    var d=document.createElement('div');
+    d.innerHTML=PLAN?'<span class="mine">✦ Giáo án riêng của '+esc(ME.name)+' — đã tính theo hồ sơ</span>'
+      :'<button type="button" class="mine demo" data-ob="new">Giáo án mẫu · 1m70 · 72 kg · ~88 mph — bấm để tạo giáo án riêng</button>';
+    h2.parentNode.insertBefore(d.firstChild,h2.nextSibling);
+  });
+}
+function textSwap(root,pairs){
+  var tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null,false),n,v;
+  while((n=tw.nextNode())){v=n.nodeValue;pairs.forEach(function(q){v=v.replace(q[0],q[1])});if(v!==n.nodeValue)n.nodeValue=v}
+}
+function personalizeCurriculum(p,P){
+  var sp=SPORTS[p.sport], B=swingBlocks(p,P), lm=p.dev==='lm', d3=p.days===3, inj=p.inj||{};
+  $id('lede').textContent='Chương trình chu kỳ hóa trọn 1 năm của '+p.name+': Nền tảng → Sức mạnh → Công suất → Tốc độ, lặp 2 vòng. '+p.days+' buổi/tuần'+(sp?', xếp quanh lịch '+sp.replace(/^\S+\s/,''):'')+'. Mọi bài tập, mức tạ, mốc tốc độ và khối kỹ thuật bên dưới đã tính theo hồ sơ của bạn.';
+  document.querySelector('header .eyebrow').textContent='Giáo án 3.0 · Cá nhân hóa cho '+p.name+' · Thể lực + Swing · TPI-based';
+
+  /* Thể lực: ghi chú theo lịch thực tế */
+  var s2=document.querySelector('#ph2 .sub');
+  if(s2) s2.textContent='Giữ nguyên '+SESSIONS.length+' buổi '+SESSIONS.map(function(s){return s.id}).join('·')+' ở trên (mức tạ đã theo hồ sơ). Chỉ đổi những bài dưới đây sang tạ nặng, ít rep, nghỉ dài 2–3 phút. GĐ5 lặp lại với tạ nặng hơn 15–20% và 5×5.';
+  var n4=document.querySelector('#ph4 .tbl-note');
+  if(n4&&p.days<5) n4.textContent='Lịch '+p.days+' buổi: Overspeed 2 buổi/tuần — '+(d3?'T4 + T7':'T3 + T7')+' là bắt buộc. Thêm 10\' sáng CN nếu cơ thể tốt.';
+
+  /* Lộ trình: cột thể lực + swing theo đúng bài của bạn */
+  var R=$id('road-tbl').querySelectorAll('tr');
+  function cell(r,i){return R[r]&&R[r].children[i]}
+  var TAG=' <span class="me-tag">✦</span>';
+  var ph2n=[]; CHANGES.ph2.forEach(function(c){var m=c.w.match(/<b>(.*?)<\/b>/);if(m)ph2n.push(m[1].replace(/<[^>]+>/g,''))});
+  var heavy=inj.back?'Hip thrust':p.eq==='gym'?'Trap bar DL':'RDL tạ đơn';
+  if(cell(2,2)) cell(2,2).innerHTML=(p.eq==='min'?'⚠ Cần tạ từ tháng này. ':'')+'Tạ nặng 4×5–6, nghỉ dài 2–3\'. Thêm '+ph2n.join(', ')+TAG;
+  if(cell(4,2)) cell(4,2).innerHTML='Contrast training: '+heavy+' 3×3 + '+(P.plyoRisk?'KB swing / step-up bùng nổ ngay sau (không bật nhảy)':'bật nhảy ngay sau')+'. '+(p.eq==='min'?'Dây kháng lực nặng → nhẹ':'Med ball nặng ném hết lực')+TAG;
+  if(cell(9,2)) cell(9,2).innerHTML='Contrast nâng cao: '+heavy+' 3×2 nặng + '+(P.plyoRisk?'KB swing bùng nổ':'broad jump')+'; ném bóng 1 tay'+TAG;
+  if(p.days<5){
+    if(cell(6,2)) cell(6,2).innerHTML='Giảm tạ 50%, mọi rep tốc độ tối đa. Overspeed 2 buổi/tuần'+TAG;
+    if(cell(11,2)) cell(11,2).innerHTML='Thể lực '+(d3?'1':'2')+' buổi duy trì. Overspeed Level 2, 2 buổi/tuần'+TAG;
+  }
+  var gear=clubRows(p,P).filter(function(r){return (r.st==='warn'||r.st==='bad')&&r.k.indexOf('Launch')<0}).map(function(r){return r.k.toLowerCase()+' → '+r.now});
+  if(cell(1,3)) cell(1,3).innerHTML+='<div class="me-inl">✦ Khối riêng: '+esc(B[0].n)+(gear.length?'<br>🔧 Tuần 1 chỉnh gậy: '+esc(gear.join(' · ')):'')+'</div>';
+  function monOf(fn){var f0=fn(P.v0);for(var i=0;i<12;i++) if(fn(P.months[i])!==f0) return i+1;return 0}
+  var fmo=monOf(flexFor), lmo=monOf(function(v){return loftFor(v).join()});
+  if(fmo&&R[fmo]) R[fmo].lastElementChild.innerHTML+='<div class="me-inl">🔧 Thử shaft '+FLEXN[flexFor(P.months[fmo-1])]+'</div>';
+  if(lmo&&R[lmo]) R[lmo].lastElementChild.innerHTML+='<div class="me-inl">🔧 Xem lại loft: '+rng(loftFor(P.months[lmo-1]),'°')+'</div>';
+
+  /* Giáo án Swing: khối riêng đầu mỗi buổi */
+  var pick=[B[0],B[0],B[1]||B[0],B[1]||B[0]];
+  document.querySelectorAll('#swing .card table').forEach(function(t,i){
+    var b=pick[i]; if(!b) return;
+    var tr=document.createElement('tr'); tr.className='me-row';
+    tr.innerHTML='<td class="m">Mọi buổi</td><td><span class="me-tag">✦ Khối riêng của bạn · '+(d3?'5\' · Thứ 7 sau Speed':'10\' đầu buổi')+'</span><br><b>'+esc(b.n)+'</b> — '+esc(b.how)+
+      ' · <b>'+esc(d3?b.dose.replace('10 bóng','6 bóng'):b.dose)+'</b>. Đạt khi: '+esc(b.chk)+'.'+
+      (d3&&i===0?'<br>Lịch 3 buổi: sau khối riêng chỉ làm <b>khối 1</b> của tuần.':'')+'</td>'+
+      '<td>'+(i===0&&gear.length?'🔧 Trước tuần 1 chỉnh gậy: '+esc(gear.join(' · ')):'—')+'</td>';
+    var first=t.querySelector('tr'); first.parentNode.insertBefore(tr,first.nextSibling);
+  });
+
+  if(d3) textSwap($id('swing'),[[/Buổi T3 — nội dung/g,'Thứ 7 (sau Speed) — nội dung'],[/Quy trình mỗi Thứ 3:/g,'Quy trình mỗi Thứ 7:']]);
+  /* Chưa có launch monitor: đổi chỉ số theo dõi sang cách đo làm được */
+  if(!lm){
+    var pairs=[[/theo dõi độ lệch trái–phải trên monitor/g,'đếm bóng rơi trong hành lang ±20 yd'],
+      [/chấm attack angle \(mục tiêu \+4°\)/g,'soi tee sau mỗi cú: tee bay về trước = đánh lên'],
+      [/"9 fairway ảo" trên simulator/g,'"9 fairway ảo" ở sân tập (chọn 2 cột mốc làm biên)'],
+      [/ghi bộ số liệu monitor đầy đủ/g,'ghi carry trung bình 5 cú'],
+      [/ghi bộ số liệu/g,'ghi carry trung bình'],
+      [/giữ smash ≥ 1\.46/g,'giữ dấu phấn giữa mặt gậy'],
+      [/khóa attack angle \+4°→\+5° ở 8\/10 bóng/g,'tee bay về trước ở 8/10 bóng'],
+      [/so số liệu sân với monitor/g,'so với cự ly ghi ở sân tập'],
+      [/Tuần 1 attack angle · Tuần 2 club speed ổn định · Tuần 3 smash ≥ 1\.46 · Tuần 4 cả bộ số liệu/g,'Tuần 1 hướng bay của tee · Tuần 2 nhịp 3:1 · Tuần 3 dấu phấn giữa mặt · Tuần 4 carry trung bình']];
+    if(p.dev==='none') pairs.push([/chấm mph từng cú/g,'đo tốc độ bằng app/radar nếu có'],[/5 driver max ghi mph/g,'5 driver max ghi carry']);
+    textSwap($id('swing'),pairs); textSwap($id('lotrinh'),pairs);
+    $id('mon-note').textContent+=' Chưa có launch monitor: theo dõi hàng Club speed'+(p.dev==='radar'?' (radar)':' (app/radar)')+' và Carry/Tổng; các hàng còn lại dùng khi đi fitting.';
+  }
+  var rules=document.querySelectorAll('#nguyentac .rule');
+  if(d3&&rules[0]) rules[0].innerHTML='<b>01 · Tách ý định.</b> Thứ 7: 30\' tốc độ trước (nhanh, mặc kệ hướng bóng), 15\' kỹ thuật sau (chậm, có ý định). Không trộn lẫn trong cùng một cú.';
 }
 
 /* ===== HỒ SƠ: khung báo cáo ===== */
@@ -1200,9 +1375,8 @@ function renderProfile(){
         '<div class="fit-g"><div><span>Gậy của bạn</span><b>'+r.mine+'</b></div><div class="now"><span>Nên dùng lúc này</span><b>'+r.now+'</b></div><div><span>Khi đạt đích</span><b>'+r.later+'</b></div></div>'+
         '<div class="why">'+r.why+'</div></div>'}).join('')+'</div>'+
       '<p class="tbl-note" style="color:#7A8780">Khuyến nghị theo chuẩn fitting phổ biến dựa trên tốc độ đầu gậy và chiều cao. Flex giữa các hãng không đồng nhất — trước khi mua gậy mới, hãy xác nhận bằng một buổi fitting có launch monitor.</p>'+
-      '<h4>🎯 Ưu tiên kỹ thuật của bạn</h4><ol class="plist">'+swingPriorities(p,P).map(function(x){return '<li><div>'+x+'</div></li>'}).join('')+'</ol>'+
-      '<h4>🛠 Giáo án đã điều chỉnh cho bạn</h4>'+
-      (P.notes.length?'<ul class="adj">'+P.notes.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>':'<p class="tbl-note" style="color:#5C6B62">Thể trạng của bạn khớp giáo án chuẩn — giữ nguyên mức tạ và bài tập.</p>')+
+      '<h4>🎯 Ưu tiên kỹ thuật — đã đưa vào Giáo án Swing</h4><ol class="plist">'+swingPriorities(p,P).map(function(x){return '<li><div>'+x+'</div></li>'}).join('')+'</ol>'+
+      (P.notes.length?'<details class="adj-d"><summary>🛠 Tóm tắt '+P.notes.length+' điều chỉnh — đã áp dụng thẳng vào giáo án</summary><ul class="adj">'+P.notes.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></details>':'<p class="tbl-note" style="color:#5C6B62">Thể trạng của bạn khớp giáo án chuẩn — giữ nguyên mức tạ và bài tập.</p>')+
       '<p class="tbl-note" style="color:#7A8780;margin-top:12px">Tăng tạ khi hoàn thành đủ mọi set 2 tuần liên tiếp mà rep cuối còn dư ~2 rep. Mức tạ gợi ý là điểm bắt đầu, không phải giới hạn.</p>'+
     '</div></div>';
 }
@@ -1366,8 +1540,25 @@ document.addEventListener('click',function(e){
   }
 });
 document.addEventListener('change',function(e){
-  if(e.target.id==='prof-sel'){lsSet(AKEY,e.target.value);location.hash='hoso';location.reload()}
+  if(e.target.id==='prof-sel'||e.target.id==='side-sel'){lsSet(AKEY,e.target.value);location.hash='hoso';location.reload()}
 });
+function renderSide(){
+  var p=ME,P=PLAN,host=$id('side-me');
+  var opts=PROFILES.length?'<select id="side-sel" aria-label="Đổi hồ sơ"><option value="">Giáo án mẫu</option>'+
+    PROFILES.map(function(x){return '<option value="'+x.id+'"'+(p&&x.id===p.id?' selected':'')+'>'+esc(x.name)+'</option>'}).join('')+'</select>':'';
+  if(P){
+    host.innerHTML='<div class="me-top"><span class="me-av">'+esc(p.name.trim().charAt(0).toUpperCase())+'</span><div><div class="me-n">'+esc(p.name)+'</div>'+
+      '<div class="me-s">'+fmtH(p.h)+' · '+p.w+' kg · '+p.days+' buổi/tuần</div></div></div>'+
+      '<span class="me-badge">✦ Giáo án riêng · '+mph(P.v0)+' → '+mph(P.v12)+' mph</span>'+
+      '<div class="me-act"><button class="btn y" type="button" data-ob="edit">✎ Sửa</button><button class="btn" type="button" data-ob="new">＋ Người mới</button>'+opts+'</div>';
+    $id('tb-title').textContent='⛳ '+p.name+' · '+P.tot0+' → '+P.tot12+' yd';
+  } else {
+    host.innerHTML='<div class="me-top"><span class="me-av demo">?</span><div><div class="me-n">Giáo án mẫu</div><div class="me-s">1m70 · 72 kg · ~88 mph</div></div></div>'+
+      '<span class="me-badge demo">Chưa cá nhân hóa</span>'+
+      '<div class="me-act"><button class="btn y" type="button" data-ob="new">＋ Tạo hồ sơ của bạn</button>'+opts+'</div>';
+  }
+}
+renderSide();
 applyProfileDom();
 renderProfile();
 if(ME){var dl=document.createElement('button');dl.type='button';dl.className='btn';dl.setAttribute('data-prof-del','1');dl.textContent='Xóa hồ sơ';dl.style.background='#8C4A3C';
@@ -1394,12 +1585,13 @@ function vidHtml(v,cls){return '<a class="'+cls+(v.doc?' doc':'')+'" href="'+v.u
         '<div class="sess-kicker">Buổi '+s.id+'</div>'+
         '<h3 class="sess-title">'+esc(s.title)+'</h3>'+
         '<p class="sess-goal">'+esc(s.goal)+'</p>'+
-        '<div class="sess-facts"><span class="fact">'+s.day+'</span><span class="fact">'+s.dur+'</span><span class="fact">'+s.ex.length+' bài</span></div>'+
+        '<div class="sess-facts"><span class="fact">'+s.day+'</span><span class="fact">'+s.dur+'</span><span class="fact">'+s.ex.length+' bài</span>'+(PLAN?'<span class="fact">✦ Theo hồ sơ '+esc(ME.name)+'</span>':'')+'</div>'+
       '</div>'+
       '<div class="sess-body">'+
         '<div class="sess-warm">🔥<div><b>Khởi động:</b> '+s.warm.join(' · ')+'</div></div>'+
         '<ul class="plan">'+s.ex.map(function(e,n){
-          return '<li><span class="pn">'+(n+1)+'</span><span class="pname">'+esc(e.name)+'</span>'+
+          return '<li><span class="pn">'+(n+1)+'</span><span class="pname">'+esc(e.name)+
+                 (e.orig?'<span class="swp">↻ Thay cho '+esc(e.orig)+' — '+esc(e.why)+'</span>':e.adj?'<span class="swp">✦ '+esc(e.adj)+'</span>':'')+'</span>'+
                  '<span class="prx">'+esc(e.rx)+'<span class="pkg">'+esc((e.kg||'').split('·')[0].trim())+'</span></span></li>';
         }).join('')+'</ul>'+
         '<button class="start" type="button" data-start="'+s.id+'">▶  BẮT ĐẦU BUỔI TẬP</button>'+
@@ -1413,7 +1605,7 @@ Object.keys(CHANGES).forEach(function(k){
   var host=document.querySelector('.chg[data-chg="'+k+'"]');if(!host)return;
   host.innerHTML=CHANGES[k].map(function(c){
     return '<div class="chg-item"><span class="chg-b'+(c.dd?' d':'')+'">'+c.b+'</span>'+
-      '<div class="chg-t"><div class="w">'+c.w+'</div><div class="dose">'+c.d+'</div>'+
+      '<div class="chg-t"><div class="w">'+c.w+(c.me?' <span class="me-tag">✦ chỉnh cho bạn</span>':'')+'</div><div class="dose">'+c.d+'</div>'+
       (c.v?vidHtml(c.v,'vbtn'):'')+'</div></div>';
   }).join('');
 });
@@ -1863,6 +2055,7 @@ function renderStep(){
     FX.main.innerHTML='<div class="f-name">'+esc(e.name)+'</div>'+
       '<div class="f-rx">'+esc(e.rx)+'</div>'+
       (e.kg?'<div class="f-kg">'+esc(e.kg)+'</div>':'')+
+      (e.orig?'<div class="swp f">↻ Thay cho '+esc(e.orig)+' — '+esc(e.why)+'</div>':e.adj?'<div class="swp f">✦ '+esc(e.adj)+'</div>':'')+
       (figIdx(s.id,e,st.n)!=null?'<div class="f-anim">'+animSvg()+'</div><div class="f-anim-cap">chuyển động</div>':'')+
       figStrip(figIdx(s.id,e,st.n))+
       (e.note?'<p class="f-note">'+esc(e.note)+'</p>':'')+
@@ -1957,6 +2150,14 @@ if(DOW[dw].s){
 }
 var cell=document.querySelector('.day[data-dow="'+dw+'"]');
 if(cell){cell.classList.add('now')}
+/* Nút "buổi hôm nay" trên menu dọc & thanh trên điện thoại */
+(function(){
+  var t=DOW[dw], go=document.getElementById('side-go'), tb=document.getElementById('tb-today');
+  if(t.s){go.innerHTML='▶ Vào Buổi '+t.s+' hôm nay<small>'+esc(t.name)+'</small>';tb.textContent='▶ Buổi '+t.s}
+  else {go.className='side-go rest';go.innerHTML=esc(t.name)+'<small>Hôm nay · '+days[dw]+'</small>';tb.textContent='Hôm nay'}
+  function run(){closeSide(); if(t.s) openFocus(t.s); else {var el=document.getElementById((t.link||'#homnay').slice(1));if(el)el.scrollIntoView({behavior:'smooth'})}}
+  go.addEventListener('click',run); tb.addEventListener('click',run);
+})();
 
 /* ===== Lưu trữ bền (window.storage nếu có, fallback bộ nhớ) ===== */
 var memStore={};
@@ -2155,6 +2356,29 @@ upgradeVideos(document);
   var b=document.getElementById('f-play'); if(!b) return;
   b.addEventListener('click',function(){ setAnim(!ANIM_ON); stSet('golf-anim', ANIM_ON?'1':'0'); });
   stGet('golf-anim').then(function(v){ if(v==='0') setAnim(false); }).catch(function(){});
+})();
+
+/* ===== Menu dọc: mở/đóng trên điện thoại + đánh dấu mục đang xem ===== */
+var SIDE=document.getElementById('side'), DIM=document.getElementById('side-dim'), TBM=document.getElementById('tb-menu');
+function openSide(){SIDE.classList.add('open');DIM.classList.add('on');TBM.setAttribute('aria-expanded','true');
+  var a=SIDE.querySelector('.side-nav a.on')||SIDE.querySelector('.side-nav a'); if(a) setTimeout(function(){a.focus()},60)}
+function closeSide(){if(!SIDE.classList.contains('open'))return;SIDE.classList.remove('open');DIM.classList.remove('on');TBM.setAttribute('aria-expanded','false')}
+TBM.addEventListener('click',openSide); DIM.addEventListener('click',closeSide);
+document.getElementById('side-x').addEventListener('click',function(){closeSide();TBM.focus()});
+SIDE.addEventListener('click',function(e){if(e.target.closest('a,[data-ob]'))closeSide()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSide()});
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.side-nav a'));
+  var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))}).filter(Boolean);
+  var last='';
+  function spy(){
+    var y=window.innerHeight*.3, cur='', best=-1e9;
+    secs.forEach(function(s){var t=s.getBoundingClientRect().top;if(t<=y&&t>best){best=t;cur=s.id}});
+    if(window.innerHeight+window.scrollY>=document.body.scrollHeight-4) cur='nguyentac';
+    if(cur===last) return; last=cur;
+    links.forEach(function(a){var on=a.getAttribute('href')==='#'+cur;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')});
+  }
+  window.addEventListener('scroll',spy,{passive:true}); window.addEventListener('resize',spy); spy();
 })();
 </script>
 </body>
