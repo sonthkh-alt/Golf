@@ -791,3 +791,9 @@ a.btn{text-decoration:none;display:inline-block}
 .sync-toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:300;background:#0F3D2E;color:#F5F2E8;border:1px solid #2A6B52;border-radius:12px;padding:10px 12px 10px 16px;display:flex;gap:12px;align-items:center;font:600 .82rem "Be Vietnam Pro",sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.4);max-width:calc(100vw - 32px)}
 .sync-toast button{border:none;border-radius:8px;padding:7px 12px;font:800 .76rem Archivo,sans-serif;background:#F2C230;color:#0F3D2E;cursor:pointer}
 .swing-plan{margin-top:34px;padding-top:24px;border-top:1px solid var(--green-line)}
+.sync .sent{display:flex;gap:12px;align-items:flex-start;background:#EAF2EC;border:1px solid #BFD9C8;border-radius:14px;padding:14px;margin-top:10px}
+.sync .sent-ic{font-size:1.6rem;line-height:1}
+.sync .sent b{color:var(--green-deep)}
+.sync .sent p{margin-top:4px}
+.sync .sent-code{margin-top:8px;font-size:.76rem;color:#5C6B62}
+.sync .sent-code summary{cursor:pointer;font-weight:700}

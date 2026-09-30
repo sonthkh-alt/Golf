@@ -117,7 +117,7 @@ function readReturn(){
   try{ history.replaceState(null,'',location.href.split('#')[0]); }catch(e){}
   if(q.error_description){ C.flash=q.error_description; return false; }
   saveSess({access_token:q.access_token,refresh_token:q.refresh_token,expires_in:+q.expires_in||3600,expires_at:+q.expires_at||0});
-  C.flash=Lx('✓ Đã xác nhận email — tài khoản đã được đồng bộ.','✓ Email confirmed — your account is synced.');
+  C.flash=Lx('✓ Đã xác nhận email — bạn đã đăng nhập. Có thể đóng tab cũ.','✓ Email confirmed — you are signed in. You can close the other tab.');
   return true;
 }
 function loadUser(){
@@ -265,9 +265,14 @@ function render(){
   } else {
     h+='<p>'+(u?Lx('Dữ liệu của bạn đã tự lưu lên đám mây trong một tài khoản khách. <b>Thêm email</b> để giữ tài khoản vĩnh viễn và mở trên điện thoại, máy tính khác.','Your data is already saved to the cloud in a guest account. <b>Add your email</b> to keep it permanently and open it on your phone or other computers.')
         :Lx('<b>Đăng nhập bằng email</b> (không cần mật khẩu) để lưu dữ liệu lên đám mây và dùng trên mọi thiết bị.','<b>Sign in with your email</b> (no password) to save your data to the cloud and use it on every device.'))+'</p>'+
-      '<div class="row"><input id="sy-email" type="email" autocomplete="email" placeholder="'+Lx('email@cua-ban.com','you@example.com')+'"><button class="btn y" type="button" data-sy="send">'+Lx('Gửi mã','Send code')+'</button></div>'+
-      '<div class="row" id="sy-code-row" '+(pending?'':'hidden')+'><input id="sy-code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="'+Lx('Mã 6 số trong email','6-digit code from email')+'"><button class="btn" type="button" data-sy="verify">'+Lx('Xác nhận','Confirm')+'</button></div>'+
-      '<p class="muted">'+Lx('Trên thiết bị khác: mở trang, vào Hồ sơ → nhập cùng email này. Có thể bấm link trong email thay cho nhập mã.','On another device: open the app, go to Profile → enter the same email. You can also tap the link in the email instead of typing the code.')+'</p>';
+      (pending?
+        '<div class="sent"><div class="sent-ic">📧</div><div><b>'+Lx('Đã gửi email tới ','Email sent to ')+esc(pending.email)+'</b>'+
+          '<p>'+Lx('Mở email và bấm nút <b>xác nhận / đăng nhập</b>. Trang này sẽ tự đăng nhập — không cần nhập gì thêm.','Open the email and tap the <b>confirm / log in</b> button. This page signs you in by itself — nothing to type.')+'</p>'+
+          '<p class="muted">'+Lx('Bấm link trên chính thiết bị bạn muốn đăng nhập. Không thấy email? Xem mục Spam / Quảng cáo.','Tap the link on the device you want to sign in on. No email? Check your spam / promotions folder.')+'</p>'+
+          '<details class="sent-code"><summary>'+Lx('Email có mã số? Nhập mã tại đây','Got a numeric code? Enter it here')+'</summary><div class="row"><input id="sy-code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456"><button class="btn" type="button" data-sy="verify">'+Lx('Xác nhận','Confirm')+'</button></div></details>'+
+          '<div class="row"><button class="btn g" type="button" data-sy="resend">'+Lx('Gửi lại','Resend')+'</button><button class="btn g" type="button" data-sy="change">'+Lx('Dùng email khác','Use another email')+'</button></div></div></div>'
+      :'<div class="row"><input id="sy-email" type="email" autocomplete="email" placeholder="'+Lx('email@cua-ban.com','you@example.com')+'"><button class="btn y" type="button" data-sy="send">'+Lx('Gửi link đăng nhập','Email me a sign-in link')+'</button></div>'+
+       '<p class="muted">'+Lx('Không cần mật khẩu: bạn nhận một email, bấm xác nhận là xong. Trên thiết bị khác, nhập cùng email này.','No password: you get an email, tap confirm and you are in. On another device, use the same email.')+'</p>');
   }
   host.innerHTML=h+'</div>'; paint();
 }
@@ -280,13 +285,14 @@ document.addEventListener('click',function(e){
   if(a==='off'){ if(!confirm(Lx('Tắt lưu đám mây trên máy này? Dữ liệu đã lưu vẫn còn trên đám mây.','Turn off cloud saving on this device? Data already saved stays in the cloud.'))) return; s('golf-sync-off','1'); render(); return; }
   if(a==='on'){ r('golf-sync-off'); render(); cycle().then(function(ch){ render(); afterPull(ch); }); return; }
   if(a==='out'){ if(!confirm(Lx('Đăng xuất và xóa dữ liệu khỏi thiết bị này? Dữ liệu vẫn còn trong tài khoản.','Sign out and remove data from this device? Your data stays in your account.'))) return; signOut(); return; }
-  if(a==='send'){ var em=document.getElementById('sy-email').value; b.disabled=true;
-    sendCode(em).then(function(){ var row=document.getElementById('sy-code-row'); if(row) row.hidden=false;
-      toast(Lx('Đã gửi — kiểm tra hộp thư (cả mục Spam).','Sent — check your inbox (and spam).')); var c=document.getElementById('sy-code'); if(c) c.focus(); },
-      function(err){ toast(Lx('Không gửi được: ','Could not send: ')+err.message); }).then(function(){ b.disabled=false; });
+  if(a==='send'||a==='resend'){ var em=a==='resend'?(pending&&pending.email):document.getElementById('sy-email').value; b.disabled=true;
+    sendCode(em).then(function(){ try{ sessionStorage.setItem('golf-auth-pending',JSON.stringify(pending)); }catch(x){} render();
+      toast(a==='resend'?Lx('Đã gửi lại email.','Email sent again.'):Lx('Đã gửi — mở email và bấm xác nhận.','Sent — open the email and tap confirm.')); },
+      function(err){ toast(Lx('Không gửi được: ','Could not send: ')+(/rate limit/i.test(err.message)?Lx('gửi quá nhiều email, thử lại sau ít phút','too many emails, try again in a few minutes'):err.message)); b.disabled=false; });
     return; }
+  if(a==='change'){ pending=null; try{ sessionStorage.removeItem('golf-auth-pending'); }catch(x){} render(); var ie=document.getElementById('sy-email'); if(ie) ie.focus(); return; }
   if(a==='verify'){ b.disabled=true;
-    verifyCode(document.getElementById('sy-code').value).then(function(ch){ toast(Lx('✓ Đã liên kết email','✓ Email linked')); render(); if(ch) setTimeout(function(){ location.reload(); },600); },
+    verifyCode(document.getElementById('sy-code').value).then(function(ch){ try{ sessionStorage.removeItem('golf-auth-pending'); }catch(x){} toast(Lx('✓ Đã liên kết email','✓ Email linked')); render(); if(ch) setTimeout(function(){ location.reload(); },600); },
       function(err){ toast(Lx('Mã không đúng hoặc đã hết hạn: ','Wrong or expired code: ')+err.message); }).then(function(){ b.disabled=false; });
     return; }
 });
@@ -294,6 +300,18 @@ document.addEventListener('click',function(e){
 /* ---------- khởi động ---------- */
 var firstDone; C.first=new Promise(function(ok){ firstDone=ok; });
 var returned=readReturn();
+if(returned){ try{ sessionStorage.removeItem('golf-auth-pending'); }catch(x){} }
+else { try{ pending=JSON.parse(sessionStorage.getItem('golf-auth-pending')||'null'); }catch(x){} }
+window.addEventListener('storage',function(ev){
+  if(ev.key!=='golf-auth'||!ev.newValue) return;
+  var n=jp(ev.newValue,null), was=C.user&&C.user.id;
+  if(!n||!n.access_token) return;
+  if(pending||!was||(n.user&&n.user.id!==was)){   /* đã xác nhận ở tab mở từ email */
+    try{ sessionStorage.removeItem('golf-auth-pending'); }catch(x){}
+    toast(Lx('✓ Đã xác nhận email — đang tải tài khoản…','✓ Email confirmed — loading your account…'));
+    setTimeout(function(){ location.reload(); },900);
+  }
+});
 function boot(){
   render(); paint();
   if(C.flash){ toast(C.flash); C.flash=''; }

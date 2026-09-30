@@ -16,15 +16,17 @@ Project Supabase: `pzojrhwtoxwcsrkucwti`.
 3. **Địa chỉ trang** — Authentication → URL Configuration:
    - Site URL: `https://sonthkh-alt.github.io/Golf/`
    - Redirect URLs: thêm `https://sonthkh-alt.github.io/Golf/**`
-4. **Mẫu email có mã 6 số (khuyên dùng)** — Authentication → Emails → Templates.
+   Bước này BẮT BUỘC cho đăng nhập bằng link: link trong email chỉ quay về app nếu địa chỉ app nằm trong danh sách này
+   (mặc định Supabase trỏ về `http://localhost:3000`, bấm link sẽ ra trang lỗi).
+4. **Mẫu email có mã 6 số (tùy chọn)** — người dùng chỉ cần bấm nút xác nhận trong email; mã số chỉ là cách dự phòng — Authentication → Emails → Templates.
    Trong mẫu **Magic Link** và **Change Email Address**, thêm dòng:
    `<p>Mã đăng nhập / Your code: <b>{{ .Token }}</b></p>`
    Người dùng nhập mã ngay trong app; link trong email vẫn dùng được.
 5. **Gửi email số lượng lớn** — SMTP mặc định của Supabase chỉ gửi vài email mỗi giờ.
    Trước khi mở bán rộng, cấu hình SMTP riêng (Resend, SendGrid, Amazon SES…) ở Authentication → Emails → SMTP Settings.
 
-Người dùng: lần đầu mở app → tài khoản khách; vào **Hồ sơ → Tài khoản** nhập email → nhập mã → tài khoản vĩnh viễn.
-Trên máy khác: nhập cùng email → nhập mã → dữ liệu tự tải về.
+Người dùng: vào **Hồ sơ → Tài khoản** nhập email → bấm nút xác nhận trong email → đã đăng nhập
+(tab đang mở app cũng tự cập nhật). Trên máy khác: nhập cùng email → bấm link trong email trên máy đó → dữ liệu tự tải về.
 
 ## 2. Gói Pro
 
