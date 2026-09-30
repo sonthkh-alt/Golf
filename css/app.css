@@ -797,3 +797,5 @@ a.btn{text-decoration:none;display:inline-block}
 .sync .sent p{margin-top:4px}
 .sync .sent-code{margin-top:8px;font-size:.76rem;color:#5C6B62}
 .sync .sent-code summary{cursor:pointer;font-weight:700}
+.sync .pw-alt{margin-top:12px;border-top:1px dashed #D8D0B8;padding-top:10px}
+.sync .pw-alt summary{cursor:pointer;font-weight:800;font-size:.8rem;color:var(--green-deep)}

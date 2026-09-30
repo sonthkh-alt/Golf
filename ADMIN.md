@@ -22,8 +22,18 @@ Project Supabase: `pzojrhwtoxwcsrkucwti`.
    Trong mẫu **Magic Link** và **Change Email Address**, thêm dòng:
    `<p>Mã đăng nhập / Your code: <b>{{ .Token }}</b></p>`
    Người dùng nhập mã ngay trong app; link trong email vẫn dùng được.
-5. **Gửi email số lượng lớn** — SMTP mặc định của Supabase chỉ gửi vài email mỗi giờ.
-   Trước khi mở bán rộng, cấu hình SMTP riêng (Resend, SendGrid, Amazon SES…) ở Authentication → Emails → SMTP Settings.
+5. **Máy chủ email riêng (SMTP) — cần trước khi có người dùng thật.**
+   Máy chủ email dựng sẵn của Supabase chỉ gửi ~2 email/giờ và CHỈ gửi tới email thành viên project, nên người dùng khác
+   sẽ không nhận được link. Cách nhanh nhất với Gmail (~500 email/ngày, miễn phí):
+   - Bật xác minh 2 bước cho Gmail → https://myaccount.google.com/apppasswords → tạo *App password* (16 ký tự).
+   - Supabase → Authentication → Emails → **SMTP Settings** → Enable custom SMTP:
+     Host `smtp.gmail.com` · Port `587` · Username = địa chỉ Gmail · Password = App password ·
+     Sender email = địa chỉ Gmail · Sender name `Golf Academy`.
+   - Authentication → **Rate Limits** → "Rate limit for sending emails" → tăng lên 30–100/giờ (chỉ sửa được sau khi bật SMTP riêng).
+   Khi lượng người dùng lớn, chuyển sang Resend / SendGrid / Amazon SES với tên miền riêng.
+6. **Đăng nhập bằng mật khẩu (không cần email)** — app có sẵn mục "🔑 Dùng mật khẩu". Để tạo tài khoản bằng mật khẩu
+   không phải chờ email, vào Authentication → Sign In / Providers → **Email** → tắt **Confirm email** → Save.
+   Đánh đổi: email không được xác minh (ai cũng có thể đăng ký bằng email bất kỳ). Khi đã có SMTP riêng, có thể bật lại.
 
 Người dùng: vào **Hồ sơ → Tài khoản** nhập email → bấm nút xác nhận trong email → đã đăng nhập
 (tab đang mở app cũng tự cập nhật). Trên máy khác: nhập cùng email → bấm link trong email trên máy đó → dữ liệu tự tải về.
