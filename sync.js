@@ -1,18 +1,22 @@
-/* ===== Đồng bộ đám mây (Supabase) — Giáo án 300 Yard =====
+/* ===== Đồng bộ đám mây TỰ ĐỘNG (Supabase) — Giáo án 300 Yard =====
    · Chạy TRƯỚC ứng dụng: ghi nhận mọi thay đổi localStorage có tiền tố "golf-".
+   · Mọi thiết bị mở trang dùng CHUNG một kho dữ liệu (SPACE) — không cần mã, không cần đăng nhập:
+     tạo/sửa hồ sơ ở đâu cũng tự lưu lên, mở trang ở máy khác là có.
    · Mỗi khóa mang dấu thời gian sửa; khi gộp, bản mới hơn thắng.
      Riêng danh sách hồ sơ: gộp theo từng người (id), tôn trọng danh sách đã xóa.
-   · Máy chủ: bảng golf_sync + 2 hàm golf_pull / golf_push (xem supabase.sql).
-   · Nhận diện bằng MÃ ĐỒNG BỘ ngẫu nhiên — không cần tài khoản, quét QR để nối máy mới. */
+   · Hồ sơ đang chọn (golf-profile-active) là của riêng từng máy.
+   · Máy chủ: bảng golf_sync + 2 hàm golf_pull / golf_push (xem supabase.sql). */
 (function(){
 'use strict';
-/* Điền sẵn để mọi thiết bị tự biết máy chủ (anon/publishable key là khóa công khai, an toàn khi để ở đây).
-   Để trống thì ứng dụng cho nhập trên giao diện, và mã QR mang theo cấu hình sang máy khác. */
-var CFG_DEFAULT={url:'https://pzojrhwtoxwcsrkucwti.supabase.co',key:'sb_publishable_TWvl8ePnnfWRdEUSE3f2Kg_dZOHRpIC'};
+var T=window.GOLF_SYNC_CFG;   /* chỉ dùng khi thử nghiệm: trỏ sang máy chủ giả lập */
+var CFG=T||{url:'https://pzojrhwtoxwcsrkucwti.supabase.co',key:'sb_publishable_TWvl8ePnnfWRdEUSE3f2Kg_dZOHRpIC'};
+var SPACE=(T&&T.space)||'GOLF300YARDSHAREDSPACE2026';   /* kho chung của trang */
+/* mở từ tệp cục bộ / localhost (đang phát triển, chạy test) thì KHÔNG chạm vào kho thật */
+var DEV=!T&&(location.protocol==='file:'||/^(localhost|127\.0\.0\.1)$/.test(location.hostname));
 
 var ls; try{ ls=window.localStorage; ls.getItem('x'); }catch(e){ return; }
 var PKEY='golf-profiles', DKEY='golf-del-ids';
-var LOCAL={'golf-sync-cfg':1,'golf-sync-code':1,'golf-sync-meta':1,'golf-sync-last':1,'golf-va-pending':1};
+var LOCAL={'golf-sync-cfg':1,'golf-sync-code':1,'golf-sync-meta':1,'golf-sync-last':1,'golf-sync-off':1,'golf-va-pending':1,'golf-profile-active':1};
 var rawSet=Storage.prototype.setItem, rawRem=Storage.prototype.removeItem;
 function g(k){try{return ls.getItem(k);}catch(e){return null;}}
 function s(k,v){try{rawSet.call(ls,k,v);return true;}catch(e){return false;}}
@@ -37,14 +41,9 @@ Storage.prototype.removeItem=function(k){
 };
 
 /* ---------- cấu hình ---------- */
-function cfg(){ var c=jp(g('golf-sync-cfg'),null); if(CFG_DEFAULT.url&&CFG_DEFAULT.key) return CFG_DEFAULT; return c&&c.url&&c.key?c:null; }
-function code(){ return g('golf-sync-code')||''; }
-function ready(){ return !!(cfg()&&code()); }
-function normCode(x){ return String(x||'').toUpperCase().replace(/[^A-Z2-7]/g,''); }
-function fmtCode(x){ return x.replace(/(.{4})(?=.)/g,'$1-'); }
-function newCode(){ var A='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', b=new Uint8Array(24), o='';
-  (window.crypto||window.msCrypto).getRandomValues(b); for(var i=0;i<24;i++) o+=A[b[i]&31]; return o; }
-function normUrl(u){ u=String(u||'').trim().replace(/\/+$/,''); if(u&&!/^https?:\/\//.test(u)) u='https://'+u; return u.replace(/\/rest\/v1$/,''); }
+function cfg(){ return CFG; }
+function code(){ return SPACE; }
+function ready(){ return !DEV&&g('golf-sync-off')!=='1'; }
 
 /* ---------- ảnh chụp + gộp ---------- */
 function snapshot(){
@@ -134,26 +133,6 @@ function afterPull(changed){
   toast('☁ Có dữ liệu mới từ thiết bị khác','Tải lại',function(){ location.reload(); });
 }
 
-/* ---------- liên kết mời / QR ---------- */
-function b64e(x){ return btoa(unescape(encodeURIComponent(x))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
-function b64d(x){ x=x.replace(/-/g,'+').replace(/_/g,'/'); while(x.length%4) x+='='; return decodeURIComponent(escape(atob(x))); }
-function joinLink(){
-  var c=cfg(), base=location.href.split('#')[0].split('?')[0], h='sync='+code();
-  if(!(CFG_DEFAULT.url&&CFG_DEFAULT.key)) h+='&c='+b64e(c.url+'|'+c.key);
-  return base+'#'+h;
-}
-function readHash(){
-  var m=/[#&]sync=([A-Za-z0-9-]+)(?:&c=([A-Za-z0-9_-]+))?/.exec(location.hash||''); if(!m) return false;
-  var cd=normCode(m[1]);
-  if(m[2]){ try{ var p=b64d(m[2]).split('|'); if(p[0]&&p[1]) s('golf-sync-cfg',JSON.stringify({url:normUrl(p[0]),key:p[1].trim()})); }catch(e){} }
-  if(cd.length>=20){ s('golf-sync-code',cd); s('golf-onb-seen','1'); }
-  try{ history.replaceState(null,'',location.href.split('#')[0]); }catch(e){ location.hash=''; }
-  return true;
-}
-readHash();
-/* trang đang mở sẵn mà bấm link mời (chỉ đổi phần #) → vẫn nối và tải dữ liệu */
-window.addEventListener('hashchange',function(){ if(readHash()&&ready()){ render(); cycle().then(function(ch){ render(); if(ch) location.reload(); }); } });
-
 /* ---------- giao diện ---------- */
 var CSS='.sync{background:var(--paper,#F5F2E8);color:var(--ink,#17241E);border-radius:16px;padding:18px 18px 16px;margin-top:14px}'+
 '.sync h3{font-family:Archivo,sans-serif;font-weight:900;font-size:1.02rem;color:var(--green-deep,#0F3D2E);margin:0 0 4px}'+
@@ -178,96 +157,63 @@ var CSS='.sync{background:var(--paper,#F5F2E8);color:var(--ink,#17241E);border-r
 '.sync-toast button{border:none;border-radius:8px;padding:7px 12px;font:800 .76rem Archivo,sans-serif;background:#F2C230;color:#0F3D2E;cursor:pointer}';
 function esc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function hhmm(t){ var d=new Date(+t); return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+' · '+d.getDate()+'/'+(d.getMonth()+1); }
-var state='idle', showCode=false;
+var state='idle';
 function setStatus(st){ state=st; paintStatus(); }
 function statusText(){
-  if(!cfg()) return {c:'err',t:'Chưa kết nối máy chủ'};
-  if(!code()) return {c:'err',t:'Chưa bật đồng bộ trên máy này'};
+  if(!ready()) return {c:'err',t:'Đang tắt trên máy này'};
   if(state==='run') return {c:'run',t:'Đang đồng bộ…'};
   if(state==='dirty') return {c:'run',t:'Có thay đổi — sắp lưu lên đám mây'};
   if(state==='err') return {c:'err',t:'Lỗi: '+lastErr};
-  var l=g('golf-sync-last'); return {c:'',t:l?'Đã đồng bộ lúc '+hhmm(l):'Đã kết nối'};
+  var l=g('golf-sync-last'); return {c:'',t:l?'Đã lưu lúc '+hhmm(l):'Đang kết nối…'};
 }
 function paintStatus(){
   var st=statusText(), a=document.getElementById('sync-st'); if(a){ a.className='st '+st.c; a.textContent=(st.c==='err'?'⚠ ':st.c==='run'?'⟳ ':'☁ ✓ ')+st.t; }
   var sd=document.getElementById('side-sync');
-  if(sd) sd.innerHTML=ready()?(state==='err'?'☁ <b>Lỗi đồng bộ</b>':state==='run'||state==='dirty'?'☁ Đang lưu…':'☁ Đã đồng bộ'+(g('golf-sync-last')?' '+hhmm(g('golf-sync-last')).split(' · ')[0]:'')):'☁ <b>Bật đồng bộ đa thiết bị</b>';
+  if(sd) sd.innerHTML=ready()?(state==='err'?'☁ <b>Lỗi đồng bộ</b>':state==='run'||state==='dirty'?'☁ Đang lưu…':'☁ Đã lưu đám mây'+(g('golf-sync-last')?' '+hhmm(g('golf-sync-last')).split(' · ')[0]:'')):'☁ <b>Lưu đám mây đang tắt</b>';
 }
 function toast(msg,btn,fn){
   var t=document.createElement('div'); t.className='sync-toast'; t.innerHTML='<span>'+esc(msg)+'</span>'+(btn?'<button type="button">'+esc(btn)+'</button>':'');
   document.body.appendChild(t); if(btn) t.querySelector('button').onclick=function(){ t.remove(); fn&&fn(); };
   if(!btn) setTimeout(function(){ t.remove(); },3500);
 }
-function loadQR(){ return window.QRCode?Promise.resolve():new Promise(function(ok,no){ var sc=document.createElement('script');
-  sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; sc.onload=ok; sc.onerror=no; document.head.appendChild(sc); }); }
 function render(){
   var host=document.getElementById('sync-host'); if(!host) return;
-  var c=cfg(), cd=code(), h='<div class="sync" id="dongbo"><h3>☁ Đồng bộ giữa máy tính và điện thoại</h3>';
-  if(!c){
-    h+='<p>Hồ sơ, nhật ký mph, số buổi đã tập và clip chuyển động đang chỉ nằm trên trình duyệt này. Kết nối một máy chủ Supabase (miễn phí) để mọi thiết bị dùng chung dữ liệu.</p>'+
-      '<ol><li>Tạo project tại <b>supabase.com</b> → mở <b>SQL Editor</b>, dán nội dung tệp <a href="supabase.sql" target="_blank" rel="noopener"><code>supabase.sql</code></a> (bấm để mở, chép toàn bộ) rồi bấm <b>Run</b>.</li>'+
-      '<li>Vào <b>Project Settings → API</b>, chép <b>Project URL</b> và <b>anon / publishable key</b> dán vào dưới đây.</li></ol>'+
-      '<div class="row"><input id="sy-url" placeholder="https://xxxx.supabase.co" autocomplete="off"></div>'+
-      '<div class="row"><input id="sy-key" placeholder="anon key hoặc sb_publishable_…" autocomplete="off"><button class="btn y" type="button" data-sy="cfg">Lưu máy chủ</button></div>';
-  } else if(!cd){
-    h+='<p>Máy chủ: <b>'+esc(c.url.replace(/^https?:\/\//,''))+'</b>. Chọn một trong hai:</p>'+
-      '<div class="or">Máy đầu tiên (đang có dữ liệu)</div>'+
-      '<div class="row"><button class="btn y" type="button" data-sy="new">☁ Bật đồng bộ &amp; tạo mã</button></div>'+
-      '<div class="or">Đã bật trên máy khác</div>'+
-      '<p>Quét mã QR trên máy kia bằng camera điện thoại, hoặc nhập mã đồng bộ:</p>'+
-      '<div class="row"><input id="sy-code" class="code" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters"><button class="btn" type="button" data-sy="join">Kết nối</button></div>'+
-      (CFG_DEFAULT.url?'':'<div class="row"><button class="btn g" type="button" data-sy="reset">Đổi máy chủ</button></div>');
-  } else {
+  var on=ready(), h='<div class="sync" id="dongbo"><h3>☁ Lưu trữ đám mây</h3>';
+  if(on){
     h+='<div class="row" style="margin-top:6px"><span class="st" id="sync-st"></span><button class="btn g" type="button" data-sy="now">⟳ Đồng bộ ngay</button></div>'+
-      '<p>Mọi thay đổi (hồ sơ, nhật ký mph, buổi đã tập, clip chuyển động) tự lưu lên đám mây sau ~2 giây và tự tải về khi mở trang trên thiết bị khác.</p>'+
-      '<div class="pair"><div class="qr" id="sy-qr"><span class="muted">Đang tạo QR…</span></div><div>'+
-        '<b style="font-size:.86rem;color:var(--green-deep)">📱 Nối điện thoại / máy khác</b>'+
-        '<p>Mở camera điện thoại, quét mã QR này. Hoặc mở trang trên máy kia, vào mục này và nhập mã:</p>'+
-        '<div class="row" style="margin-top:8px"><span class="cd" id="sy-cd">'+(showCode?fmtCode(cd):'••••-••••-••••-••••-••••-'+cd.slice(-4))+'</span>'+
-        '<button class="btn g" type="button" data-sy="show">'+(showCode?'Ẩn':'Hiện mã')+'</button><button class="btn g" type="button" data-sy="copy">Chép link</button></div>'+
-        '<p class="muted">Giữ mã như mật khẩu: ai có mã đều xem và sửa được dữ liệu này.</p></div></div>'+
-      '<div class="row"><button class="btn g" type="button" data-sy="off">Ngắt đồng bộ trên máy này</button></div>';
+      '<p>Hồ sơ, nhật ký mph, buổi đã tập và clip chuyển động <b>tự lưu lên đám mây</b> sau ~2 giây. Mở trang trên máy tính, điện thoại hay máy tính bảng đều thấy cùng dữ liệu — không cần đăng nhập hay thao tác gì.</p>'+
+      '<p class="muted">Lưu ý: kho dữ liệu dùng chung cho mọi ai mở trang này, nên chỉ chia sẻ đường link với người bạn tin tưởng.</p>'+
+      '<div class="row"><button class="btn g" type="button" data-sy="off">Tắt lưu đám mây trên máy này</button></div>';
+  } else if(DEV){
+    h+='<p>Bản chạy thử trên máy (tệp cục bộ / localhost) — không đồng bộ để tránh ghi dữ liệu thử vào kho thật.</p>';
+  } else {
+    h+='<p>Máy này đang tắt lưu đám mây — dữ liệu chỉ nằm trên trình duyệt này.</p>'+
+      '<div class="row"><button class="btn y" type="button" data-sy="on">☁ Bật lại lưu đám mây</button></div>';
   }
   host.innerHTML=h+'</div>'; paintStatus();
-  var q=document.getElementById('sy-qr');
-  if(q) loadQR().then(function(){ q.innerHTML=''; new window.QRCode(q,{text:joinLink(),width:148,height:148,correctLevel:window.QRCode.CorrectLevel.L}); })
-    .catch(function(){ q.innerHTML='<span class="muted">Không tải được QR — dùng “Chép link”.</span>'; });
 }
 document.addEventListener('click',function(e){
   var sd=e.target.closest&&e.target.closest('#side-sync');
   if(sd){ var d=document.getElementById('dongbo'); if(d){ d.scrollIntoView({behavior:'smooth',block:'start'}); var sx=document.getElementById('side-x'); if(sx&&window.innerWidth<1000) sx.click(); } return; }
   var b=e.target.closest&&e.target.closest('[data-sy]'); if(!b) return;
   var a=b.dataset.sy;
-  if(a==='cfg'){ var u=normUrl(document.getElementById('sy-url').value), k=document.getElementById('sy-key').value.trim();
-    if(!/^(https:\/\/[^\s]+|http:\/\/(localhost|127\.0\.0\.1)(:\d+)?)$/.test(u)||k.length<20){ toast('Kiểm tra lại Project URL và key'); return; }
-    s('golf-sync-cfg',JSON.stringify({url:u,key:k})); render(); return; }
-  if(a==='reset'){ r('golf-sync-cfg'); render(); return; }
-  if(a==='new'){ var nc=newCode(); s('golf-sync-code',nc);
-    /* máy đầu tiên: mọi dữ liệu hiện có được coi là mới nhất */
-    var m=meta(), t=Date.now(); for(var i=0;i<ls.length;i++){ var kk=ls.key(i); if(syncable(kk)&&!m[kk]) m[kk]=t; } setMeta(m);
-    render(); cycle().then(function(){ render(); if(!lastErr) toast('☁ Đã lưu dữ liệu lên đám mây'); }); return; }
-  if(a==='join'){ var jc=normCode(document.getElementById('sy-code').value);
-    if(jc.length<20){ toast('Mã đồng bộ gồm 24 ký tự'); return; }
-    s('golf-sync-code',jc); render();
-    rpc('golf_pull',{p_code:jc}).then(function(res){
-      if(!res){ r('golf-sync-code'); render(); toast('Không tìm thấy dữ liệu cho mã này'); return; }
-      return cycle().then(function(ch){ render(); if(ch) location.reload(); else toast('☁ Đã kết nối — dữ liệu đã khớp'); });
-    }).catch(function(err){ r('golf-sync-code'); render(); toast('Lỗi kết nối: '+(err&&err.message||err)); }); return; }
   if(a==='now'){ cycle().then(function(ch){ render(); afterPull(ch); }); return; }
-  if(a==='show'){ showCode=!showCode; render(); return; }
-  if(a==='copy'){ var L=joinLink(); (navigator.clipboard?navigator.clipboard.writeText(L):Promise.reject()).then(function(){ toast('Đã chép link — mở link trên điện thoại'); },function(){ prompt('Chép link này:',L); }); return; }
-  if(a==='off'){ if(!confirm('Ngắt đồng bộ trên máy này? Dữ liệu trên máy và trên đám mây vẫn giữ nguyên.')) return;
-    r('golf-sync-code'); r('golf-sync-last'); render(); paintStatus(); return; }
+  if(a==='off'){ if(!confirm('Tắt lưu đám mây trên máy này? Dữ liệu đã lưu vẫn còn trên đám mây và các máy khác.')) return;
+    s('golf-sync-off','1'); render(); return; }
+  if(a==='on'){ r('golf-sync-off'); render(); cycle().then(function(ch){ render(); afterPull(ch); }); return; }
 });
 
 /* ---------- khởi động ---------- */
 var st=document.createElement('style'); st.textContent=CSS; (document.head||document.documentElement).appendChild(st);
+var firstDone, first=new Promise(function(ok){ firstDone=ok; });
 function boot(){ render(); paintStatus();
-  if(ready()) cycle().then(function(ch){
+  if(!ready()){ firstDone(false); return; }
+  cycle().then(function(ch){
     /* tránh vòng tải lại: tối đa 1 lần mỗi 10 giây */
     var lr=0; try{ lr=+(sessionStorage.getItem('golf-sync-reload')||0); }catch(e){}
     if(ch&&Date.now()-lr>10000){ try{ sessionStorage.setItem('golf-sync-reload',String(Date.now())); }catch(e){} afterPull(true); }
     else render();
+    firstDone(ch);
   });
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
@@ -276,5 +222,5 @@ document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='hidden'){ if(tmr){ clearTimeout(tmr); tmr=null; cycle(); } }
   else cycle().then(afterPull);
 });
-window.GolfSync={link:function(){return ready()?joinLink():'';},cycle:cycle,merge:merge,snapshot:snapshot,ready:ready,_status:function(){return {state:state,err:lastErr};}};
+window.GolfSync={first:first,cycle:cycle,merge:merge,snapshot:snapshot,ready:ready,_status:function(){return {state:state,err:lastErr};}};
 })();

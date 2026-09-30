@@ -20,16 +20,13 @@ Tính năng: lộ trình 12 tháng chu kỳ hóa, chi tiết từng buổi theo 
 **Chuyển động thật đóng gói sẵn (`motion.js`):** 8 nguồn video có giấy phép mở (Wikimedia Commons: CC0 / CC BY / CC BY-SA / Public domain) được bắt bằng MediaPipe và retarget lên hình người, cắt đúng một rep, lặp mượt; dùng làm hình động mặc định cho Goblet Squat, KB Swing, RDL, Push-up, DB Row, 3 bài swing Buổi D, 4 bài thư viện Swing và 3 bài khởi động. Bài chưa có nguồn phù hợp (Bulgarian, Box Jump, Bridge, med ball, Pallof, Dead Bug, Side Plank, Lateral Lunge, Step Drill) vẫn dùng hình kịch bản. Clip người dùng tự quay ưu tiên hơn clip đóng gói.
 
 
-## Đồng bộ máy tính ↔ điện thoại (Supabase)
+## Lưu trữ đám mây tự động (Supabase)
 
-Mặc định dữ liệu (hồ sơ, nhật ký mph, buổi đã tập, clip chuyển động) chỉ nằm trong trình duyệt. Mục **Hồ sơ & cây gậy → ☁ Đồng bộ** đưa dữ liệu lên Supabase để mọi thiết bị dùng chung.
+Hồ sơ, nhật ký mph, buổi đã tập và clip chuyển động **tự lưu lên Supabase** (project `pzojrhwtoxwcsrkucwti`) ~1,5 giây sau mỗi thay đổi. Mở trang trên bất kỳ thiết bị nào cũng tự tải về — không mã, không đăng nhập, không thao tác.
 
-**Thiết lập một lần**
-1. Tạo project miễn phí tại supabase.com.
-2. SQL Editor → dán toàn bộ `supabase.sql` → Run (tạo bảng `golf_sync` khóa kín + 2 hàm `golf_pull` / `golf_push`).
-3. Project Settings → API: chép **Project URL** và **anon / publishable key**, dán vào ô trong trang, bấm *Lưu máy chủ* → *Bật đồng bộ & tạo mã*.
-4. Trên điện thoại: quét mã QR hiện trong trang (QR mang sẵn cấu hình máy chủ + mã).
-
-Máy chủ đã gắn sẵn trong `CFG_DEFAULT` ở đầu `sync.js` (project `pzojrhwtoxwcsrkucwti`, publishable key là khóa công khai) — thiết bị mới chỉ cần quét QR hoặc nhập mã đồng bộ.
-
-**Cách hoạt động** (`sync.js`): mỗi khóa `golf-*` trong localStorage mang dấu thời gian sửa; khi đồng bộ thì kéo → gộp (bản mới hơn thắng, hồ sơ gộp theo từng người, hồ sơ đã xóa không bị khôi phục) → ghi có kiểm tra phiên bản (xung đột thì tự thử lại). Tự đẩy ~1,5 giây sau mỗi thay đổi, tự kéo khi mở trang hoặc quay lại tab. Mã đồng bộ 24 ký tự ngẫu nhiên (120 bit) — ai có mã thì đọc/sửa được dữ liệu của mã đó, nên giữ như mật khẩu.
+- Mọi thiết bị dùng chung một kho (`SPACE` trong `sync.js`); hồ sơ đang chọn là riêng từng máy. Máy mới chưa chọn ai thì tự chọn hồ sơ đầu tiên.
+- Máy mới mở trang: chờ lần đồng bộ đầu (tối đa 4 giây) rồi mới hỏi tạo hồ sơ, nên không bị hỏi khi đám mây đã có dữ liệu.
+- Gộp dữ liệu: bản mới hơn thắng theo từng khóa; hồ sơ gộp theo từng người; hồ sơ đã xóa không bị khôi phục; ghi có kiểm tra phiên bản, xung đột thì tự thử lại.
+- Chạy từ tệp cục bộ hoặc localhost thì **không** đồng bộ (tránh ghi dữ liệu thử vào kho thật); bài thử dùng `window.GOLF_SYNC_CFG` trỏ sang máy chủ giả lập.
+- Máy chủ: chạy `supabase.sql` một lần trong SQL Editor (bảng `golf_sync` khóa kín + hàm `golf_pull` / `golf_push`).
+- **Lưu ý riêng tư:** kho dùng chung cho mọi người mở trang, không có đăng nhập — ai có link đều xem/sửa được dữ liệu.

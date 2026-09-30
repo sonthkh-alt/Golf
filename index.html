@@ -1028,7 +1028,9 @@ var PKEY='golf-profiles', AKEY='golf-profile-active';
 function lsGet(k){try{return window.localStorage?localStorage.getItem(k):null}catch(e){return null}}
 function lsSet(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}}
 var PROFILES=[]; try{PROFILES=JSON.parse(lsGet(PKEY)||'[]')||[]}catch(e){PROFILES=[]}
-var ME=null; (function(){var a=lsGet(AKEY); PROFILES.forEach(function(p){if(p.id===a)ME=p});})();
+var ME=null; (function(){var a=lsGet(AKEY); PROFILES.forEach(function(p){if(p.id===a)ME=p});
+  /* máy mới (hồ sơ tải từ đám mây về) chưa chọn ai -> chọn người đầu tiên */
+  if(!ME&&PROFILES.length){ME=PROFILES[0];lsSet(AKEY,ME.id);}})();
 var PLAN=null;
 /* Nhật ký & số buổi tách riêng từng người. Hồ sơ đầu tiên trên máy giữ dữ liệu cũ. */
 function K(base){return (ME&&!ME.legacy)?base+'::'+ME.id:base}
@@ -2101,7 +2103,10 @@ renderProfile();
 if(ME){var dl=document.createElement('button');dl.type='button';dl.className='btn';dl.setAttribute('data-prof-del','1');dl.textContent='Xóa hồ sơ';dl.style.background='#8C4A3C';
   var tl=document.querySelector('.prof-tools');if(tl)tl.appendChild(dl)}
 /* Lần đầu vào trang, chưa có hồ sơ -> mời tạo */
-if(!ME&&!PROFILES.length&&!lsGet('golf-onb-seen')) setTimeout(function(){obOpen('new')},700);
+/* chờ lần đồng bộ đầu: máy mới có thể đang tải hồ sơ từ đám mây về */
+if(!ME&&!PROFILES.length&&!lsGet('golf-onb-seen')) Promise.race([window.GolfSync?GolfSync.first:Promise.resolve(false),new Promise(function(ok){setTimeout(function(){ok(false)},4000)})]).then(function(ch){
+  if(!ch&&!PROFILES.length) setTimeout(function(){obOpen('new')},300);
+});
 
 /* ===== Render thẻ tổng quan mỗi buổi ===== */
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
