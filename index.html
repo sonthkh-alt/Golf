@@ -3,42 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Giáo án 300 Yard 3.0 — Lộ trình 12 tháng</title>
+<title data-en="Golf Academy — golf training programs, swing analysis &amp; golf fitness">Golf Academy — Giáo án golf, phân tích swing &amp; thể lực</title>
+<meta name="description" content="Học viện golf trong túi bạn: chương trình tập từng tuần, thư viện động tác có hình động, phân tích video swing bằng AI ngay trên máy, thể lực golf và theo dõi tiến bộ.">
+<meta name="theme-color" content="#0F3D2E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-
-<!-- ===== MENU DỌC ===== -->
+<a class="skip" href="#main" data-en="Skip to content">Bỏ qua tới nội dung</a>
+<!-- ===== THANH TRÊN (điện thoại) ===== -->
 <div class="topbar">
-  <button class="tb-menu" id="tb-menu" type="button" aria-label="Mở menu" aria-controls="side" aria-expanded="false">☰</button>
-  <span class="tb-title" id="tb-title">⛳ 300 Yard</span>
-  <button class="tb-today" id="tb-today" type="button">▶ Hôm nay</button>
+  <button class="tb-menu" id="tb-menu" type="button" aria-label="Mở menu" data-en-aria-label="Open menu" aria-controls="side" aria-expanded="false">☰</button>
+  <span class="tb-title" id="tb-title">Golf Academy</span>
+  <button class="tb-today" id="tb-today" type="button" data-en="▶ Today">▶ Hôm nay</button>
 </div>
-<aside class="side" id="side" aria-label="Menu chính">
-  <button class="side-x" id="side-x" type="button" aria-label="Đóng menu">✕</button>
-  <div class="side-brand"><span class="logo">⛳</span><div><b>300 Yard</b><small>Giáo án 3.0 · 12 tháng</small></div></div>
+<aside class="side" id="side" aria-label="Menu chính" data-en-aria-label="Main menu">
+  <button class="side-x" id="side-x" type="button" aria-label="Đóng menu" data-en-aria-label="Close menu">✕</button>
+  <a class="side-brand" href="#home"><span class="logo">⛳</span><div><b>Golf Academy</b><small data-en="Your pocket golf academy">Học viện golf trong túi bạn</small></div></a>
   <div class="side-me" id="side-me"></div>
   <button class="side-sync" id="side-sync" type="button"></button>
   <nav class="side-nav" id="side-nav">
-    <div class="sg">Tập luyện</div>
-    <a href="#homnay"><span class="ic">📅</span>Hôm nay tập gì</a>
-    <a href="#theluc"><span class="ic">🏋️</span>Thể lực</a>
-    <a href="#swing"><span class="ic">🎯</span>Giáo án Swing</a>
-    <a href="#video"><span class="ic">🎥</span>Phân tích video</a>
-    <div class="sg">Kế hoạch</div>
-    <a href="#lotrinh"><span class="ic">🗺️</span>Lộ trình 12 tháng</a>
-    <a href="#monitor"><span class="ic">📊</span>Số liệu mục tiêu</a>
-    <div class="sg">Theo dõi</div>
-    <a href="#nhatky"><span class="ic">📈</span>Nhật ký tốc độ</a>
-    <a href="#hoso"><span class="ic">👤</span>Hồ sơ &amp; cây gậy</a>
-    <a href="#nguyentac"><span class="ic">📌</span>Nguyên tắc</a>
+    <div class="sg" data-en="Overview">Tổng quan</div>
+    <a href="#home" data-nav="home"><span class="ic">🏠</span><span data-en="Home">Trang chủ</span></a>
+    <a href="#programs" data-nav="programs"><span class="ic">📚</span><span data-en="Programs">Chương trình</span></a>
+    <div class="sg" data-en="Training">Tập luyện</div>
+    <a href="#theluc" data-nav="fitness"><span class="ic">🏋️</span><span data-en="Fitness">Thể lực</span></a>
+    <a href="#swing" data-nav="swing"><span class="ic">🎯</span><span data-en="Swing technique">Kỹ thuật swing</span></a>
+    <a href="#video" data-nav="video"><span class="ic">🎥</span><span data-en="Video analysis">Phân tích video</span></a>
+    <a href="#driver" data-nav="driver"><span class="ic">🚀</span><span>Driver 300 Yard</span></a>
+    <div class="sg" data-en="Tracking">Theo dõi</div>
+    <a href="#progress" data-nav="progress"><span class="ic">📈</span><span data-en="Progress">Tiến bộ</span></a>
+    <a href="#hoso" data-nav="profile"><span class="ic">👤</span><span data-en="Profile &amp; clubs">Hồ sơ &amp; gậy</span></a>
+    <a href="#pro" data-nav="pro" class="nav-pro"><span class="ic">⭐</span><span data-en="Pro plans">Gói Pro</span></a>
   </nav>
+  <div class="side-lang" role="group" aria-label="Ngôn ngữ" data-en-aria-label="Language"><button type="button" data-setlang="vi">🇻🇳 Tiếng Việt</button><button type="button" data-setlang="en">🇬🇧 English</button></div>
   <button class="side-go" id="side-go" type="button">▶ Buổi hôm nay</button>
 </aside>
 <div class="side-dim" id="side-dim"></div>
 
+<main id="main">
+<!-- ===== TRANG CHỦ ===== -->
+<div class="view" data-view="home" id="home"><div class="wrap" id="home-host"></div></div>
+
+<!-- ===== CHƯƠNG TRÌNH ===== -->
+<div class="view" data-view="programs" id="programs" hidden><section class="wrap">
+  <h2 data-en="Training programs">Chương trình tập</h2>
+  <div id="prog-host"></div>
+</section></div>
+
+<!-- ===== CHƯƠNG TRÌNH DRIVER 300 YARD ===== -->
+<div class="view" data-view="driver" id="driver" hidden>
 <header class="wrap">
   <p class="eyebrow">Giáo án 3.0 · Lộ trình 12 tháng · Thể lực + Swing · TPI-based</p>
   <div class="who" id="who"></div>
@@ -72,7 +90,6 @@
   <p class="honest" id="hero-honest"><strong>Cam kết trung thực:</strong> 105 mph với smash 1.48 và launch tối ưu cho carry ~255–265 yd, tổng lăn 280–300 yd tùy fairway. Lộ trình dưới đây là kịch bản tiến bộ tốt (+1–1,5 mph/tháng); nếu chậm hơn 2 tháng so với mốc, đừng nản — chỉ cần đường cong vẫn đi lên.</p>
 </header>
 
-
 <!-- ===== HÔM NAY ===== -->
 <section class="wrap" id="homnay">
   <h2>Hôm nay tập gì?</h2>
@@ -101,7 +118,7 @@
 </section>
 
 <!-- ===== LỘ TRÌNH 12 THÁNG ===== -->
-<section class="wrap" id="lotrinh">
+<section class="wrap" id="lotrinh" data-pro="phases">
   <h2>Lộ trình 12 tháng — 2 chu kỳ lớn</h2>
   <p class="sub">Mỗi chu kỳ 6 tháng: Nền tảng/Sức mạnh → Công suất → Tốc độ → Test. Mốc mph là tốc độ cao nhất đo cuối tháng ở Buổi D.</p>
   <div class="tbl-scroll"><table class="tbl" id="road-tbl">
@@ -122,8 +139,38 @@
   <p class="tbl-note">Cấu trúc trong mỗi tháng: Tuần 1 làm quen mức mới → Tuần 2 tăng khối lượng → Tuần 3 cường độ đỉnh → Tuần 4 deload 30% + đo mph.</p>
 </section>
 
+<!-- ===== SỐ LIỆU MONITOR ===== -->
+<section class="wrap" id="monitor" data-pro="phases">
+  <h2>Bảng thông số launch monitor theo mốc</h2>
+  <div class="tbl-scroll"><table class="tbl" id="mon-tbl">
+    <tr><th>Chỉ số</th><th>Xuất phát</th><th>Mốc 6 tháng</th><th class="hl">Đích 12 tháng</th></tr>
+    <tr><td class="m">Club speed</td><td>87–90 mph</td><td>99–100 mph</td><td class="hl">105+ mph</td></tr>
+    <tr><td class="m">Ball speed</td><td>125–132</td><td>145–148</td><td class="hl">155+</td></tr>
+    <tr><td class="m">Smash factor</td><td>1.42–1.46</td><td>≥ 1.47</td><td class="hl">1.48–1.50</td></tr>
+    <tr><td class="m">Launch angle</td><td>đo thực tế</td><td>13–16°</td><td class="hl">13–16°</td></tr>
+    <tr><td class="m">Spin rate</td><td>đo thực tế</td><td>2.000–2.600 rpm</td><td class="hl">2.000–2.400 rpm</td></tr>
+    <tr><td class="m">Attack angle</td><td>đo thực tế</td><td>+2° → +4°</td><td class="hl">+4° → +5°</td></tr>
+    <tr><td class="m">Carry / Tổng</td><td>~200 / 220 yd</td><td>~240 / 255 yd</td><td class="hl">~260 / 285–300 yd</td></tr>
+  </table></div>
+  <p class="tbl-note" id="mon-note">Ở ~90 mph, chuyển attack angle từ −5° sang +5° có thể cộng gần 30 yard carry mà không cần swing nhanh hơn — luôn săn "yard miễn phí" này trước.</p>
+</section>
+
+<!-- ===== NGUYÊN TẮC ===== -->
+<section class="wrap" id="nguyentac">
+  <h2>5 nguyên tắc vàng cả năm</h2>
+  <div class="rules">
+    <div class="rule"><b>01 · Tách vai trò.</b> T3 = kỹ thuật (chậm, có ý định). T7 = tốc độ (nhanh, mặc kệ hướng bóng). Trộn lẫn = chậm cả hai.</div>
+    <div class="rule"><b>02 · Yard rẻ nhất nằm ở hiệu suất.</b> Attack angle dương + strike giữa mặt = 20–30 yard trước khi cần thêm 1 mph nào.</div>
+    <div class="rule"><b>03 · Tuần 4 mỗi tháng là deload.</b> Giảm 30% tạ, đo mph. Tiến bộ xảy ra khi phục hồi, không phải khi tập.</div>
+    <div class="rule"><b>04 · Pickleball là tài sản.</b> Nhưng tuần nào 2+ buổi pickleball: bỏ Box Jump / Broad Jump tuần đó để bảo vệ gối.</div>
+    <div class="rule"><b>05 · Phục hồi = 50% kết quả.</b> Ngủ 7h · protein ~115 g/ngày · nước 2–2,5 L. Đau nhói (khác mỏi) → dừng bài đó, quay lại biến thể GĐ trước.</div>
+  </div>
+</section>
+</div>
+
 <!-- ===== THỂ LỰC ===== -->
-<section class="wrap" id="theluc">
+<!-- ===== THỂ LỰC ===== -->
+<section class="wrap view" id="theluc" data-view="fitness" hidden>
   <h2>Thể lực theo giai đoạn</h2>
   <p class="sub">GĐ1 có giáo án đầy đủ từng bài. Các giai đoạn sau chỉ THAY ĐỔI những bài được liệt kê — cấu trúc tuần giữ nguyên.</p>
 
@@ -142,7 +189,7 @@
   </div>
 
   <!-- GĐ2/5 -->
-  <div class="panel" data-group="phase" id="ph2">
+  <div class="panel" data-group="phase" id="ph2" data-pro="phases">
     <h4 class="gd" style="margin-top:4px">GĐ2 (tháng 2–3) &amp; GĐ5 (tháng 7–8) — Sức mạnh</h4>
     <p class="sub">Giữ nguyên 4 buổi A·B·C·D ở trên. Chỉ đổi những bài dưới đây sang tạ nặng, ít rep, nghỉ dài 2–3 phút. GĐ5 lặp lại với tạ nặng hơn 15–20% và 5×5.</p>
     <div class="chg" data-chg="ph2"></div>
@@ -150,7 +197,7 @@
   </div>
 
   <!-- GĐ3/6 -->
-  <div class="panel" data-group="phase" id="ph3">
+  <div class="panel" data-group="phase" id="ph3" data-pro="phases">
     <h4 class="gd" style="margin-top:4px">GĐ3 (tháng 4–5) &amp; GĐ6 (tháng 9–10) — Công suất</h4>
     <p class="sub">Vũ khí chính: <b style="color:var(--yellow-soft)">contrast training</b> — 1 set nặng đánh thức hệ thần kinh, ngay sau đó 1 bài bật nhảy/ném bùng nổ. GĐ6 nâng lên 3×2 nặng + ném 1 tay.</p>
     <div class="chg" data-chg="ph3"></div>
@@ -158,7 +205,7 @@
   </div>
 
   <!-- GĐ4/7 -->
-  <div class="panel" data-group="phase" id="ph4">
+  <div class="panel" data-group="phase" id="ph4" data-pro="phases">
     <h4 class="gd" style="margin-top:4px">GĐ4 (tháng 6) &amp; GĐ7 (tháng 11) — Tốc độ đỉnh</h4>
     <p class="sub">Cơ bắp đã xây xong — giờ dạy hệ thần kinh dùng nó NHANH. Giảm khối lượng phòng gym để dồn năng lượng cho swing. Đây là lịch tuần thay thế:</p>
     <div class="chg" data-chg="ph4"></div>
@@ -166,14 +213,19 @@
   </div>
 </section>
 
+<!-- ===== KỸ THUẬT SWING ===== -->
 <!-- ===== GIÁO ÁN SWING ===== -->
-<section class="wrap" id="swing">
+<section class="wrap view" id="swing" data-view="swing" hidden>
+  <h2 data-en="🎯 Swing technique">🎯 Kỹ thuật swing</h2>
+  <p class="sub" data-en="Animated drill library from setup to putting. Filter by skill, tap a card to watch the motion.">Thư viện động tác có hình động từ setup đến putting. Lọc theo kỹ năng, xem chuyển động trước khi ra sân.</p>
+<p class="sub">Hình tự chuyển động, mô tả đúng trình tự. Bài <b style="color:var(--yellow-soft)">Setup chuẩn</b> cho máy quay xoay quanh người để soi tư thế từ nhiều phía.</p>
+  <div class="drills" id="drills"></div>
+
+  <div class="swing-plan">
   <h2 id="swing-h2">🎯 Giáo án Swing — buổi Thứ 3 · 45 phút</h2>
   <p class="sub">Mỗi giai đoạn có chủ đề riêng. Cấu trúc buổi bất biến: 5' khởi động → 3 khối × ~12' → 5' quay video &amp; ghi số liệu. Mỗi swing MỘT ý định, mỗi khối theo dõi MỘT chỉ số.</p>
 
-  <h4 class="gd" style="margin-top:16px">📐 Thư viện động tác — xem trước khi ra sân</h4>
-  <p class="sub">Hình tự chuyển động, mô tả đúng trình tự. Bài <b style="color:var(--yellow-soft)">Setup chuẩn</b> cho máy quay xoay quanh người để soi tư thế từ nhiều phía.</p>
-  <div class="drills" id="drills"></div>
+
 
   <h4 class="gd">GĐ1 · Tháng 1 — Bốn nền móng</h4>
   <div class="card">
@@ -189,6 +241,7 @@
     <p class="tbl-note">Chỉ số theo dõi: Tuần 1 attack angle · Tuần 2 club speed ổn định · Tuần 3 smash ≥ 1.46 · Tuần 4 cả bộ số liệu.</p>
   </div>
 
+  <div data-pro="phases">
   <h4 class="gd">GĐ2 (tháng 2–3) &amp; GĐ5 (tháng 7–8) — Biên độ xoay &amp; mặt gậy</h4>
   <div class="card">
     <div class="tbl-scroll"><table class="tbl">
@@ -224,10 +277,13 @@
     </table></div>
     <p class="tbl-note">Con số trên sân thật cuối GĐ4 (tháng 6) và GĐ7→8 (tháng 11–12) là hai kỳ "thi học kỳ" của cả năm.</p>
   </div>
+  </div>
+  </div>
 </section>
 
 <!-- ===== PHÂN TÍCH VIDEO ===== -->
-<section class="wrap" id="video">
+<!-- ===== PHÂN TÍCH VIDEO ===== -->
+<section class="wrap view" id="video" data-view="video" hidden>
   <h2>🎥 Phân tích video swing</h2>
   <p class="sub">Chọn video một cú swing quay bằng điện thoại. Máy nhận diện 33 điểm khớp trên từng khung hình, tách 4 pha (address → đỉnh → impact → kết thúc), đo tư thế và tempo rồi đưa ra bài sửa. <b style="color:var(--yellow-soft)">Video xử lý ngay trên máy bạn, không tải lên đâu.</b></p>
   <div class="va">
@@ -262,22 +318,9 @@
   </div>
 </section>
 
-<!-- ===== SỐ LIỆU MONITOR ===== -->
-<section class="wrap" id="monitor">
-  <h2>Bảng thông số launch monitor theo mốc</h2>
-  <div class="tbl-scroll"><table class="tbl" id="mon-tbl">
-    <tr><th>Chỉ số</th><th>Xuất phát</th><th>Mốc 6 tháng</th><th class="hl">Đích 12 tháng</th></tr>
-    <tr><td class="m">Club speed</td><td>87–90 mph</td><td>99–100 mph</td><td class="hl">105+ mph</td></tr>
-    <tr><td class="m">Ball speed</td><td>125–132</td><td>145–148</td><td class="hl">155+</td></tr>
-    <tr><td class="m">Smash factor</td><td>1.42–1.46</td><td>≥ 1.47</td><td class="hl">1.48–1.50</td></tr>
-    <tr><td class="m">Launch angle</td><td>đo thực tế</td><td>13–16°</td><td class="hl">13–16°</td></tr>
-    <tr><td class="m">Spin rate</td><td>đo thực tế</td><td>2.000–2.600 rpm</td><td class="hl">2.000–2.400 rpm</td></tr>
-    <tr><td class="m">Attack angle</td><td>đo thực tế</td><td>+2° → +4°</td><td class="hl">+4° → +5°</td></tr>
-    <tr><td class="m">Carry / Tổng</td><td>~200 / 220 yd</td><td>~240 / 255 yd</td><td class="hl">~260 / 285–300 yd</td></tr>
-  </table></div>
-  <p class="tbl-note" id="mon-note">Ở ~90 mph, chuyển attack angle từ −5° sang +5° có thể cộng gần 30 yard carry mà không cần swing nhanh hơn — luôn săn "yard miễn phí" này trước.</p>
-</section>
-
+<!-- ===== TIẾN BỘ ===== -->
+<div class="view" data-view="progress" id="progress" hidden>
+  <section class="wrap"><h2 data-en="Your progress">Tiến bộ của bạn</h2><div id="progress-host"></div></section>
 <!-- ===== NHẬT KÝ MPH ===== -->
 <section class="wrap" id="nhatky">
   <h2>Nhật ký tốc độ swing</h2>
@@ -293,33 +336,52 @@
     <p class="lognote" id="lognote">Dữ liệu lưu tự động trên thiết bị này.</p>
   </div>
 </section>
+</div>
 
+<!-- ===== HỒ SƠ ===== -->
 <!-- ===== HỒ SƠ NGƯỜI TẬP ===== -->
-<section class="wrap" id="hoso">
+<section class="wrap view" id="hoso" data-view="profile" hidden>
   <h2>Hồ sơ &amp; cây gậy của bạn</h2>
   <p class="sub">Giáo án tự tính lại theo thể trạng, sức khỏe và thông số driver của từng người: tải tạ, bài thay thế, lịch tuần, mốc mph và khuyến nghị gậy.</p>
   <div id="prof-host"></div>
   <div id="sync-host"></div>
 </section>
 
-<!-- ===== NGUYÊN TẮC ===== -->
-<section class="wrap" id="nguyentac">
-  <h2>5 nguyên tắc vàng cả năm</h2>
-  <div class="rules">
-    <div class="rule"><b>01 · Tách vai trò.</b> T3 = kỹ thuật (chậm, có ý định). T7 = tốc độ (nhanh, mặc kệ hướng bóng). Trộn lẫn = chậm cả hai.</div>
-    <div class="rule"><b>02 · Yard rẻ nhất nằm ở hiệu suất.</b> Attack angle dương + strike giữa mặt = 20–30 yard trước khi cần thêm 1 mph nào.</div>
-    <div class="rule"><b>03 · Tuần 4 mỗi tháng là deload.</b> Giảm 30% tạ, đo mph. Tiến bộ xảy ra khi phục hồi, không phải khi tập.</div>
-    <div class="rule"><b>04 · Pickleball là tài sản.</b> Nhưng tuần nào 2+ buổi pickleball: bỏ Box Jump / Broad Jump tuần đó để bảo vệ gối.</div>
-    <div class="rule"><b>05 · Phục hồi = 50% kết quả.</b> Ngủ 7h · protein ~115 g/ngày · nước 2–2,5 L. Đau nhói (khác mỏi) → dừng bài đó, quay lại biến thể GĐ trước.</div>
-  </div>
-</section>
+<!-- ===== GÓI PRO ===== -->
+<div class="view" data-view="pro" id="pro" hidden><section class="wrap" id="pro-host"></section></div>
+
+<!-- ===== PHÁP LÝ ===== -->
+<div class="view" data-view="legal" id="legal" hidden><section class="wrap legal">
+  <h2 data-en="Terms, privacy &amp; refunds">Điều khoản, bảo mật &amp; hoàn tiền</h2>
+  <h3 data-en="1. Terms of use">1. Điều khoản sử dụng</h3>
+  <p data-en="Golf Academy provides golf training programs, fitness plans and swing analysis for educational purposes. Exercises carry a risk of injury: warm up, respect the safety notes in each exercise and consult a doctor if you have a medical condition. You are responsible for training within your own limits. Content may not be copied or resold without permission.">Golf Academy cung cấp chương trình tập golf, giáo án thể lực và phân tích swing với mục đích giáo dục. Bài tập thể lực luôn có rủi ro chấn thương: hãy khởi động, tuân thủ lưu ý an toàn của từng bài và hỏi ý kiến bác sĩ nếu bạn có bệnh lý. Bạn tự chịu trách nhiệm tập trong giới hạn của mình. Không sao chép hay bán lại nội dung khi chưa được phép.</p>
+  <h3 data-en="2. Privacy">2. Bảo mật dữ liệu</h3>
+  <p data-en="We store only what you enter (profile, training logs, rounds, drill results) in your own account on our database (Supabase), protected so that only you can read it. Swing videos are analysed on your device and are never uploaded. We do not sell or share your data. To delete your account and data, contact support from the email linked to your account.">Chúng tôi chỉ lưu dữ liệu bạn nhập (hồ sơ, nhật ký tập, vòng golf, kết quả bài tập) trong tài khoản riêng của bạn trên cơ sở dữ liệu (Supabase), được bảo vệ để chỉ bạn đọc được. Video swing được phân tích ngay trên thiết bị và không bao giờ bị tải lên. Chúng tôi không bán hay chia sẻ dữ liệu của bạn. Muốn xóa tài khoản và dữ liệu, hãy liên hệ hỗ trợ từ email gắn với tài khoản.</p>
+  <h3 data-en="3. Payments &amp; refunds">3. Thanh toán &amp; hoàn tiền</h3>
+  <p data-en="Pro is sold as a monthly or yearly plan. Card subscriptions renew automatically until cancelled; you keep Pro until the end of the paid period. Bank-transfer plans do not renew. If you are not satisfied, request a full refund within 7 days of your first payment.">Gói Pro bán theo tháng hoặc theo năm. Gói trả bằng thẻ tự gia hạn cho tới khi bạn hủy; sau khi hủy vẫn dùng Pro tới hết kỳ đã trả. Gói chuyển khoản không tự gia hạn. Nếu không hài lòng, bạn được hoàn tiền 100% trong 7 ngày kể từ lần thanh toán đầu tiên.</p>
+  <h3 data-en="4. Video &amp; content credits">4. Nguồn video &amp; nội dung</h3>
+  <p data-en="Embedded YouTube videos belong to their creators. Built-in real-motion animations were captured from openly licensed videos (CC0, CC BY, CC BY-SA) — the source of each clip is shown with the ⓘ icon.">Video YouTube nhúng trong ứng dụng thuộc về tác giả của chúng. Các hình động "chuyển động thật" có sẵn được bắt từ video có giấy phép mở (CC0, CC BY, CC BY-SA) — nguồn của từng clip hiện ở biểu tượng ⓘ.</p>
+</section></div>
+</main>
 
 <footer>
-  <div class="wrap">
-    <span id="foot-who">Giáo án 300 Yard 3.0 · Lộ trình 12 tháng · Cá nhân hóa cho golfer 1m70 · 72 kg · Nguyên lý TPI (Titleist Performance Institute)</span>
-    <span>Bản dựng: 21/07/2026 · hình người 3 chiều v6 (tỉ lệ 7½ đầu, áo–quần–da tách màu, bóng khối, bàn tay–gót chân, đầu có hướng nhìn) · chuyển động theo kịch bản từng bài (pha hạ chậm–bùng nổ–dừng–cắt về, khung impact, vệt mờ pha nhanh) · chuyển động thật từ video (retarget khớp 3D MediaPipe lên hình, xoay góc nhìn, lưu theo bài) · 13 bài có sẵn chuyển động thật từ video giấy phép mở (motion.js) · đồng bộ đa thiết bị qua Supabase (sync.js) · video nhúng hiển thị sẵn trong trang kèm chú thích động tác · thời lượng · hiệu quả — bấm khung hình để phát tại chỗ. 35 link video &amp; tài liệu đã kiểm tự động ngày 20/07/2026 — tất cả còn sống, tiêu đề khớp đúng bài. Nhật ký mph lưu trên thiết bị — tải trang trên cùng thiết bị để giữ dữ liệu.</span>
+  <div class="wrap foot">
+    <div class="foot-brand"><b>⛳ Golf Academy</b><span data-en="Golf training programs · swing analysis · golf fitness">Giáo án golf · phân tích swing · thể lực golf</span></div>
+    <nav class="foot-links"><a href="#programs" data-en="Programs">Chương trình</a><a href="#pro" data-en="Pro plans">Gói Pro</a><a href="#legal" data-en="Terms &amp; privacy">Điều khoản &amp; bảo mật</a>
+      <button type="button" data-setlang="vi">Tiếng Việt</button><button type="button" data-setlang="en">English</button></nav>
+    <small id="foot-who" class="foot-who"></small>
+    <small class="foot-copy">© <span id="foot-year">2026</span> Golf Academy · v4.0</small>
   </div>
 </footer>
+
+<!-- ===== MENU ĐÁY (điện thoại) ===== -->
+<nav class="bnav" aria-label="Điều hướng nhanh" data-en-aria-label="Quick navigation">
+  <a href="#home" data-nav="home"><span>🏠</span><b data-en="Home">Trang chủ</b></a>
+  <a href="#programs" data-nav="programs"><span>📚</span><b data-en="Programs">Chương trình</b></a>
+  <a href="#swing" data-nav="swing"><span>🎯</span><b data-en="Swing">Swing</b></a>
+  <a href="#video" data-nav="video"><span>🎥</span><b data-en="Video">Video</b></a>
+  <a href="#progress" data-nav="progress"><span>📈</span><b data-en="Progress">Tiến bộ</b></a>
+</nav>
 
 <!-- Timer nổi -->
 <div id="timerbox">
@@ -362,8 +424,14 @@
   </div>
 </div>
 
-<script src="sync.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/config.js"></script>
+<script src="js/cloud.js"></script>
+<script src="js/pro.js"></script>
 <script src="motion.js"></script>
+<script src="js/programs.js"></script>
+<script>i18nApply(document);</script>
 <script src="js/app.js"></script>
+<script src="js/academy.js"></script>
 </body>
 </html>

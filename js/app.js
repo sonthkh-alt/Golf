@@ -10,6 +10,32 @@ function motionClip(key){
   if(m.mirror) c.f=s.f.map(function(f){return {t:f.t,o:[-f.o[0],f.o[1]],p:f.p.map(function(q){return [-q[0],q[1],q[2]];})};});
   MOTION_CACHE[key]=c; return c;
 }
+/* Swing một phần cắt từ cú swing thật (golfFO): lên gậy tới độ cao tay "back", xuống qua impact,
+   theo đà tới độ cao tay "thru". Độ cao tính theo toạ độ khớp (âm = cao hơn hông). */
+var DERIVED={'D:chip':{back:4,thru:-2,slow:1.4},'D:half':{back:-12,thru:-14,slow:1.2},'D:pitch':{back:-12,thru:-14,slow:1.2},
+  'D:wedgeclock':{back:-20,thru:-20,slow:1.1},'D:bunker':{back:-24,thru:-26,slow:1},'D:routine':{alias:'F16'}};
+function partialSwing(base,o){
+  function hy(f){return (f.p[17][1]+f.p[18][1])/2}
+  var F=base.f, n=F.length, top=0, imp, i, j;
+  for(i=0;i<n;i++) if(F[i].t<2000&&hy(F[i])<hy(F[top])) top=i;
+  imp=top; for(i=top;i<n;i++) if(F[i].t<2400&&hy(F[i])>hy(F[imp])) imp=i;
+  var a=[],b=[],c=[];
+  for(i=0;i<=top;i++){ a.push(F[i]); if(hy(F[i])<o.back) break; }
+  for(j=top;j<imp;j++) if(hy(F[j])>o.back) break;
+  for(i=j;i<=imp;i++) b.push(F[i]);
+  for(i=imp+1;i<n;i++){ c.push(F[i]); if(hy(F[i])<o.thru) break; }
+  var out=[], k=o.slow||1;
+  a.forEach(function(f){ out.push({t:Math.round(f.t*k),o:f.o,p:f.p}); });
+  var t=out[out.length-1].t+160, t0=b[0].t;
+  b.concat(c).forEach(function(f){ out.push({t:t+Math.round((f.t-t0)*k),o:f.o,p:f.p}); });
+  return {d:'',dur:out[out.length-1].t,org0:base.org0,view:base.view,club:base.club,src:base.src,f:out,hold:700};
+}
+(function(){ var mc=motionClip; motionClip=function(key){
+  var d=DERIVED[key]; if(!d) return mc(key);
+  if(MOTION_CACHE[key]) return MOTION_CACHE[key];
+  var base=mc(d.alias||'F16'); if(!base) return null;
+  return (MOTION_CACHE[key]=d.alias?base:partialSwing(base,d));
+}; })();
 /* clip cho một khoá: clip của người dùng > clip đóng gói sẵn > không có */
 function clipFor(key){return (ME&&ME.clips&&ME.clips[key])||motionClip(key);}
 /* ===== Tabs (uỷ quyền sự kiện — panel có thể render động) ===== */
@@ -114,7 +140,7 @@ var PLAN=null;
 function K(base){return (ME&&!ME.legacy)?base+'::'+ME.id:base}
 
 function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
-function vn(x){return String(x).replace('.',',')}
+function vn(x){return numL(x)}
 function mph(x){return vn(Math.round(x*2)/2)}
 function yd5(x){return Math.round(x/5)*5}
 function cm5(x){return Math.round(x/5)*5}
@@ -983,7 +1009,7 @@ function renderProfile(){
         '<div class="kpi"><div class="v">'+P.tot0+'→'+P.tot12+' <small>yd</small></div><div class="l">Cự ly tổng</div></div>'+
       '</div>'+
       P.alerts.map(function(a){return '<div class="alert'+(a[0]==='i'?' i':'')+'">'+a[1]+'</div>'}).join('')+
-      '<h4>📊 Phân tích chi tiết theo số liệu của bạn</h4>'+deepReport(p,P)+
+      '<h4>📊 Phân tích chi tiết theo số liệu của bạn</h4>'+(window.isPro&&!isPro()?proTeaser('report'):deepReport(p,P))+
       '<h4>🏌️ Phân tích driver'+(c.brand?' · '+esc(c.brand):'')+'</h4>'+
       '<div class="fit">'+CR.map(function(r){return '<div class="fit-i"><div class="fit-h"><span class="fit-k">'+r.k+'</span><span class="st '+r.st+'">'+STN[r.st]+'</span></div>'+
         '<div class="fit-g"><div><span>Gậy của bạn</span><b>'+r.mine+'</b></div><div class="now"><span>Nên dùng lúc này</span><b>'+r.now+'</b></div><div><span>Khi đạt đích</span><b>'+r.later+'</b></div></div>'+
@@ -1023,6 +1049,9 @@ function obForm(){
     chips('hand','Đánh golf thuận tay',[['r','Tay phải','đứng bên trái bóng'],['l','Tay trái','đứng bên phải bóng']])+
   '</div></fieldset>',
   '<fieldset><legend>Nền tảng &amp; thời gian tập</legend><div class="fg">'+
+    chips('goal',L('Mục tiêu chính','Main goal'),[['basics',L('Nắm vững cơ bản','Learn the fundamentals')],['score',L('Giảm điểm · phá 90','Lower scores · break 90')],
+      ['short',L('Short game & putting','Short game & putting')],['power',L('Tăng cự ly driver','More driver distance')],['fit',L('Thể lực & phòng chấn thương','Fitness & injury prevention')]],'radio',
+      L('Ứng dụng sẽ gợi ý chương trình phù hợp nhất.','The app will suggest the best program for you.'))+
     chips('golf','Đã chơi golf',[['new','< 1 năm'],['y13','1–3 năm'],['y310','3–10 năm'],['gt10','> 10 năm']])+
     inp('hcp','Handicap <i>(nếu có)</i>','number','Bỏ trống nếu chưa có','','min="-5" max="54" step="0.1"')+
     chips('gym','Kinh nghiệm tập tạ',[['none','Chưa bao giờ'],['lt1','< 1 năm'],['y13','1–3 năm'],['gt3','> 3 năm']],'radio','Tính theo thời gian tập đều đặn, không tính các đợt bỏ dở.')+
@@ -1058,9 +1087,9 @@ function obForm(){
   '</div></fieldset>'].join('');
 }
 function obSet(p){
-  var f=$id('ob-form'); if(!p) p={sex:'m',hand:'r',golf:'y13',gym:'lt1',days:5,eq:'gym',sport:'none',dev:'lm',club:{}};
+  var f=$id('ob-form'); if(!p) p={sex:'m',hand:'r',golf:'y13',gym:'lt1',days:5,eq:'gym',sport:'none',dev:'lm',club:{},goal:'basics'};
   var c=p.club||{};
-  var V={name:p.name,sex:p.sex,age:p.age,h:p.h,w:p.w,hand:p.hand,golf:p.golf,hcp:p.hcp,gym:p.gym,days:p.days,eq:p.eq,sport:p.sport,
+  var V={goal:p.goal||'power',name:p.name,sex:p.sex,age:p.age,h:p.h,w:p.w,hand:p.hand,golf:p.golf,hcp:p.hcp,gym:p.gym,days:p.days,eq:p.eq,sport:p.sport,
     brand:c.brand,loft:c.loft,sw:c.sw,flex:c.flex,len:c.len,glove:c.glove,grip:c.grip,dev:p.dev,cs:p.cs,bs:p.bs,carry:p.carry,total:p.total,miss:p.miss,aoa:p.aoa,launch:p.launch,spin:p.spin};
   Object.keys(V).forEach(function(k){
     var v=V[k]; if(v===undefined||v===null) v='';
@@ -1075,7 +1104,7 @@ function obGet(){
   function v(k){var el=f.querySelector('[name="'+k+'"]:checked')||f.querySelector('[name="'+k+'"]:not([type=radio])');return el?String(el.value).trim():''}
   function n(k){var x=v(k).replace(',','.');return x===''||isNaN(+x)?null:+x}
   var inj={}; f.querySelectorAll('[name="inj"]:checked').forEach(function(el){inj[el.value]=true});
-  return {name:v('name'),sex:v('sex')||'m',age:n('age'),h:n('h'),w:n('w'),hand:v('hand')||'r',golf:v('golf')||'y13',hcp:n('hcp'),gym:v('gym')||'lt1',
+  return {goal:v('goal')||'basics',name:v('name'),sex:v('sex')||'m',age:n('age'),h:n('h'),w:n('w'),hand:v('hand')||'r',golf:v('golf')||'y13',hcp:n('hcp'),gym:v('gym')||'lt1',
     days:+(v('days')||5),eq:v('eq')||'gym',sport:v('sport')||'none',inj:inj,
     club:{brand:v('brand'),loft:n('loft'),sw:n('sw'),flex:v('flex'),len:n('len'),glove:v('glove'),grip:v('grip')},
     dev:v('dev')||'none',cs:n('cs'),bs:n('bs'),carry:n('carry'),total:n('total'),miss:v('miss')||'ok',aoa:n('aoa'),launch:n('launch'),spin:n('spin')};
@@ -1092,7 +1121,7 @@ function obCheck(i){
   if(i===1&&p.hcp!==null) need('hcp',p.hcp>=-5&&p.hcp<=54,'Handicap từ -5 đến 54.');
   if(i===3&&p.club.len!==null) need('len',p.club.len>=42&&p.club.len<=48,'Chiều dài driver thường 42–48 inch.');
   if(i===4){
-    need('cs',p.cs||p.bs||p.carry||p.total,'Nhập ít nhất một trong: club speed, ball speed, carry hoặc tổng cự ly.');
+    need('cs',p.cs||p.bs||p.carry||p.total||p.golf==='new','Nhập ít nhất một trong: club speed, ball speed, carry hoặc tổng cự ly.');
     if(p.cs!==null) need('cs',p.cs>=40&&p.cs<=150,'Club speed từ 40 đến 150 mph.');
     if(p.bs!==null) need('bs',p.bs>=50&&p.bs<=210,'Ball speed từ 50 đến 210 mph.');
     if(p.cs&&p.bs) need('bs',p.bs/p.cs>=1.1&&p.bs/p.cs<=1.56,'Ball speed / club speed phải trong khoảng 1,10–1,56 — kiểm tra lại hai số này.');
@@ -1129,13 +1158,15 @@ function obOpen(mode){
 function obClose(){OB.el.classList.remove('on');document.body.classList.remove('locked');lsSet('golf-onb-seen','1')}
 function obSave(){
   var p=obGet();
-  if(OB.mode==='edit'&&ME){p.id=ME.id;p.legacy=ME.legacy;p.created=ME.created;p.video=ME.video;
+  if(!(p.cs||p.bs||p.carry||p.total)){p.total=p.sex==='f'?150:190;p.estDefault=true;}   /* người mới chưa đo: ước tính */
+  if(OB.mode==='edit'&&ME){p.id=ME.id;p.legacy=ME.legacy;p.created=ME.created;p.video=ME.video;p.clips=ME.clips;
     PROFILES=PROFILES.map(function(x){return x.id===ME.id?p:x})}
   else {try{var pend=JSON.parse(lsGet('golf-va-pending')||'null');if(pend){p.video={};p.video[pend.view]=pend;localStorage.removeItem('golf-va-pending')}}catch(e){}
     p.id='p'+Date.now().toString(36);p.legacy=!PROFILES.some(function(x){return x.legacy});p.created=new Date().toISOString().slice(0,10);PROFILES.push(p)}
   if(!lsSet(PKEY,JSON.stringify(PROFILES))){$id('ob-err').textContent='Trình duyệt đang chặn bộ nhớ — không lưu được hồ sơ (thử tắt chế độ ẩn danh).';return}
   lsSet(AKEY,p.id); lsSet('golf-onb-seen','1');
-  location.hash='hoso'; location.reload();
+  var isNew=OB.mode!=='edit'; if(window.progOnProfileSaved) progOnProfileSaved(p,isNew);
+  location.hash=isNew?'home':'hoso'; location.reload();
 }
 $id('ob-next').addEventListener('click',function(){
   if(!obCheck(OB.i)) return;
@@ -1529,7 +1560,7 @@ function mocapClip(frames,W,H,slow,t0,t1,club){
   });
   /* neo chân xuống sàn theo khung đầu */
   var J0=mocapDecode(out[0].p), fy=Math.max(J0.legs[0].toe[1],J0.legs[0].heel[1],J0.legs[1].toe[1],J0.legs[1].heel[1]);
-  return {d:new Date().toLocaleDateString('vi-VN'),dur:out[out.length-1].t,view:0,club:club?30:0,org0:[65,Math.round((GYY-1.5-fy)*10)/10],f:out};
+  return {d:new Date().toLocaleDateString(LOCALE),dur:out[out.length-1].t,view:0,club:club?30:0,org0:[65,Math.round((GYY-1.5-fy)*10)/10],f:out};
 }
 /* tư thế tại thời điểm t (ms) của clip — nội suy tuyến tính giữa 2 khung */
 function mocapPose(clip,t,view){
@@ -1692,6 +1723,54 @@ var Q_IMPACT={view:-78,lean:28,tilt:-18,hipYaw:-42,shoYaw:-12,org:[60,80],legs:[
   arms:[{side:-1,grip:[21,7,-3]},{side:1,grip:[21,7,-3]}],gear:{k:'club',a:10,len:49}};
 var Q_FINISH={view:-78,lean:6,tilt:14,hipYaw:-86,shoYaw:-112,org:[57,78],legs:[L3(-1,-6,-10,4,8),L3(1,26,20,-30,-16,-1)],
   arms:[{side:-1,grip:[-6,-30,-20]},{side:1,grip:[-6,-30,-20]}],gear:{k:'club',a:128,len:26}};
+/* Putting: con lắc vai — putter lùi (sang trái khung, cùng chiều lên gậy của swing thật) rồi đẩy qua bóng */
+var P_ADDR=vary(A_ADDR,{lean:40,tilt:-2,org:[65,82],legs:[L3(-1,4,-8,-4,6),L3(1,4,8,-4,-6)],arms:[{side:-1,grip:[14,4,0]},{side:1,grip:[14,4,0]}],gear:{k:'club',a:4,len:36}});
+function puttPose(k){return vary(P_ADDR,{shoYaw:14*k,arms:[{side:-1,grip:[14,4-4*k,2*k]},{side:1,grip:[14,4-4*k,2*k]}],gear:{k:'club',a:4+18*k,len:36}});}
+var DCAT={setup:'setup',longdrive:'setup',coil:'full',tempo:'full',ground:'full',stepdrill:'full',finish:'full'};
+DRILLS.forEach(function(d){d.cat=DCAT[d.id]||'full';});
+DRILLS.unshift(
+ {id:'grip',cat:'setup',n:L('Cầm gậy trung tính','Neutral grip'),sub:L('Nền móng của mọi cú đánh','The foundation of every shot'),
+  cues:[L('① Tay trái: thấy 2–3 đốt ngón tay','① Lead hand: see 2–3 knuckles'),L('② Chữ V hai tay chỉ về vai phải','② Both "V"s point to the trail shoulder'),
+        L('③ Lực cầm 4/10 — như cầm tuýp kem đánh răng','③ Grip pressure 4/10 — like holding a toothpaste tube')],
+  dur:5200,p:[vary(A_ADDR,{view:-100}),vary(A_ADDR,{view:-60}),vary(A_ADDR,{view:-20})]},
+ {id:'align',cat:'setup',n:L('Căn hướng & vị trí bóng','Alignment & ball position'),sub:L('Dùng 2 que căn hướng','Use two alignment sticks'),
+  cues:[L('Que 1 dọc mũi chân, song song đường bóng','Stick 1 along your toes, parallel to the target line'),L('Que 2 vuông góc, chỉ vị trí bóng','Stick 2 at 90°, marking ball position'),
+        L('Gậy sắt: bóng giữa chân · driver: ngang gót trái','Irons: ball centre · driver: off the lead heel')],
+  dur:4600,p:[vary(A_ADDR,{view:-20}),vary(A_ADDR,{view:10})]},
+ {id:'routine',cat:'setup',n:L('Routine trước cú đánh','Pre-shot routine'),sub:L('Giống nhau ở MỌI cú','The same before EVERY shot'),
+  cues:[L('Đứng sau bóng, chọn mục tiêu nhỏ','Stand behind the ball, pick a small target'),L('1 swing thử cảm nhận','One rehearsal swing'),
+        L('Vào bóng, nhìn mục tiêu 1 lần, đánh trong 8 giây','Step in, one look, hit within 8 seconds')],
+  dur:4200,p:[A_ADDR]}
+);
+DRILLS.push(
+ {id:'half',cat:'full',n:L('Swing 9–3','9-to-3 swing'),sub:L('Swing nửa — tiếp xúc chắc trước, lực sau','Half swing — solid contact first, power later'),
+  cues:[L('Lên: tay trái song song đất (9 giờ)','Back: lead arm parallel to the ground (9 o\'clock)'),L('Qua bóng: tay phải song song đất (3 giờ)','Through: trail arm parallel to the ground (3 o\'clock)'),
+        L('Chạm đất SAU bóng','Brush the turf AFTER the ball')],dur:3600,p:[A_ADDR]},
+ {id:'chip',cat:'short',n:L('Chip lăn','Bump-and-run chip'),sub:L('Bay ít, lăn nhiều','Fly it low, let it roll'),
+  cues:[L('Chân hẹp, bóng lệch chân sau','Narrow stance, ball back'),L('Tay đi trước đầu gậy, dồn 60% trọng tâm chân trước','Hands ahead, 60% weight on the lead side'),
+        L('Lắc vai như putt, cổ tay yên','Rock the shoulders like a putt, quiet wrists')],dur:3200,p:[A_ADDR]},
+ {id:'pitch',cat:'short',n:L('Pitch bổng','Pitch shot'),sub:L('30–60 m, bóng bay cao dừng nhanh','30–60 m, high and soft'),
+  cues:[L('Bóng giữa chân, mặt gậy mở nhẹ','Ball centre, face slightly open'),L('Biên độ lên gậy quyết định cự ly','Backswing length sets the distance'),
+        L('Thân xoay qua bóng — không "hất"','Turn through — don\'t scoop')],dur:3600,p:[A_ADDR]},
+ {id:'wedgeclock',cat:'short',n:L('Hệ đồng hồ wedge','Wedge clock system'),sub:L('3 biên độ = 3 cự ly chuẩn','3 swing lengths = 3 stock distances'),
+  cues:[L('7:30 · 9:00 · 10:30 — cùng một nhịp','7:30 · 9:00 · 10:30 — same rhythm'),L('Ghi cự ly trung bình mỗi biên độ','Record the average carry of each'),
+        L('Nhân với 3 wedge = 9 cự ly chính xác','Times 3 wedges = 9 precise distances')],dur:3600,p:[A_ADDR]},
+ {id:'bunker',cat:'short',n:L('Bunker "splash"','Bunker splash'),sub:L('Đánh cát, không đánh bóng','Hit the sand, not the ball'),
+  cues:[L('Chân rộng, lún chân vào cát, mặt gậy mở','Wide stance, dig in, open the face'),L('Chạm cát 3–5 cm sau bóng','Enter the sand 3–5 cm behind the ball'),
+        L('Vung trọn qua — không dừng ở cát','Swing through — never stop in the sand')],dur:3800,p:[A_ADDR]},
+ {id:'putt',cat:'putt',n:L('Putt con lắc','Pendulum putting stroke'),sub:L('Vai lắc — tay và cổ tay yên','Shoulders rock — hands and wrists quiet'),
+  cues:[L('Mắt ngay trên bóng','Eyes directly over the ball'),L('Lùi và đẩy dài bằng nhau','Equal length back and through'),L('Giữ đầu yên tới khi nghe bóng rơi','Keep your head still until you hear it drop')],
+  dur:3200,s:[S(0,1,700,'io',120),S(1,2,650,'io',600),S(2,0,500,'io',350)],p:[P_ADDR,puttPose(-1),puttPose(1)]},
+ {id:'puttgate',cat:'putt',n:L('Putt qua cổng','Gate drill'),sub:L('Hướng xuất phát chuẩn','Perfect start line'),
+  cues:[L('2 tee rộng hơn bóng 1 cm, cách bóng 30 cm','Two tees 1 cm wider than the ball, 30 cm ahead'),L('Bóng phải lăn qua cổng không chạm tee','Roll it through without touching'),L('Mặt putter vuông góc tại impact','Square face at impact')],
+  dur:3200,s:[S(0,1,700,'io',120),S(1,2,650,'io',600),S(2,0,500,'io',350)],p:[P_ADDR,puttPose(-1),puttPose(1)]},
+ {id:'puttladder',cat:'putt',n:L('Thang khoảng cách','Distance ladder'),sub:L('Kiểm soát tốc độ lăn','Pace control'),
+  cues:[L('Putt tới 3 · 6 · 9 m','Putt to 3 · 6 · 9 m'),L('Bóng dừng trong 1 gậy putter sau mốc','Stop within a putter length past each mark'),L('Biên độ lùi dài hơn = xa hơn, cùng nhịp','Longer backstroke = longer putt, same tempo')],
+  dur:3600,s:[S(0,1,900,'io',120),S(1,2,800,'io',650),S(2,0,500,'io',350)],p:[P_ADDR,puttPose(-1.8),puttPose(2)]},
+ {id:'puttclock',cat:'putt',n:L('Vòng tròn 1 m','1-metre circle'),sub:L('Bản lĩnh putt ngắn','Short-putt nerve'),
+  cues:[L('8 bóng quanh lỗ, cách 1 m','8 balls around the hole at 1 m'),L('Trượt 1 quả = làm lại từ đầu','Miss one = start over'),L('Routine giống hệt mỗi quả','Identical routine for every putt')],
+  dur:3000,s:[S(0,1,600,'io',100),S(1,2,550,'io',600),S(2,0,450,'io',350)],p:[P_ADDR,puttPose(-.8),puttPose(.9)]}
+);
 (function(){
   function X(q){return {x:1,q:q};}
   /* Box Jump: thêm khung đứng thẳng trước khi nhún */
@@ -1830,8 +1909,16 @@ if(PLAN&&PLAN.lefty){
 (function(){
   var host=document.getElementById('drills'); if(!host) return;
   function byId(id){for(var i=0;i<DRILLS.length;i++) if(DRILLS[i].id===id) return DRILLS[i];}
+  var CATS=[['all',L('Tất cả','All')],['setup',L('Setup & căn bản','Setup & basics')],['full',L('Swing toàn phần','Full swing')],['short',L('Short game','Short game')],['putt',L('Putting','Putting')]];
+  var bar=document.createElement('div'); bar.className='dfilter'; bar.setAttribute('role','tablist');
+  bar.innerHTML=CATS.map(function(c,i){var n=c[0]==='all'?DRILLS.length:DRILLS.filter(function(d){return d.cat===c[0];}).length;
+    return '<button type="button" class="dchip'+(i?'':' on')+'" data-dcat="'+c[0]+'" role="tab" aria-selected="'+(i?'false':'true')+'">'+c[1]+' <small>'+n+'</small></button>';}).join('');
+  host.parentNode.insertBefore(bar,host);
+  bar.addEventListener('click',function(e){var b=e.target.closest('[data-dcat]'); if(!b) return; var c=b.dataset.dcat;
+    bar.querySelectorAll('.dchip').forEach(function(x){var on=x===b; x.classList.toggle('on',on); x.setAttribute('aria-selected',on?'true':'false');});
+    host.querySelectorAll('.drill').forEach(function(x){x.hidden=!(c==='all'||x.dataset.cat===c);});});
   host.innerHTML=DRILLS.map(function(d){
-    return '<div class="drill" data-d="'+d.id+'"><div class="dfig">'+animSvg()+'</div>'+
+    return '<div class="drill" data-d="'+d.id+'" data-cat="'+d.cat+'" id="drill-'+d.id+'"><div class="dfig">'+animSvg()+'</div>'+
       '<div class="dtxt"><div class="dn">'+d.n+'</div><div class="ds">'+d.sub+'</div>'+
       '<div class="dc">'+d.cues.map(function(c){return '· '+c;}).join('<br>')+'</div></div></div>';
   }).join('');
@@ -1892,17 +1979,19 @@ var FX={el:document.getElementById('focus'),main:document.getElementById('f-main
   sess:null,steps:[],i:0,marks:{},timer:null};
 
 function buildSteps(s){
-  var st=[{type:'warm'}];
+  var st=(s.warm&&s.warm.length)?[{type:'warm'}]:[];
   s.ex.forEach(function(e,n){st.push({type:'ex',e:e,n:n})});
   st.push({type:'end'});
   return st;
 }
 function stopTimer(){if(FX.timer){clearInterval(FX.timer);FX.timer=null}}
 
+var XSESS={};   /* buổi tập của các chương trình (academy.js đăng ký) */
 function openFocus(id){
-  var s=SESSIONS.filter(function(x){return x.id===id})[0];if(!s)return;
+  var s=typeof id==='object'?id:(SESSIONS.filter(function(x){return x.id===id})[0]||XSESS[id]);if(!s)return;
+  id=s.id; s._done=0;
   FX.sess=s;FX.steps=buildSteps(s);FX.i=0;
-  if(!FX.marks[id])FX.marks[id]=s.ex.map(function(e){return new Array(parseInt(e.rx,10)||3).fill(false)});
+  if(!FX.marks[id])FX.marks[id]=s.ex.map(function(e){return new Array(e.sets!=null?e.sets:(parseInt(e.rx,10)||3)).fill(false)});
   FX.el.classList.add('on');document.body.classList.add('locked');
   renderStep();FX.el.focus();
 }
@@ -1916,38 +2005,42 @@ function renderStep(){
   }).join('');
 
   if(st.type==='warm'){
-    FX.meta.textContent='Buổi '+s.id+' · '+s.day+' · '+s.dur;
-    var wm=WARM3[s.id]||[];
+    FX.meta.textContent=s.meta||('Buổi '+s.id+' · '+s.day+' · '+s.dur);
+    var wid=s.warmId||s.id, wm=WARM3[wid]||[];
     FX.main.innerHTML='<div class="f-name">🔥 Khởi động</div>'+
       '<div class="f-warms">'+s.warm.map(function(w,n){
         return '<div class="f-warm">'+(wm[n]?animSvg():'')+'<div class="wl">'+esc(w)+'</div></div>';
       }).join('')+'</div>'+
       '<p class="f-note">'+esc(s.goal)+'</p>';
-    FX.main.querySelectorAll('.f-warm svg').forEach(function(el,n){ var c=clipFor('W:'+s.id+':'+n); if(c) playClip(el,c,undefined,c.view); else if(wm[n]) play(el, wm[n].p, 1900); });
+    FX.main.querySelectorAll('.f-warm svg').forEach(function(el,n){ var c=clipFor('W:'+wid+':'+n); if(c) playClip(el,c,undefined,c.view); else if(wm[n]) play(el, wm[n].p, 1900); });
     FX.next.textContent='Bắt đầu →';
   } else if(st.type==='end'){
-    FX.meta.textContent='Buổi '+s.id+' · Hoàn thành';
+    FX.meta.textContent=s.metaDone||('Buổi '+s.id+' · Hoàn thành');
     FX.main.innerHTML='<div class="f-rx" style="font-size:3.4rem">✓</div>'+
-      '<div class="f-name">Xong buổi '+s.id+'!</div>'+
-      '<p class="f-note">'+(s.id==='D'?'Đừng quên nhập mph cao nhất vào Nhật ký tốc độ.':'Giãn cơ 2–3 phút rồi nghỉ. Tiến bộ xảy ra lúc phục hồi.')+'</p>';
+      '<div class="f-name">'+(s.doneTitle||('Xong buổi '+s.id+'!'))+'</div>'+
+      '<p class="f-note">'+(s.doneNote||(s.id==='D'?'Đừng quên nhập mph cao nhất vào Nhật ký tốc độ.':'Giãn cơ 2–3 phút rồi nghỉ. Tiến bộ xảy ra lúc phục hồi.'))+'</p>';
+    if(s.onDone&&!s._done){ s._done=1; try{ s.onDone(FX.marks[s.id]); }catch(err){} }
     FX.next.textContent='Đóng ✓';
   } else {
     var e=st.e,marks=FX.marks[s.id][st.n];
-    FX.meta.textContent='Bài '+(st.n+1)+' / '+s.ex.length+' · Buổi '+s.id;
+    FX.meta.textContent='Bài '+(st.n+1)+' / '+s.ex.length+' · '+(s.label||('Buổi '+s.id));
+    var fiX=figIdx(s.id,e,st.n), dr=e.drill?DRILLS.filter(function(x){return x.id===e.drill;})[0]:null;
     FX.main.innerHTML='<div class="f-name">'+esc(e.name)+'</div>'+
       '<div class="f-rx">'+esc(e.rx)+'</div>'+
       (e.kg?'<div class="f-kg">'+esc(e.kg)+'</div>':'')+
       (e.orig?'<div class="swp f">↻ Thay cho '+esc(e.orig)+' — '+esc(e.why)+'</div>':e.adj?'<div class="swp f">✦ '+esc(e.adj)+'</div>':'')+
-      (figIdx(s.id,e,st.n)!=null?'<div class="f-anim">'+animSvg()+'</div><div class="f-anim-cap">chuyển động</div>':'')+
-      figStrip(figIdx(s.id,e,st.n))+
+      ((dr||fiX!=null)?'<div class="f-anim">'+animSvg()+'</div><div class="f-anim-cap">'+L('chuyển động','movement')+'</div>':'')+
+      (dr?'<ul class="f-cues">'+dr.cues.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul>':figStrip(fiX))+
       (e.note?'<p class="f-note">'+esc(e.note)+'</p>':'')+
+      (e.metric?'<label class="f-metric">'+esc(e.metric.label)+'<span><input type="number" inputmode="numeric" min="0" max="'+e.metric.max+'" data-mkey="'+esc(s.id)+'#'+st.n+'" value="'+(e.metric.v!=null?e.metric.v:'')+'"> / '+e.metric.max+'</span></label>':'')+
       '<div class="f-vids">'+(e.vids||[]).map(function(v){return vidHtml(v,'f-vid')}).join('')+'</div>'+
       '<div class="f-sets"><span class="lbl">Set</span>'+marks.map(function(m,n){
         return '<button class="setbox'+(m?' done':'')+'" type="button" data-set="'+n+'" aria-label="Set '+(n+1)+'">'+(n+1)+'</button>';
       }).join('')+'</div>'+
       (e.rest?'<button class="f-rest" type="button" data-rest="'+e.rest+'">⏱  Nghỉ '+e.rest+'s</button>':'');
     var av=FX.main.querySelector('.f-anim svg');
-    if(av){var fi=figIdx(s.id,e,st.n), fr=FIGS3[fi], clip=clipFor('F'+fi);
+    if(av&&dr){ var dc=clipFor('D:'+dr.id); if(dc) playClip(av,dc,undefined,dc.view); else play(av,dr.p,dr.dur,undefined,dr.s); av=null; }
+    if(av){var fi=fiX, fr=FIGS3[fi], clip=clipFor('F'+fi);
       if(clip){ playClip(av, clip, undefined, clip.view); var mine=ME&&ME.clips&&ME.clips['F'+fi];
         FX.main.querySelector('.f-anim-cap').innerHTML=mine?'🎬 chuyển động của bạn · '+esc(clip.d)+' <button type="button" class="mc-x" data-clipdel="F'+fi+'">✕ mẫu vẽ</button>':'🎬 chuyển động thật'+(clip.src?' <span class="mc-src" title="'+esc(clip.src)+'">ⓘ</span>':''); }
       else if(fr) play(av, fr.map(function(x){return x.q;}), 2800, undefined, FIGA[fi]);}
@@ -2025,7 +2118,7 @@ if(PLAN&&PLAN.week){
 }
 var now=new Date(), dw=now.getDay();
 var days=['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
-document.getElementById('today-date').textContent=days[dw]+', '+now.toLocaleDateString('vi-VN');
+document.getElementById('today-date').textContent=days[dw]+', '+now.toLocaleDateString(LOCALE);
 document.getElementById('today-name').textContent=DOW[dw].name;
 var tlink=document.getElementById('today-link');
 tlink.setAttribute('href',DOW[dw].link);
@@ -2037,6 +2130,7 @@ var cell=document.querySelector('.day[data-dow="'+dw+'"]');
 if(cell){cell.classList.add('now')}
 /* Nút "buổi hôm nay" trên menu dọc & thanh trên điện thoại */
 (function(){
+  if(window.progActive) return;   /* Golf Academy: nút "hôm nay" do academy.js gắn theo chương trình đang theo */
   var t=DOW[dw], go=document.getElementById('side-go'), tb=document.getElementById('tb-today');
   if(t.s){go.innerHTML='▶ Vào Buổi '+t.s+' hôm nay<small>'+esc(t.name)+'</small>';tb.textContent='▶ Buổi '+t.s}
   else {go.className='side-go rest';go.innerHTML=esc(t.name)+'<small>Hôm nay · '+days[dw]+'</small>';tb.textContent='Hôm nay'}
@@ -2120,7 +2214,7 @@ document.getElementById('mph-save').addEventListener('click',async function(){
   var v=parseFloat(document.getElementById('mph-in').value);
   if(!v||v<40||v>150){alert('Nhập số mph hợp lệ (40–150).');return;}
   var data=await getLog();
-  data.push({d:new Date().toLocaleDateString('vi-VN'),v:v});
+  data.push({d:new Date().toLocaleDateString(LOCALE),v:v});
   await stSet(K('golf-mph-log'),JSON.stringify(data));
   document.getElementById('mph-in').value='';
   renderLog();
@@ -2430,7 +2524,7 @@ function vaRender(r,ev,keys){
   else if(miss==='low'&&has('head_fwd','tilt_low')) link='Giải thích bóng <b>bay thấp</b>: đang đánh xuống thay vì đánh lên.';
   var top3=ev.issues.slice(0,3);
   var html='<div class="va-card">'+
-    '<div class="va-head"><div><div class="sess-kicker">Kết quả phân tích · '+new Date().toLocaleDateString('vi-VN')+'</div>'+
+    '<div class="va-head"><div><div class="sess-kicker">Kết quả phân tích · '+new Date().toLocaleDateString(LOCALE)+'</div>'+
       '<div class="va-title">'+viewN+' · '+(club==='driver'?'Driver':'Gậy sắt')+'</div>'+
       '<div class="va-meta">'+r.frames.length+' khung hình phân tích · độ tin cậy nhận diện '+Math.round(r.avgVis*100)+'%'+(r.viewAuto?' · góc quay tự nhận diện':'')+'</div></div>'+
       '<div class="va-score"><b>'+score+'</b><span>điểm tư thế</span></div></div>'+
@@ -2459,7 +2553,7 @@ function vaRender(r,ev,keys){
     '<p class="tbl-note" style="color:#7A8780">Đo từ ảnh 2D nên các góc là ước tính; quay đúng hướng dẫn để sai số nhỏ nhất. Nên quay cả 2 góc: chính diện (tempo, trọng tâm, đầu) và dọc đường bóng (tư thế, đường swing).</p>'+
   '</div>';
   vaEl('va-res').innerHTML=html;
-  VA.last={view:r.view,club:club,d:new Date().toLocaleDateString('vi-VN'),tempo:+r.metrics.tempo.toFixed(2),score:score,
+  VA.last={view:r.view,club:club,d:new Date().toLocaleDateString(LOCALE),tempo:+r.metrics.tempo.toFixed(2),score:score,
     issues:top3.map(function(x){return {code:x.code,sev:x.sev,val:x.val}})};
   vaEl('va-res').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -2468,6 +2562,7 @@ function vaRender(r,ev,keys){
 async function vaRun(){
   if(VA.busy) return;
   var v=vaEl('va-video'); if(!v.src) return;
+  if(window.proGate&&!proGate('video')) return;
   VA.busy=true;VA.cancel=false;
   vaEl('va-go').disabled=true;vaEl('va-prog').hidden=false;vaEl('va-res').innerHTML='';
   VA.club=vaEl('va-club').value; VA.slow=+vaEl('va-slow').value||1;
@@ -2501,6 +2596,7 @@ async function vaRun(){
     var sp=r.times.finish-r.times.start;
     VA.clip=mocapClip(all,W,H,VA.slow,r.times.start-Math.max(.3,.25*sp),Math.min(t1,r.times.finish+.25*sp),VA.club==='driver'||VA.club==='iron');
     VA.res=r; vaRender(r,ev,keys); vaStatus('Xong',100);
+    if(window.proUse) proUse('video');
     if(VA.clip) mocapPreview();
   }catch(e){
     var m=e&&e.message;
@@ -2595,16 +2691,4 @@ TBM.addEventListener('click',openSide); DIM.addEventListener('click',closeSide);
 document.getElementById('side-x').addEventListener('click',function(){closeSide();TBM.focus()});
 SIDE.addEventListener('click',function(e){if(e.target.closest('a,[data-ob]'))closeSide()});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSide()});
-(function(){
-  var links=[].slice.call(document.querySelectorAll('.side-nav a'));
-  var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))}).filter(Boolean);
-  var last='';
-  function spy(){
-    var y=window.innerHeight*.3, cur='', best=-1e9;
-    secs.forEach(function(s){var t=s.getBoundingClientRect().top;if(t<=y&&t>best){best=t;cur=s.id}});
-    if(window.innerHeight+window.scrollY>=document.body.scrollHeight-4) cur='nguyentac';
-    if(cur===last) return; last=cur;
-    links.forEach(function(a){var on=a.getAttribute('href')==='#'+cur;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')});
-  }
-  window.addEventListener('scroll',spy,{passive:true}); window.addEventListener('resize',spy); spy();
-})();
+/* mục đang xem trên menu: do router (academy.js) đánh dấu */

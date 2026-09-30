@@ -1,0 +1,14 @@
+{
+  "name": "Golf Academy",
+  "short_name": "Golf Academy",
+  "description": "Golf training programs, swing video analysis and golf fitness — Vietnamese & English.",
+  "start_url": "./#home",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0F3D2E",
+  "theme_color": "#0F3D2E",
+  "lang": "vi",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
