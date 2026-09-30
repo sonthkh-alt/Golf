@@ -30,6 +30,6 @@ Mặc định dữ liệu (hồ sơ, nhật ký mph, buổi đã tập, clip chu
 3. Project Settings → API: chép **Project URL** và **anon / publishable key**, dán vào ô trong trang, bấm *Lưu máy chủ* → *Bật đồng bộ & tạo mã*.
 4. Trên điện thoại: quét mã QR hiện trong trang (QR mang sẵn cấu hình máy chủ + mã).
 
-Muốn thiết bị mới không phải nhập máy chủ: điền `CFG_DEFAULT` ở đầu `sync.js` (anon key là khóa công khai).
+Máy chủ đã gắn sẵn trong `CFG_DEFAULT` ở đầu `sync.js` (project `pzojrhwtoxwcsrkucwti`, publishable key là khóa công khai) — thiết bị mới chỉ cần quét QR hoặc nhập mã đồng bộ.
 
 **Cách hoạt động** (`sync.js`): mỗi khóa `golf-*` trong localStorage mang dấu thời gian sửa; khi đồng bộ thì kéo → gộp (bản mới hơn thắng, hồ sơ gộp theo từng người, hồ sơ đã xóa không bị khôi phục) → ghi có kiểm tra phiên bản (xung đột thì tự thử lại). Tự đẩy ~1,5 giây sau mỗi thay đổi, tự kéo khi mở trang hoặc quay lại tab. Mã đồng bộ 24 ký tự ngẫu nhiên (120 bit) — ai có mã thì đọc/sửa được dữ liệu của mã đó, nên giữ như mật khẩu.

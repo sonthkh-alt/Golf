@@ -8,7 +8,7 @@
 'use strict';
 /* Điền sẵn để mọi thiết bị tự biết máy chủ (anon/publishable key là khóa công khai, an toàn khi để ở đây).
    Để trống thì ứng dụng cho nhập trên giao diện, và mã QR mang theo cấu hình sang máy khác. */
-var CFG_DEFAULT={url:'',key:''};
+var CFG_DEFAULT={url:'https://pzojrhwtoxwcsrkucwti.supabase.co',key:'sb_publishable_TWvl8ePnnfWRdEUSE3f2Kg_dZOHRpIC'};
 
 var ls; try{ ls=window.localStorage; ls.getItem('x'); }catch(e){ return; }
 var PKEY='golf-profiles', DKEY='golf-del-ids';
