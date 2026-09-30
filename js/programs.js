@@ -259,3 +259,10 @@ function progSessions(pr){
 }
 function progNext(pr){ var st=progState(), L2=progSessions(pr); for(var i=0;i<L2.length;i++) if(!st.done[L2[i].key]) return L2[i]; return null; }
 function progPct(pr){ var st=progState(), L2=progSessions(pr); if(!L2.length) return 0; return Math.round(100*L2.filter(function(x){return st.done[x.key];}).length/L2.length); }
+
+/* Nguồn clip chuyển động thật (motion.js) — phần ghi chú tiếng Việt → tiếng Anh */
+if(LANG==='en'&&typeof MOTION!=='undefined'){
+  var SRCX=[[' · tay sửa thành ôm tạ trước ngực',' · arms edited to hold the weight at the chest'],[' · tay trái sửa thành chống ghế',' · lead arm edited to rest on a bench'],
+    [' · lật gương',' · mirrored'],[', dọc đường bóng',', down-the-line'],[' · tay sửa duỗi trước',' · arms edited to reach forward'],[' · hip hinge không tạ',' · bodyweight hip hinge']];
+  Object.keys(MOTION).forEach(function(k){ var s=MOTION[k].src||''; SRCX.forEach(function(p){ s=s.split(p[0]).join(p[1]); }); MOTION[k].src=s; });
+}

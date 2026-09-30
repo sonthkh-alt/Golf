@@ -126,7 +126,9 @@ function loadUser(){
 }
 function ensureSession(){
   var x=sess(); if(x&&x.refresh_token){ C.user=x.user; return token().then(function(t){ if(t) return t; return ensureSession(); }); }
-  return req('/auth/v1/signup',{body:{data:{}}}).then(function(n){ saveSess(n); return n.access_token; });
+  if(C.noanon) return Promise.reject(new Error('anonymous sign-ins are disabled'));
+  return req('/auth/v1/signup',{body:{data:{}}}).then(function(n){ saveSess(n); return n.access_token; },
+    function(e){ if(/anonymous/i.test(e.message)||e.code==='anonymous_provider_disabled') C.noanon=true; throw e; });
 }
 
 /* ---------- quyền Pro ---------- */
@@ -162,7 +164,7 @@ function cycle(){
   .then(function(){ C.err=''; s('golf-sync-last',String(Date.now())); setStatus('ok'); return changedLocal; },
     function(e){
       var m=(e&&e.message)||String(e);
-      if(/anonymous/i.test(m)&&/disabled|not enabled/i.test(m)) C.err='noanon';
+      if(C.noanon&&!sess()){ C.err=''; setStatus('signin'); return changedLocal; }
       else if(/golf_pull_me|golf_push_me|function .* does not exist|Could not find the function/i.test(m)) C.err='nosql';
       else C.err=m;
       setStatus('err'); return changedLocal; })
@@ -207,7 +209,7 @@ function signOut(){
   var p=t?req('/auth/v1/logout',{token:t.access_token,body:{}}).catch(function(){}):Promise.resolve();
   return p.then(function(){
     /* xóa dữ liệu của tài khoản khỏi thiết bị này (dữ liệu vẫn còn trên đám mây) */
-    var ks=[]; for(var i=0;i<ls.length;i++){ var k=ls.key(i); if(k&&k.indexOf('golf-')===0&&k!=='golf-lang') ks.push(k); }
+    var ks=[]; for(var i=0;i<ls.length;i++){ var k=ls.key(i); if(k&&k.indexOf('golf-')===0&&k!=='golf-lang'&&k!=='golf-trial-start'&&k.indexOf('golf-use-')!==0) ks.push(k);   /* giữ mốc dùng thử & lượt đã dùng */ }
     ks.forEach(r); s('golf-onb-seen','1'); location.reload();
   });
 }
@@ -230,6 +232,7 @@ function paint(){
     if(DEV){ t=Lx('Bản chạy thử trên máy — không đồng bộ','Local test build — sync off'); c='err'; }
     else if(!ready()){ t=Lx('Đang tắt trên máy này','Turned off on this device'); c='err'; }
     else if(state==='run'||state==='dirty'){ t=Lx('Đang lưu…','Saving…'); c='run'; }
+    else if(state==='signin'){ t=Lx('Chưa đăng nhập — dữ liệu đang lưu trên máy này','Not signed in — data is saved on this device'); c='run'; }
     else if(state==='err'){ t=Lx('Chưa lưu được: ','Not saved: ')+errText(); c='err'; }
     else { var l=g('golf-sync-last'); t=l?Lx('Đã lưu lúc ','Saved at ')+hhmm(l):Lx('Đang kết nối…','Connecting…'); }
     a.className='st '+c; a.textContent=(c==='err'?'⚠ ':c==='run'?'⟳ ':'☁ ✓ ')+t;
@@ -237,6 +240,7 @@ function paint(){
   var sd=document.getElementById('side-sync');
   if(sd){
     if(DEV||!ready()) sd.innerHTML='☁ <b>'+Lx('Chỉ lưu trên máy','Saved on device only')+'</b>';
+    else if(state==='signin') sd.innerHTML='☁ <b>'+Lx('Đăng nhập để lưu đám mây','Sign in to save to cloud')+'</b>';
     else if(state==='err') sd.innerHTML='☁ <b>'+Lx('Chưa lưu đám mây','Cloud not saved')+'</b>';
     else if(state==='run'||state==='dirty') sd.innerHTML='☁ '+Lx('Đang lưu…','Saving…');
     else sd.innerHTML='☁ '+(C.user&&!isAnon()?esc(C.user.email):Lx('Đã lưu đám mây','Saved to cloud'))+(g('golf-sync-last')?' · '+hhmm(g('golf-sync-last')):'');
@@ -259,7 +263,8 @@ function render(){
     h+='<p>'+Lx('Đã đăng nhập: ','Signed in as ')+'<b>'+esc(u.email)+'</b>. '+Lx('Dữ liệu của bạn tự lưu và có mặt trên mọi thiết bị đăng nhập cùng email.','Your data saves automatically and is available on every device signed in with this email.')+'</p>'+
       '<div class="row"><button class="btn g" type="button" data-sy="out">'+Lx('Đăng xuất khỏi thiết bị này','Sign out on this device')+'</button><button class="btn g" type="button" data-sy="off">'+Lx('Tắt lưu đám mây','Turn off cloud saving')+'</button></div>';
   } else {
-    h+='<p>'+Lx('Dữ liệu của bạn đã tự lưu lên đám mây trong một tài khoản khách. <b>Thêm email</b> để giữ tài khoản vĩnh viễn và mở trên điện thoại, máy tính khác.','Your data is already saved to the cloud in a guest account. <b>Add your email</b> to keep it permanently and open it on your phone or other computers.')+'</p>'+
+    h+='<p>'+(u?Lx('Dữ liệu của bạn đã tự lưu lên đám mây trong một tài khoản khách. <b>Thêm email</b> để giữ tài khoản vĩnh viễn và mở trên điện thoại, máy tính khác.','Your data is already saved to the cloud in a guest account. <b>Add your email</b> to keep it permanently and open it on your phone or other computers.')
+        :Lx('<b>Đăng nhập bằng email</b> (không cần mật khẩu) để lưu dữ liệu lên đám mây và dùng trên mọi thiết bị.','<b>Sign in with your email</b> (no password) to save your data to the cloud and use it on every device.'))+'</p>'+
       '<div class="row"><input id="sy-email" type="email" autocomplete="email" placeholder="'+Lx('email@cua-ban.com','you@example.com')+'"><button class="btn y" type="button" data-sy="send">'+Lx('Gửi mã','Send code')+'</button></div>'+
       '<div class="row" id="sy-code-row" '+(pending?'':'hidden')+'><input id="sy-code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="'+Lx('Mã 6 số trong email','6-digit code from email')+'"><button class="btn" type="button" data-sy="verify">'+Lx('Xác nhận','Confirm')+'</button></div>'+
       '<p class="muted">'+Lx('Trên thiết bị khác: mở trang, vào Hồ sơ → nhập cùng email này. Có thể bấm link trong email thay cho nhập mã.','On another device: open the app, go to Profile → enter the same email. You can also tap the link in the email instead of typing the code.')+'</p>';
